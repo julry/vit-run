@@ -1,0 +1,41 @@
+{
+  "files": {
+    "main.css": "./static/css/main.d2acbb87.css",
+    "main.js": "./static/js/main.27023607.js",
+    "static/media/rules1Bg.png": "./static/media/rules1Bg.c629b621361c85f50d35.png",
+    "static/media/game1Bg.png": "./static/media/game1Bg.a1dbb40c1ae079ca2985.png",
+    "static/media/level1q2.png": "./static/media/level1q2.023c9ef7471290a71e23.png",
+    "static/media/level1q3.png": "./static/media/level1q3.f86a2cf39e3f93b14992.png",
+    "static/media/level1q1.png": "./static/media/level1q1.f5874cf26b0606819e0f.png",
+    "static/media/floor4Lobby.png": "./static/media/floor4Lobby.c740ffd3b86e2fd006b3.png",
+    "static/media/girl1.png": "./static/media/girl1.21ddafcfc10c31f9ad7b.png",
+    "static/media/floor2Lobby.png": "./static/media/floor2Lobby.109c1dc82e15f0a5c5af.png",
+    "static/media/floor1Lobby.png": "./static/media/floor1Lobby.e0c02fb434c57d4b92a3.png",
+    "static/media/female_2.svg": "./static/media/female_2.99814a4fd87a8709c44552eb583d131f.svg",
+    "static/media/female_1.svg": "./static/media/female_1.df0e234faa76671f981ec0a33522d840.svg",
+    "static/media/floor3Lobby.png": "./static/media/floor3Lobby.179dd0b7716d860edad5.png",
+    "static/media/female_3.svg": "./static/media/female_3.c3d054e877c14d8284601e2abcf0b5e5.svg",
+    "static/media/female_start.svg": "./static/media/female_start.f1d0358bd0f2035960d16b39fa2a9b47.svg",
+    "static/media/intro-pic.png": "./static/media/intro-pic.85208c8cc0d94e2fdcc8.png",
+    "static/media/floor5Lobby.png": "./static/media/floor5Lobby.588ee564e43a588cba4c.png",
+    "static/media/burger.svg": "./static/media/burger.f784184c01a7c34e72e48d7538781f2a.svg",
+    "static/media/male_start.svg": "./static/media/male_start.4516a632bc28866d2473efb1736e7d34.svg",
+    "static/media/male_3.svg": "./static/media/male_3.68eca756c8b00657b3f965d1100d3e2a.svg",
+    "static/media/male_1.svg": "./static/media/male_1.43a0fea5361fddfeecc5850183b36754.svg",
+    "static/media/male_2.svg": "./static/media/male_2.eda19db2e701a5774382c58855a487ff.svg",
+    "static/media/decoration.svg": "./static/media/decoration.2e53d6d04e25ef27346ba390070ed409.svg",
+    "static/media/first-floor.svg": "./static/media/first-floor.6e2d670cbbdcf0942eec38bb28e2eb4f.svg",
+    "static/media/lobbyBg.svg": "./static/media/lobbyBg.ce07fc9ae858aab63326544dd7a424e8.svg",
+    "static/media/trash-highlighted.svg": "./static/media/trash-highlighted.844906525467e8fc450e8d8ed9f83d52.svg",
+    "static/media/logosign.svg": "./static/media/logosign.c2af1bfb31556acee28177cf51b1d03c.svg",
+    "static/media/plant.svg": "./static/media/plant.25a9b8e32430cafed0626e35923817ee.svg",
+    "static/media/question.svg": "./static/media/question.b79f084b98fef0f515b4b0733792e452.svg",
+    "index.html": "./index.html",
+    "main.d2acbb87.css.map": "./static/css/main.d2acbb87.css.map",
+    "main.27023607.js.map": "./static/js/main.27023607.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d2acbb87.css",
+    "static/js/main.27023607.js"
+  ]
+}
