@@ -1,0 +1,47 @@
+@import "fonts.css";
+
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  font-family: 'TastyGothica', 'Gothica', 'Helvetica', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  --color-red: #F9471E;
+  --color-orange: #EE7203;
+  --color-green: #254F36;
+  
+  --color-black: #000000;
+  --color-white: #FFFFFF;
+
+  --color-white-text: #000000;
+  --color-black-text: #FFFFFF;
+  --color-red-text: #FFFFFF;
+  --color-orange-text: #FFFFFF;
+  --color-green-text: #FFFFFF;
+}
+
+button {
+  font-family: 'TastyGothica', 'Gothica', 'Helvetica', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-weight: 900;
+}
+
+#root {
+  height: 100%;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+}
+
+a:visited {
+  color: inherit;
+}
