@@ -2,6 +2,7 @@
   "name": "vit-run",
   "version": "0.1.0",
   "private": true,
+  "homepage": ".",
   "dependencies": {
     "framer-motion": "^11.3.19",
     "ft-client": "^0.1.5",
