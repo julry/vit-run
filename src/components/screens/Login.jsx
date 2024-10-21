@@ -38,7 +38,7 @@ export const Login = () => {
 
     const handleClick = async () => {
         if (isWrongEmail) {
-            window.open('/', '_blank');
+            next();
             return;
         }
         if (isSending) return;
@@ -72,12 +72,12 @@ export const Login = () => {
                 <InputStyled placeholder="Укажи свою почту*" value={email} onChange={handleChange}/>
                 <SmallText $color={isWrongEmail ? 'red' : 'white'}>
                     {isWrongEmail ? 
-                        'Кажется, такой почты нет. Перепроверь или зарегистрируйся.' : 
+                        'Ой! Кажется, такой почты нет. Проверь правильность ввода. Если думаешь, что произошла ошибка пиши сюда — vitmarathon@futuretoday.ru' : 
                         '*Введи ту же почту, что и при регистрации на Марафон «PROДВИЖЕНИЕ И ТОЧКА»'}
                 </SmallText>
                 
-                <ButtonStyled color={isWrongEmail ? 'white' : 'orange'} onClick={handleClick} disabled={!email || !email.trim().match(emailRegExp)}>
-                    {isWrongEmail ? 'зарегистрироваться' : 'войти'}
+                <ButtonStyled color={'orange'} onClick={handleClick} disabled={!email || !email.trim().match(emailRegExp)}>
+                    войти
                 </ButtonStyled>
             </Block>
         </Wrapper>

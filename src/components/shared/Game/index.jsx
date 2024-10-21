@@ -9,32 +9,16 @@ import { useSizeRatio } from "../../../hooks/useSizeRatio";
 import { Board, WIDTH} from "./Board";
 import { Character } from "../Character";
 import { useProgress } from "../../../contexts/ProgressContext";
-import { weeks } from "../../../constants/weeks";
+import { subjectK, weeks } from "../../../constants/weeks";
 import { GameHeader } from "../GameHeader";
 import { Modal } from "../modals";
 import { Block } from "../Block";
 import { Button } from "../Button";
 import { SEX } from "../../../constants/sex";
-
-const MAX_LIVES = 3;
-export const CHARACTER_STEP = 2;
-
-const STARS_BY_LEVEL = {
-    1: [],
-    2: [],
-    3: [],
-    4: [],
-}
-
-const SNAKES_BY_LEVEL = {
-    1: [],
-    2: [],
-    3: [],
-    4: []
-}
-
-const STAR_WIDTH = 44;
-const STAR_HEIGHT = 47;
+import { Subject } from "./Subject";
+import { QuestionSubject, QUESTION_HEIGHT, QUESTION_WIDTH } from "./QuestionSubject";
+import { ItemsBoard } from "./ItemsBoard";
+import { SCREENS } from "../../../constants/screens";
 
 const Wrapper = styled(motion.div)`
     position: relative;
@@ -48,7 +32,6 @@ const Wrapper = styled(motion.div)`
 const CharacterStyled = styled(Character)`
     position: absolute;
     bottom: 0;
-    /* bottom: 9.5%; */
     left: 0;
     z-index: 3;
 `;
@@ -58,6 +41,38 @@ const BoardStyled = styled(Board)`
     height: 100%;
 `;
 
+const ModalBlock = styled(Block)`
+    margin: var(--spacing_small);
+    text-align: left;
+
+    & button {
+        margin-top: var(--spacing_x4);
+    }
+`;
+
+const ExitBlock = styled(Block)`
+    border: 1px solid #254F36;
+    border-radius: var(--spacing_x2);
+    background-color: rgba(255, 255, 255, 0.5);
+    color: black;
+    margin-top: calc(3 * var(--spacing_x6));
+
+    & svg path{
+        stroke: #254F36
+    }
+`;
+
+const ButtonsBlock = styled.div`
+    display: flex;
+    margin-top: var(--spacing_x4);
+    justify-content: space-between;
+    width: 100%;
+
+    & button + button {
+        margin-left: var(--spacing_x2);
+    }
+`;
+
 export function Game({ className, level, isPaused, customText, preloadBg }) {
     const sizeRatio = useSizeRatio();
     const { user, questionsAmount, setQuestionsAmount, setPassedWeeks, setGamePoints, next } = useProgress();
@@ -65,11 +80,12 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
 
     const [wrapperRect, setWrapperRect] = useState(null);
     const [characterSize, setCharacterSize] = useState([]);
+    const [isPauseModal, setIsPauseModal] = useState(false);
+    const [rulesModal, setRulesModal] = useState({visible: false, part: 0});
     const [isGamePaused, setIsGamePaused] = useState(isPaused);
     const [isGameStarted, setIsGameStarted] = useState(false);
     const [isJumping, setIsJumping] = useState(false);
     const [isUp, setIsUp] = useState(false);
-    const [stars, setStars] = useState(STARS_BY_LEVEL[level]);
     const [shownQuestions, setShownQuestions] = useState(questions);
     const [shownFigures, setShownFigures] = useState(figures);
     const [collidedTrashAmount, setCollidedTrashAmount] = useState(0);
@@ -77,16 +93,12 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
     const [isQuestionPart, setIsQuestionPart] = useState(false);
 
     const wrapperRef = useRef();
-    const collidedStarRef = useRef(null);
-    const collidedSnakeRef = useRef(null);
+    const collidedFigureRef = useRef(null);
+    const collidedQuestionRef = useRef(null);
     const collidedTrashRef = useRef(null);
     const characterRef = useRef(null);
 
-
-    const initialCharacterPosition = useMemo(() => [
-        0,
-        0 - (wrapperRect?.height ?? 0) * 0.095 ,
-    ], [sizeRatio, wrapperRect]);
+    const initialCharacterPosition = useMemo(() => [0,0], []);
 
     const characterPosition = useMotionValue({});
     const trashesPosition = useMotionValue({});
@@ -114,17 +126,21 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
         );
 
         characterPosition.set(initialCharacterPosition);
-    }, [sizeRatio]);
+
+    }, [sizeRatio, wrapperRect]);
 
     const resetGame = useCallback(() => {
         initPositions();
         setShownQuestions(questions);
         setShownFigures(figures);
-    }, []);
+        setIsGameStarted(false);
+        setQuestionsAmount(0);
+        setGamePoints(0);
+    }, [sizeRatio, wrapperRect]);
 
     useEffect(() => {
         initPositions();
-    }, [sizeRatio]);
+    }, [sizeRatio, wrapperRect]);
 
     const characterDelta = useTransform(
         characterPosition,
@@ -169,12 +185,16 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
 
     const characterPositionX = useTransform(
         characterDelta,
-        prev => `${wrapperRect?.width/2 - characterSize[0]/2 * sizeRatio + prev[0]}px`,
+        (prev) => {
+            const position = wrapperRect?.width/2 - characterSize[0]/2 * sizeRatio + prev[0] - 30 * sizeRatio;
+
+            return (position > 0 ? `${position}px` : '10px');
+        }
     );
 
     const characterPositionY = useTransform(
         characterDelta,
-        prev => `${0 - prev[1]}px`,
+        prev => `${prev[1] - wrapperRect?.height * 0.095}px`
     );
 
     const handleTapStart = (event) => {
@@ -192,7 +212,6 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
         const rect = wrapperRef.current?.getBoundingClientRect?.();
         const character = characterRef.current?.getBoundingClientRect?.();
         setWrapperRect(rect);
-        characterPosition.set([initialCharacterPosition[0], rect?.height * 0.095]);
         setCharacterSize([character.width, character.height])
     };
 
@@ -202,159 +221,171 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
 
     useResizeObserver({ onResize: updateWrapperRect, ref: wrapperRef })
 
-    // useEffect(() => {
-    //     if (collidedStarRef.current) {
-    //         addGamePoint();
-    //         setStarsCollected(prev => prev + 1);
-    //         collidedStarRef.current = null;
-    //     }
-        // if (stars.length === 0) {
-        //     const additionalPoints = MAX_LIVES - collidedSnakesAmount > 0 ? MAX_LIVES - collidedSnakesAmount : 0;
-        //     endGame(level, additionalPoints);
-        //     setPassedWeeks(prev => !prev.includes(level) ? [...prev, level] : prev);
-        //     setModal({
-        //         visible: true,
-        //         type: 'win', 
-        //         customText, 
-        //         isDarken: true,
-        //         level,
-        //         additionalPoints: MAX_LIVES - collidedSnakesAmount > 0 ? MAX_LIVES - collidedSnakesAmount : 0
-        //     })
-        // }
-    // }, [stars]);
+    useEffect(() => {
+        if (collidedFigureRef.current) {
+            setGamePoints(prev => prev + 1);
+            collidedFigureRef.current = null;
+        }
+    }, [shownFigures]);
+
+    useEffect(() => {
+        if (collidedQuestionRef.current) {
+            setQuestionsAmount(prev => prev + 1);
+            collidedQuestionRef.current = null;
+        }
+    }, [shownQuestions]);
 
     useEffect(() => {
         if (!collidedTrashRef.current) return;
         resetGame();
         collidedTrashRef.current = null;
-    }, [collidedTrashAmount])
+    }, [collidedTrashAmount]);
+
+    const handleHouseClick = () => {
+        setIsPauseModal(true);
+        setIsGamePaused(true);
+    }
+    
+    const handleCloseExit = () => {
+        setIsPauseModal(false);
+        setIsGamePaused(false);
+    }
+
+    const handleRulesClick = () => {
+        setRulesModal({visible: true, part: 0});
+        setIsGamePaused(true);
+    }
+    
+    const handleCloseRules = () => {
+        setRulesModal({visible: false, part: 0});
+        setIsGamePaused(false);
+    }
 
     useAnimationFrame(() => {
         if (!isGameStarted || isGamePaused || isWinModal) {
             return;
         }
 
-        // const prevSnakesDirection = snakesDirection.get();
-        // const prevSnakesPosition = snakesPosition.get();
         const [prevX, prevY] = characterPosition.get();
 
         let nextY = prevY;
         let nextX = clamp(
-            prevX + 5,
+            prevX + 3,
             0,
             (WIDTH - characterSize[0] - 10) * sizeRatio,
         );
 
-        if (nextX === (WIDTH - characterSize[0] - 10) * sizeRatio) {
-            nextY = -initialCharacterPosition[1];
-            setIsGamePaused(true);
-            setIsWinModal(true);
-        }
-
         if (isJumping) {
             if (isUp) {
-                nextY = nextY + 8;
-                if (nextY >= ((-initialCharacterPosition[1]) + 180)) {
+                nextY = nextY - 6;
+                nextX = nextX + 1;
+                if (nextY <= (initialCharacterPosition[1] - 210)) {
                     setIsUp(false);
                 }
-            } else if (nextY > -initialCharacterPosition[1]) {
-                nextY = nextY - 8;
+            } else if (nextY < initialCharacterPosition[1]) {
+                nextY = nextY + 4;
+                nextX = nextX + 1;
             } 
 
-            if (nextY <= -initialCharacterPosition[1] && !isUp) {
+            if (nextY >= initialCharacterPosition[1] && !isUp) {
                 setIsJumping(false);
             }
         }
         
-
-        // const nextSnakesDirection = SNAKES_BY_LEVEL[level].reduce((acc, snake) => {
-        //     const prevPosition = prevSnakesPosition[snake.id];
-        //     const prevDirection = prevSnakesDirection[snake.id];
-
-        //     if (prevPosition[0] <= 0 || prevPosition[0] + SNAKE_SIZE_BY_LEVEL[level][0] * sizeRatio >= WIDTH * sizeRatio) {
-        //         return {
-        //             ...prevSnakesDirection,
-        //             ...acc,
-        //             [snake.id]: [-prevDirection[0], prevDirection[1]],
-        //         };
-        //     }
-
-        //     if (prevPosition[1] <= 0 || prevPosition[1] + SNAKE_SIZE_BY_LEVEL[level][1] * sizeRatio >= HEIGHT * sizeRatio) {
-        //         return {
-        //             ...prevSnakesDirection,
-        //             ...acc,
-        //             [snake.id]: [prevDirection[0], -prevDirection[1]],
-        //         };
-        //     }
-
-        //     return {
-        //         ...acc,
-        //         [snake.id]: prevDirection,
-        //     };
-        // }, {});
-
-        // const nextSnakesPosition = SNAKES_BY_LEVEL[level].reduce((acc, snake) => {
-        //     return {
-        //         ...prevSnakesPosition,
-        //         ...acc,
-        //         [snake.id]: [
-        //             prevSnakesPosition[snake.id][0] + nextSnakesDirection[snake.id][0],
-        //             prevSnakesPosition[snake.id][1] + nextSnakesDirection[snake.id][1],
-        //         ],
-        //     };
-        // }, {});
+        if (nextX === (WIDTH - characterSize[0] - 10) * sizeRatio) {
+            nextY = initialCharacterPosition[1];
+            setIsGamePaused(true);
+            setIsWinModal(true);
+        }
 
         characterPosition.set([nextX, nextY]);
-        // snakesPosition.set(nextSnakesPosition);
-        // snakesDirection.set(nextSnakesDirection);
 
-        if (!collidedStarRef.current) {
-            const collidedStar = stars.find(({ position }) => {
-                const starData = {
-                    x: position[0] * sizeRatio + STAR_WIDTH * sizeRatio /2 ,
-                    // y: position[1] * sizeRatio + STAR_HEIGHT * sizeRatio/2 ,
-                    r: STAR_WIDTH * sizeRatio /2 ,
+        if (!collidedFigureRef.current) {
+            const characterData = {
+                x: nextX + characterSize[0] * sizeRatio / 8,
+                y: -nextY + characterSize[1] * sizeRatio + wrapperRect?.height * 0.095,
+                startY: -nextY + wrapperRect?.height * 0.095,
+                rx: characterSize[0] * sizeRatio / 8,
+                ry: characterSize[1] * sizeRatio / 2
+            };
+
+            const collidedFigure = shownFigures.find(({ position, width, height }) => {
+                const figureData = {
+                    x: position[0] * sizeRatio,
+                    y: position[1] * wrapperRect?.height / 100 + height * subjectK,
+                    rx: width * sizeRatio / 4,
+                    ry: height * sizeRatio / 2,
                 };
 
-                const characterData = {
-                    x: nextX + characterSize[0] * sizeRatio / 2,
-                    // y: nextY + characterSize[1] * sizeRatio / 2,
-                    rx: characterSize[0] * sizeRatio / 2,
-                    ry: characterSize[1] * sizeRatio / 2 ,
-                };
+                const difX = Math.abs(figureData.x - characterData.x) < figureData.rx;
 
-                return Math.hypot(starData.x - characterData.x, starData.y - characterData.y) <= starData.r + Math.max(characterData.rx, characterData.ry);
+                const isYRange = figureData.y >= characterData.startY && (figureData.y - figureData.ry) <= characterData.y;
+
+                return difX && isYRange;
             });
-
-            if (collidedStar) {
-                collidedStarRef.current = collidedStar;
-                setStars(prev => prev.filter(star => star.id !== collidedStar.id))
-            }
-        }
-        
-        if (!collidedSnakeRef.current) {
-            const collidedSnake = SNAKES_BY_LEVEL[level].find(({ id }) => {
-                const snakeData = {
-                    // x: nextSnakesPosition[id][0] + SNAKE_SIZE_BY_LEVEL[level][0]/2 * sizeRatio,
-                    // y: nextSnakesPosition[id][1] + SNAKE_SIZE_BY_LEVEL[level][1]/2 * sizeRatio,
-                    // r: SNAKE_SIZE_BY_LEVEL[level][1]/2 * sizeRatio,
-                };
-                const characterData = {
-                    x: nextX + characterSize[0]/2 * sizeRatio,
-                    y: prevY + characterSize[1]/2 * sizeRatio,
-                    rx: characterSize[0]/2 * sizeRatio,
-                    ry: characterSize[1]/2 * sizeRatio,
-                };
-
-                return Math.hypot(snakeData.x - characterData.x, snakeData.y - characterData.y) <= snakeData.r + Math.max(characterData.rx, characterData.ry);
-            });
-
-            if (collidedSnake) {
-                collidedSnakeRef.current = collidedSnake;
-                characterPosition.set(initialCharacterPosition);
+    
+            if (collidedFigure) {
+                collidedFigureRef.current = collidedFigure;
+                setShownFigures(prev => prev.filter(fig => fig.id !== collidedFigure.id))
             }
         }
 
+        if (!collidedQuestionRef.current) {
+            const characterData = {
+                x: nextX + characterSize[0] * sizeRatio / 8,
+                y: -nextY + characterSize[1] * sizeRatio + wrapperRect?.height * 0.095,
+                startY: -nextY + wrapperRect?.height * 0.095,
+                rx: characterSize[0] * sizeRatio / 8,
+                ry: characterSize[1] * sizeRatio / 2
+            };
+
+            const collidedQuestion = shownQuestions.find(({ position }) => {
+                const questionData = {
+                    x: position[0] * sizeRatio,
+                    y: position[1] * wrapperRect?.height / 100,
+                    ry: QUESTION_WIDTH * sizeRatio / 2,
+                    rx: QUESTION_WIDTH * sizeRatio / 2,
+                };
+                
+                const difX = Math.abs(questionData.x - characterData.x) < questionData.rx;
+                const isYRange = questionData.y >= characterData.startY && (questionData.y - questionData.ry) <= characterData.y;
+
+                return difX && isYRange;
+            });
+    
+            if (collidedQuestion) {
+                collidedQuestionRef.current = collidedQuestion;
+                setShownQuestions(prev => prev.filter(fig => fig.id !== collidedQuestion.id))
+            }
+        }
+
+        if (!collidedTrashRef.current) {
+            const characterData = {
+                x: nextX + characterSize[0] * sizeRatio / 8,
+                y: -nextY + characterSize[1] * sizeRatio + wrapperRect?.height * 0.095,
+                startY: -nextY + wrapperRect?.height * 0.095,
+                rx: characterSize[0] * sizeRatio / 8,
+                ry: characterSize[1] * sizeRatio / 2
+            };
+
+            const collidedTrash = trashes.find(({ position, width, height }) => {
+                const trashData = {
+                    x: position[0] * sizeRatio,
+                    y: position[1] * wrapperRect?.height / 100 - height * sizeRatio / 2,
+                    rx: width * sizeRatio / 1.5,
+                    ry: height * sizeRatio,
+                };
+                
+                const difX = Math.abs(trashData.x - characterData.x) < trashData.rx;
+                const isYRange = trashData.y + trashData.ry >= characterData.startY && (trashData.y - trashData.ry) <= characterData.y;
+                return difX && isYRange;
+            });
+    
+            if (collidedTrash) {
+                collidedTrashRef.current = collidedTrash;
+                setCollidedTrashAmount(prev => prev + 1)
+            }
+        }
     });
 
     return (
@@ -366,30 +397,44 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
             onPointerDown={handleTapStart}
             $isOver={isWinModal}
         >
-            <GameHeader />
+            <GameHeader onHomeClick={handleHouseClick} onRulesClick={handleRulesClick}/>
             <BoardStyled
                 level={level}
                 preloadBg={preloadBg}
                 imageProps={{style: {x: boardPositionX}}}
+            />
+            <ItemsBoard
+                imageProps={{style: {x: boardPositionX}}}
             >
-                {/* {stars.map((star) => (
-                    <Star 
-                        key={star.id}
-                        star={star}
-                        starsPosition={starsPosition}
-                    />
-                ))}
-                 <AnimatePresence>
-                    {SNAKES_BY_LEVEL[level].map((snake) => (
-                        <Snake
-                            level={level}
-                            key={snake.id}
-                            snake={snake}
-                            snakesPosition={snakesPosition}
-                        />
-                    ))}
-                </AnimatePresence> */}
-            </BoardStyled>
+                {
+                    shownFigures.map((figure) => (
+                         <Subject 
+                            key={figure.id}
+                            subject={figure}
+                            subjectPosition={figuresPosition}
+                            wrapperRectHeight={wrapperRect?.height}
+                         />
+                    ))
+                }
+                {
+                    trashes.map((trash) => (
+                         <Subject
+                            key={trash.id}
+                            subject={trash}
+                            subjectPosition={trashesPosition}
+                         />
+                    ))
+                }
+                {
+                    shownQuestions.map((question) => (
+                         <QuestionSubject 
+                            key={question.id}
+                            question={question}
+                            questionsPosition={questionsPosition}
+                         />
+                    ))
+                }
+            </ItemsBoard>
             <CharacterStyled
                 ref={characterRef}
                 level={level}
@@ -399,7 +444,7 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
             />
         </Wrapper>
         <Modal isShown={isWinModal}>
-            <Block>
+            <ModalBlock>
                 {isQuestionPart ? (
                     <>
                         <p>
@@ -415,7 +460,50 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
                         <Button onClick={() => setIsQuestionPart(true)}>Готов{user.sex === SEX.Female ? 'a' : ''}</Button>
                     </>
                 )}
-            </Block>
+            </ModalBlock>
+        </Modal>
+        <Modal isShown={isPauseModal}>
+            <ExitBlock onClose={handleCloseExit}>
+                <p>
+                    Если ты перейдёшь в лобби,{'\n'}твой прогресс не сохранится.
+                </p>
+                <ButtonsBlock>
+                    <Button color="green" onClick={() => next(SCREENS.LOBBY)}>ЛОББИ</Button>
+                    <Button onClick={handleCloseExit}>ВЕРНУТЬСЯ</Button>
+                </ButtonsBlock>
+            </ExitBlock>
+        </Modal>
+        <Modal isShown={rulesModal.visible} isDarken>
+            <ModalBlock onClose={handleCloseRules}>
+                {rulesModal.part === 0 ? (
+                    <>
+                        <p>
+                            Твой персонаж всегда бежит вперёд.{'\n'}
+                            <b>Собирай предметы и знаки вопроса</b>, но <b>избегай препятствий</b>!{' '}
+                            Если столкнёшься с ними — начнёшь заново. Кликни на экран, чтобы перепрыгнуть препятствие.{' '}
+                            У тебя есть одна попытка на прохождение уровня.
+                        </p>
+                        <ButtonsBlock>
+                            <Button color="white" onClick={handleCloseRules}>НАЗАД</Button>
+                            <Button onClick={() => setRulesModal({visible: true, part: 1})}>ДАЛЕЕ</Button>
+                        </ButtonsBlock>
+                    </>
+                ) : (
+                    <>
+                        <p>
+                            В игре нужно <b>собирать полезные предметы</b>: продукты, анкеты, телефоны, термометры.{' '}
+                            Они конвертируются в Виткоины. Всего на уровень их 10. <b>Старайся избегать препятствий:</b> {' '}
+                            сломанных объектов, пустых коробок и упаковок. Также <b>не пропускай вопросы</b>, после забега ты{' '}
+                            можешь <b>получить Виткоины за правильные ответы</b>! Чем больше Виткоинов, тем выше твоё положение{' '}
+                            в рейтинге и возможность выиграть призы!
+                        </p>
+                        <ButtonsBlock>
+                            <Button color="white" onClick={() => setRulesModal({visible: true, part: 1})}>НАЗАД</Button>
+                            <Button onClick={handleCloseRules}>ДАЛЕЕ</Button>
+                        </ButtonsBlock>
+                    </>
+                )}
+            </ModalBlock>
         </Modal>
        </>
     );

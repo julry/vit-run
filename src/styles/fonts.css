@@ -1,21 +1,21 @@
-/* @font-face {
-    font-family: 'StyreneALC';
-    src: url('../assets/fonts/StyreneALC-Bold.otf') format('opentype'),
-    local('Styrene A LC-Bold'), local('StyreneALCBold'), local('Styrene A LC Bold');
-    font-weight: 700;
+@font-face {
+    font-family: 'TastyGothic';
+    src: url('../assets/fonts/Tasty-Gothic_Demi.otf') format('opentype'),
+    local('Tasty-Gothic_Demi'), local('TastyGothicDemi'), local('Tasty Gothic Demi');
+    font-weight: 600;
     font-style: normal;
 }
 @font-face {
-    font-family: 'StyreneALC';
-    src: url('../assets/fonts/StyreneALC-Regular.otf') format('opentype'),
-    local('Styrene A LC-Regular'), local('StyreneALCRegular'), local('Styrene A LC Regular');
-    font-weight: 400;
+    font-family: 'TastyGothic';
+    src: url('../assets/fonts/Tasty-Gothic_Book.otf') format('opentype'),
+    local('Tasty-Gothic_Book'), local('TastyGothicBook'), local('Tasty Gothic Book');
+    font-weight: 300;
     font-style: normal;
 }
 @font-face {
-    font-family: 'StyreneALC';
-    src: url('../assets/fonts/StyreneALC-Black.otf') format('opentype'),
-    local('Styrene A LC-Black'), local('StyreneALCBlack'), local('Styrene A LC Black');
-    font-weight: 900;
+    font-family: 'TastyGothic';
+    src: url('../assets/fonts/Tasty-Gothic_Book.otf') format('opentype'),
+    local('Tasty-Gothic_Book'), local('TastyGothicBook'), local('Tasty Gothic Book');
+    font-weight: 800;
     font-style: normal;
-} */
+}

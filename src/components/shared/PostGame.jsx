@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import styled from "styled-components"
 import { SCREENS } from "../../constants/screens";
+import { SEX } from "../../constants/sex";
 import { useProgress } from "../../contexts/ProgressContext";
 import { useSizeRatio } from "../../hooks/useSizeRatio";
 import { Button } from "./Button";
@@ -131,7 +132,7 @@ export const PostGame = ({level, questions}) => {
                 {isDone && (
                     <DoneBlock>
                         <p>
-                            Ура! Ты набрал(а) {points} балл{points === 1 ? '' : points > 1 && points < 5 ? 'a' : 'ов'}.{'\n'}
+                            Ура! Ты набрал{user.sex === SEX.Female ? 'а': ''} {points} балл{points === 1 ? '' : points > 1 && points < 5 ? 'a' : 'ов'}.{'\n'}
                             Верные ответы ты узнаешь в конце марафона.
                         </p>
                     </DoneBlock>

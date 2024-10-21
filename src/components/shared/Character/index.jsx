@@ -4,8 +4,12 @@ import {motion} from "framer-motion"
 import {useSizeRatio} from "../../../hooks/useSizeRatio";
 import {useAnimate} from "./useAnimate";
 import {Image} from "../Image";
+import { subjectK } from "../../../constants/weeks";
 
-export const CHARACTER_SIZE = [150, 264];
+const LG_KOEF = 1.5 * subjectK;
+export const CHARACTER_SIZE = [127 * subjectK * 1.2, 228 * subjectK * 1.2];
+export const CHARACTER_SIZE_LG = [127 * LG_KOEF, 228 * LG_KOEF];
+
 
 const WrapperStyled = styled(motion.div)`
     position: relative;
@@ -14,8 +18,14 @@ const WrapperStyled = styled(motion.div)`
     justify-content: center;
     min-width: ${({$ratio}) => $ratio * CHARACTER_SIZE[0]}px;
     min-height: ${({$ratio}) => $ratio * CHARACTER_SIZE[1]}px;
-    height: 46%;
+    height: ${({$ratio}) => $ratio * CHARACTER_SIZE[1]}px;
     z-index: 2;
+
+    @media screen and (min-height: 750px) and (max-width: 400px){
+        min-width: ${({$ratio}) => $ratio * CHARACTER_SIZE_LG[0]}px;
+        min-height: ${({$ratio}) => $ratio * CHARACTER_SIZE_LG[1]}px;
+        height: ${({$ratio}) => $ratio * CHARACTER_SIZE_LG[1]}px;
+    }
 `;
 
 const ImageStyled = styled(Image)`
@@ -24,6 +34,7 @@ const ImageStyled = styled(Image)`
     height: 100%;
     min-width: ${({$ratio}) => $ratio * CHARACTER_SIZE[0]}px;
     min-height: ${({$ratio}) => $ratio * CHARACTER_SIZE[1]}px;
+    object-fit: contain;
 `;
 
 function CharacterComponent({isPause, children, collectedStars, ...rest}, ref) {

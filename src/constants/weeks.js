@@ -4,6 +4,9 @@ import floor3Lobby from '../assets/images/floor3Lobby.png';
 import floor4Lobby from '../assets/images/floor4Lobby.png';
 import floor5Lobby from '../assets/images/floor5Lobby.png';
 import girl1 from '../assets/images/girl1.png';
+import { items1 } from '../components/screens/week1/items';
+import { questionIcons1 } from '../components/screens/week1/questionIcons';
+import { trashes1 } from '../components/screens/week1/trashes';
 
 export const subjectK = 677 / 575;
 
@@ -46,6 +49,9 @@ export const weeks = [
                 необходимые ингредиенты — чем <b>больше</b> соберёшь, тем <b>быстрее</b> мы сможем выполнить заказ.
             </>
         ],
-        person: girl1
+        person: girl1,
+        figures: items1,
+        trashes: trashes1,
+        questions: questionIcons1
     }
 ]

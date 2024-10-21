@@ -29,15 +29,16 @@ export const questionsLevel1 = [
     {
         id: 2,
         text: 'Отметьте все верные составляющие настойчивости:',
-        //TODO: correct
         answers: [
             {
                 id: 1,
                 text: 'Ясное понимание своих целей',
+                isCorrect: true
             },
             {
                 id: 2,
                 text: 'Умение адаптироваться к изменениям',
+                isCorrect: true
             },
             {
                 id: 3,
@@ -46,6 +47,7 @@ export const questionsLevel1 = [
             {
                 id: 4,
                 text: 'Способность справляться с негативными эмоциями и стрессом',
+                isCorrect: true
             },
         ],
         amount: 4,
@@ -53,7 +55,6 @@ export const questionsLevel1 = [
     {
         id: 3,
         text: 'Какой метод отлично подходит для поиска корневых причин проблем?',
-        //TODO: correct
         answers: [
             {
                 id: 4,
@@ -66,6 +67,7 @@ export const questionsLevel1 = [
             {
                 id: 2,
                 text: 'Метод «5 почему­»',
+                isCorrect: true
             },
             {
                 id: 3,
@@ -78,7 +80,6 @@ export const questionsLevel1 = [
         text: 'Вася осознал, что список его задач на ближайшую неделю огромен. ' + 
         'Чтобы все успеть, он решил разделить все задачи на четыре категории по их важности ' + 
         'и срочности. Какой метод планирования использовал Вася?',
-        //TODO: correct
         answers: [
             {
                 id: 4,
@@ -87,6 +88,7 @@ export const questionsLevel1 = [
             {
                 id: 1,
                 text: 'Матрица Эйзенхауэра',
+                isCorrect: true
             },
             {
                 id: 2,
@@ -102,15 +104,16 @@ export const questionsLevel1 = [
     {
         id: 5,
         text: 'Выбери ДВЕ ВЕРНЫЕ характеристики команды:',
-        //TODO: correct
         answers: [
             {
                 id: 4,
                 text: 'Единомышленники',
+                isCorrect: true
             },
             {
                 id: 1,
                 text: 'Объединенные общей целью',
+                isCorrect: true
             },
             {
                 id: 2,
@@ -126,7 +129,6 @@ export const questionsLevel1 = [
     {
         id: 6,
         text: 'В процессе ABC-анализа, как вы должны распределить время между задачами?',
-        //TODO: correct
         answers: [
             {
                 id: 4,
@@ -135,6 +137,7 @@ export const questionsLevel1 = [
             {
                 id: 1,
                 text: 'В зависимости от их важности',
+                isCorrect: true
             },
             {
                 id: 2,
@@ -152,7 +155,6 @@ export const questionsLevel1 = [
         text: 'В команде ты видишь признаки этапа Формирования: царит атмосфера недоверия, ' +
             'опытные слабо поддерживают новичков, а новички настороженно относятся к опытным. ' +
             'Какая атмосфера нужна команде сейчас?',
-        //TODO: correct
         answers: [
             {
                 id: 3,
@@ -161,6 +163,7 @@ export const questionsLevel1 = [
             {
                 id: 1,
                 text: 'Доверие, взаимопомощь и дружелюбие',
+                isCorrect: true
             },
             {
                 id: 2,
@@ -171,41 +174,45 @@ export const questionsLevel1 = [
     {
         id: 8,
         text: 'Кто ты в управлении временем?',
-        //TODO: correct
         answers: [
             {
                 id: 1,
                 text: 'Умение адаптироваться к изменениям',
                 image: image1,
+                isCorrect: true
             },
             {
                 id: 2,
                 text: 'Способность «идти по головам», если необходимо',
                 image: image2,
+                isCorrect: true
             },
             {
                 id: 3,
                 text: 'Способность справляться с негативными эмоциями и стрессом',
-                image: image3
+                image: image3,
+                isCorrect: true
             },
         ],
     },
     {
         id: 9,
         text: 'Какие потребности есть у членов твоей команды на этапе Нормализации? Выбери ТРИ верных варианта.',
-        //TODO: correct
         answers: [
             {
                 id: 1,
                 text: 'Комплексные задачи',
+                isCorrect: true
             },
             {
                 id: 2,
                 text: 'Меньше контроля',
+                isCorrect: true
             },
             {
                 id: 3,
                 text: 'Новые правила и нормы',
+                isCorrect: true
             },
             {
                 id: 4,
@@ -221,19 +228,21 @@ export const questionsLevel1 = [
     {
         id: 10,
         text: 'Выбери три верных стандартных реакции любого человека на стресс:',
-        //TODO: correct
         answers: [
             {
                 id: 1,
                 text: 'Бежать',
+                isCorrect: true
             },
             {
                 id: 2,
                 text: 'Сражаться',
+                isCorrect: true
             },
             {
                 id: 3,
                 text: 'Замереть',
+                isCorrect: true
             },
             {
                 id: 4,

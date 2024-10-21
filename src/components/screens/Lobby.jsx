@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useMemo, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import bg from "../../assets/images/lobbyBg.svg";
 import floor0 from "../../assets/images/first-floor.svg";
@@ -184,11 +184,6 @@ const VideoBtnWrapper = styled.div`
     z-index: 20;
 `;
 
-const VideoBtn = styled(IconButton)`
-    height: ${({$ratio}) => $ratio * 32}px;
-    width: ${({$ratio}) => $ratio * 32}px;
-`;
-
 const ProfileWrapper = styled.div`
     position: relative;
     margin-right: var(--spacing_x4);
@@ -255,47 +250,10 @@ export const Lobby = () => {
     const [info, setInfo] = useState();
     const [isVideo, setIsVideo] = useState(false);
     const [isProfile, setIsProfile] = useState(false);
-    const { passedWeeks, next, points, weekPoints, user, setModal, modal, setUserInfo, currentWeek } = useProgress();
+    const { passedWeeks, next, points, weekPoints, user, currentWeek } = useProgress();
     const [isRules, setIsRules] = useState(!user?.seenRules);
-    // const isFinalWeek = currentWeek >= 5;
     const shownWeek = (passedWeeks[passedWeeks.length - 1] ?? 0) + 1;
-    // const week = shownWeek > currentWeek ? currentWeek : shownWeek;
-    // const [isAvailableFirst, setIsAvailableFirst] = useState(passedWeeks.length < currentWeek - 1);
-    // const { registerWeek, isVip, weekStars } = user;
-    // const weeks = Array.from({length: 4}, (v, i) => i + 1);
-
-    // const isFirstTime = (!passedWeeks.length && ((!user.isVip && points === 0) || (user.isVip && vipPoints === 0)));
-
-    // useLayoutEffect(() => {
-    //     if (isFinalWeek) {
-    //         setModal({type: 'endGame', visible: true});
-
-    //         return;
-    //     }
-
-    //     if (!user.seenRules && !weekStars.includes(1)) {
-    //         setModal({type: 'info', visible: true, isDisabledAnimation: true, isDarken: true})
-    //     }
-    //     if (currentWeek !== registerWeek && isVip && !weekStars.includes(currentWeek)) {
-    //         setModal({type: 'newWeek', visible: true})
-    //     }
-    // }, []);
-
-    // const handleCloseTip = (e) => {
-    //     e.stopPropagation();
-    //     setIsAvailableFirst(false);
-    // }
-
-    // const handleNext = () => {
-    //     setUserInfo({seenWeekInfo: true});
-    //     next(WEEK_TO_NEXT_SCREEN[week]);
-    // }
-
-    // const handleFinish = () => {
-    //     next(SCREENS.FINISH);
-    //     reachMetrikaGoal(`${user.isVip ? '' : 'non'}target_final`);
-    // }
-
+  
     const handleClickInfo = (e, info) => {
         e.stopPropagation();
         setInfo(info);
@@ -426,13 +384,12 @@ export const Lobby = () => {
                             <Button onClick={handleVideoClick}>Перейти</Button>
                         </VideoBlock>
                 )}
-                <VideoBtn $ratio={ratio} onClick={handleClickVideo}>
+                <IconButton $ratio={ratio} onClick={handleClickVideo}>
                     <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M8 10.6667V14M8 14H12M8 14H4M4.13333 10.6667H11.8667C12.6134 10.6667 12.9868 10.6667 13.272 10.5213C13.5229 10.3935 13.7268 10.1895 13.8547 9.93865C14 9.65344 14 9.28007 14 8.53333V4.13333C14 3.3866 14 3.01323 13.8547 2.72801C13.7268 2.47713 13.5229 2.27316 13.272 2.14532C12.9868 2 12.6134 2 11.8667 2H4.13333C3.3866 2 3.01323 2 2.72801 2.14532C2.47713 2.27316 2.27316 2.47713 2.14532 2.72801C2 3.01323 2 3.3866 2 4.13333V8.53333C2 9.28007 2 9.65344 2.14532 9.93865C2.27316 10.1895 2.47713 10.3935 2.72801 10.5213C3.01323 10.6667 3.3866 10.6667 4.13333 10.6667Z" stroke="white" strokeWidth="1.33333" strokeLinecap="round"/>
                     </svg>
-                </VideoBtn>
+                </IconButton>
             </VideoBtnWrapper>
-            {/* {isRules && } */}
     </Wrapper>
     <InfoModal onClose={() => setIsRules(false)} isShown={isRules}/>
 </>

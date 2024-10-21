@@ -1,10 +1,8 @@
 import styled from 'styled-components';
-import {motion, useMotionValue} from "framer-motion";
-import {forwardRef, useEffect} from "react";
+import {motion} from "framer-motion";
+import {forwardRef} from "react";
 import game1bg from "../../../assets/images/game1Bg.png";
 import {useSizeRatio} from "../../../hooks/useSizeRatio";
-import { Subject } from './Subject';
-// import { subjects1, subjects2, subjects3, subjects4 } from '../../../constants/subjects';
 
 export const WIDTH = 3804;
 
@@ -43,27 +41,8 @@ const BackgroundStyled = styled(motion.div)`
     background-size: cover;
 `;
 
-// const SUBJECTS_TO_LEVEL = {
-//     1: subjects1,
-//     2: subjects2,
-//     3: subjects3,
-//     4: subjects4
-// }
-
 const BoardComponent = ({level, imageProps, preloadBg, children, ...rest}, ref) => {
     const sizeRatio = useSizeRatio();
-
-    // const subjectPosition = useMotionValue({});
-
-    // useEffect(() => {
-    //     subjectPosition.set(SUBJECTS_TO_LEVEL[level].reduce((acc, subject) => {
-    //         return ({
-    //             ...acc,
-    //             [subject.id]: [subject.position[0] * sizeRatio, subject.position[1] * sizeRatio],
-    //         })
-    //     }, {}));
-    // }, [sizeRatio])
-
     return (
         <WrapperStyled ref={ref} $preloadBg={preloadBg} {...rest}>
             <BackgroundStyled level={level} $ratio={sizeRatio} {...imageProps}>

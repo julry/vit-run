@@ -22,13 +22,13 @@ export const SmallButton = styled(Wrapper)`
     display: flex;
     align-items: center;
     justify-content: center;
-    width: ${({$ratio}) => $ratio * 32}px;
-    height: ${({$ratio}) => $ratio * 32}px;
+    width: ${({$ratio}) => $ratio * 42}px;
+    height: ${({$ratio}) => $ratio * 42}px;
     padding: 0;
     border-radius: 50%;
     & svg {
-        width: ${({$ratio}) => $ratio * 16}px;
-        height: ${({$ratio}) => $ratio * 16}px;
+        width: ${({$ratio}) => $ratio * 20}px;
+        height: ${({$ratio}) => $ratio * 20}px;
     }
 
     & + & {
@@ -55,14 +55,14 @@ export const BackButton = styled(IconButton)`
 `;
 
 export const CurButton = styled(Button)`
-    padding: var(--spacing_x2);
+    padding: var(--spacing_x3);
     display: flex;
     align-items: center;
     font-weight: 700;
 
     & svg {
-        width: ${({$ratio}) => $ratio * 16}px;
-        height: ${({$ratio}) => $ratio * 16}px;
+        width: ${({$ratio}) => $ratio * 20}px;
+        height: ${({$ratio}) => $ratio * 20}px;
         margin-right: ${({$ratio}) => $ratio * 6}px;
     }
 `;
