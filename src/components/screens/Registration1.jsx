@@ -115,13 +115,12 @@ export const Registration1 = () => {
         next();
     }
 
-    const btnDisabled = !isAgreed || !city || !phone || !direction || isSaving;
+    const btnDisabled = !isAgreed || !city || !university || !direction || isSaving;
 
     return (
         <Wrapper>
             <Block>
                 <p><b>Введи дополнительные данные,{'\n'}чтобы начать играть</b></p>
-                {/* <InputStyled placeholder="Укажи свой телефон" value={phone} onChange={(e) => setPhone(e.target.value)} /> */}
                 <InputStyled placeholder="Укажи свой город" value={city} onChange={(e) => setCity(e.target.value)} />
                 <InputStyled placeholder="Укажи свой вуз/ССУЗ" value={university} onChange={(e) => setUniversity(e.target.value)} />
                 <InputStyled placeholder="Укажи свою специализацию" value={direction} onChange={(e) => setDirection(e.target.value)} />

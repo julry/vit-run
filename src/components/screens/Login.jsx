@@ -34,7 +34,7 @@ export const Login = () => {
     const [isSending, setIsSending] = useState(false);
     const [email, setEmail] = useState('');
 
-    const { next, getUserInfo } = useProgress();
+    const { next, getUserInfo, setUserInfo } = useProgress();
 
     const handleClick = async () => {
         if (isWrongEmail) {
@@ -45,16 +45,21 @@ export const Login = () => {
     
         setIsSending(true);
 
+        setUserInfo({email});
         const info = await getUserInfo(email.trim());
 
         if (info.isError) {
             setWrongEmail(true);
             return;
         }
-
+        
         setIsSending(false);
 
-        next();
+        // if (info.isPlayer) {
+        //     next();
+        //     return;
+        // }
+
     }
 
     const handleChange = (e) => {
