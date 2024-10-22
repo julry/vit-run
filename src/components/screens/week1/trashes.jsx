@@ -7,10 +7,10 @@ export const trashes1 = [
     },
     {
         id: 'trash_2',
-        position: [992, 9],
+        position: [1992, 9],
     },
     {
         id: 'trash_3',
-        position: [1874, 9],
+        position: [3874, 9],
     },
 ].map(tr => ({...tr, image: () => <Trash />, width: 70, height: 94}));
