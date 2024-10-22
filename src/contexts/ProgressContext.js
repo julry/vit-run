@@ -2,7 +2,6 @@ import { FTClient } from 'ft-client';
 import {createContext, useEffect, useContext, useRef, useState} from 'react'
 import {SCREENS, NEXT_SCREENS} from "../constants/screens";
 import {screens} from "../constants/screensComponents";
-import { SEX } from '../constants/sex';
 import {getUrlParam} from "../utils/getUrlParam";
 
 const INITIAL_USER = {

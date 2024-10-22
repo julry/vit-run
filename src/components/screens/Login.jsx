@@ -73,7 +73,7 @@ export const Login = () => {
                 <SmallText $color={isWrongEmail ? 'red' : 'white'}>
                     {isWrongEmail ? 
                         'Ой! Кажется, такой почты нет. Проверь правильность ввода. Если думаешь, что произошла ошибка пиши сюда — vitmarathon@futuretoday.ru' : 
-                        '*Введи ту же почту, что и при регистрации на Марафон «PROДВИЖЕНИЕ И ТОЧКА»'}
+                        '*Введи ту же почту, что и при регистрации на Карьерный марафон «Вкусно – и точка»'}
                 </SmallText>
                 
                 <ButtonStyled color={'orange'} onClick={handleClick} disabled={!email || !email.trim().match(emailRegExp)}>

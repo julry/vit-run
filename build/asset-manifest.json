@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "./static/css/main.d27c84c4.css",
-    "main.js": "./static/js/main.d2ae2564.js",
+    "main.css": "./static/css/main.1bb6adfe.css",
+    "main.js": "./static/js/main.61200c02.js",
     "static/media/rules1Bg.png": "./static/media/rules1Bg.c629b621361c85f50d35.png",
     "static/media/game1Bg.png": "./static/media/game1Bg.a1dbb40c1ae079ca2985.png",
     "static/media/Tasty-Gothic_Demi.otf": "./static/media/Tasty-Gothic_Demi.476fc64bf7da4d10e35d.otf",
@@ -37,11 +37,11 @@
     "static/media/plant.svg": "./static/media/plant.25a9b8e32430cafed0626e35923817ee.svg",
     "static/media/question.svg": "./static/media/question.b79f084b98fef0f515b4b0733792e452.svg",
     "index.html": "./index.html",
-    "main.d27c84c4.css.map": "./static/css/main.d27c84c4.css.map",
-    "main.d2ae2564.js.map": "./static/js/main.d2ae2564.js.map"
+    "main.1bb6adfe.css.map": "./static/css/main.1bb6adfe.css.map",
+    "main.61200c02.js.map": "./static/js/main.61200c02.js.map"
   },
   "entrypoints": [
-    "static/css/main.d27c84c4.css",
-    "static/js/main.d2ae2564.js"
+    "static/css/main.1bb6adfe.css",
+    "static/js/main.61200c02.js"
   ]
 }

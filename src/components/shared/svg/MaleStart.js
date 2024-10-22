@@ -1,6 +1,6 @@
 export const MaleStart = ({isPicked, ...props}) => (
     <svg {...props} viewBox="0 0 179 430" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMax slice">
-        <g filter="url(#filter0_d_398_88127)">
+        <g filter={isPicked ? 'url(#filter0_d_398_88127)' :'none'}>
         <path d="M46.1445 157.418C45.2644 162.569 43.5554 188.857 43.5554 188.857C43.3129 196.408 42.3583 203.986 42.5338 211.522C42.7145 219.27 43.6955 226.574 41.8675 234.209C41.5067 235.715 40.9693 240.503 41.5634 241.905C42.1926 243.389 44.5711 240.805 45.5114 241.874C46.794 243.333 46.1124 244.97 49.0275 244.789C51.3111 244.645 53.9816 243.862 54.1306 241.261C54.7435 242.502 56.5355 243.045 57.8617 242.391C59.1878 241.737 59.7979 240.011 59.1306 238.797C59.9003 239.167 60.8081 239.289 61.6772 239.138C62.7936 238.944 60.4901 232.645 60.1472 232.079C58.7059 229.699 56.8573 228.921 54.0686 228.256C46.2517 226.393 61.8045 200.092 60.3482 185.027C59.8112 179.469 63.0865 166.595 63.129 166.359C63.9451 161.939 46.1445 157.418 46.1445 157.418Z" fill="#FDBD8E"/>
         <path d="M53.8579 121.379C46.9078 126.147 41.1262 157.413 41.1262 157.413C41.1262 157.413 50.0035 163.346 60.0384 160.134C70.0749 156.922 53.8579 121.379 53.8579 121.379Z" fill="#D27726"/>
         <path d="M122.078 372.17L120.345 362.903L109.784 364.443L110.352 373.14C110.352 373.14 112.339 377.037 117.882 377.129C123.424 377.221 122.078 372.17 122.078 372.17Z" fill="#FDBD8E"/>
@@ -37,8 +37,8 @@ export const MaleStart = ({isPicked, ...props}) => (
         <path d="M76.2647 92.1035C76.2367 92.1613 76.7836 92.3744 77.7742 92.4739C77.8989 92.4841 78.0287 92.4942 78.1643 92.5052C78.3007 92.5147 78.4448 92.5112 78.593 92.5138C78.8898 92.5238 79.2096 92.4995 79.5473 92.4781C80.2221 92.415 80.9671 92.29 81.731 92.0771C82.4932 91.8562 83.1949 91.5704 83.8055 91.2685C84.1056 91.1082 84.3928 90.9604 84.6422 90.7946C84.768 90.714 84.8937 90.6408 85.0054 90.5613C85.1161 90.4805 85.223 90.4025 85.3244 90.3282C86.1349 89.7119 86.4812 89.2527 86.4351 89.2127C86.3722 89.1565 85.8904 89.5524 85.0744 90.0557C84.9709 90.1186 84.8619 90.1847 84.749 90.2528C84.6361 90.3209 84.5107 90.3822 84.3862 90.4517C84.1394 90.5944 83.8581 90.7204 83.5693 90.8616C82.9805 91.1253 82.3164 91.3803 81.5988 91.5885C80.8795 91.7887 80.1819 91.9198 79.5454 92.005C79.2272 92.0366 78.9233 92.0767 78.6401 92.0842C78.4988 92.0907 78.3607 92.1041 78.2297 92.1053C78.0986 92.1059 77.9718 92.107 77.8515 92.1077C76.8898 92.1055 76.2987 92.0232 76.2647 92.1035Z" fill="#DC856F"/>
         </g>
         <defs>
-            {isPicked && (
-                <filter id="filter0_d_398_88127" x="0.327148" y="0.617188" width="177.946" height="429.383" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+            (
+                <filter id="filter0_d_398_88127" x="0.327148" y="0.617188" width="177.946" height="429.383" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
                     <feFlood flood-opacity="0" result="BackgroundImageFix"/>
                     <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
                     <feOffset/>
@@ -48,36 +48,36 @@ export const MaleStart = ({isPicked, ...props}) => (
                     <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_398_88127"/>
                     <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_398_88127" result="shape"/>
                 </filter>
-            )}
+            )
             <linearGradient id="paint0_linear_398_88127" x1="111.359" y1="92.2466" x2="99.8802" y2="58.71" gradientUnits="userSpaceOnUse">
-                <stop stop-color="#522A22"/>
-                <stop offset="0.0324" stop-color="#532A22"/>
-                <stop offset="1" stop-color="#64332C"/>
+                <stop stopColor="#522A22"/>
+                <stop offset="0.0324" stopColor="#532A22"/>
+                <stop offset="1" stopColor="#64332C"/>
             </linearGradient>
             <linearGradient id="paint1_linear_398_88127" x1="71.4686" y1="71.6517" x2="86.179" y2="60.5154" gradientUnits="userSpaceOnUse">
-            <stop stop-color="#DF9B7E"/>
-            <stop offset="1" stop-color="#DF9B7E" stop-opacity="0.6"/>
+            <stop stopColor="#DF9B7E"/>
+            <stop offset="1" stopColor="#DF9B7E" stop-opacity="0.6"/>
             </linearGradient>
             <linearGradient id="paint2_linear_398_88127" x1="93.487" y1="98.364" x2="82.0078" y2="64.8273" gradientUnits="userSpaceOnUse">
-            <stop stop-color="#522A22"/>
-            <stop offset="0.0324" stop-color="#532A22"/>
-            <stop offset="1" stop-color="#64332C"/>
+            <stop stopColor="#522A22"/>
+            <stop offset="0.0324" stopColor="#532A22"/>
+            <stop offset="1" stopColor="#64332C"/>
             </linearGradient>
             <radialGradient id="paint3_radial_398_88127" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(92.6054 85.9411) rotate(-5.27048) scale(5.14907)">
-            <stop stop-color="#DF9B7E" stop-opacity="0.7"/>
-            <stop offset="1" stop-color="#DF9B7E" stop-opacity="0"/>
+            <stop stopColor="#DF9B7E" stop-opacity="0.7"/>
+            <stop offset="1" stopColor="#DF9B7E" stop-opacity="0"/>
             </radialGradient>
             <radialGradient id="paint4_radial_398_88127" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(69.3902 88.0834) rotate(-5.27048) scale(5.14907 5.14907)">
-            <stop stop-color="#DF9B7E" stop-opacity="0.7"/>
-            <stop offset="1" stop-color="#DF9B7E" stop-opacity="0"/>
+            <stop stopColor="#DF9B7E" stop-opacity="0.7"/>
+            <stop offset="1" stopColor="#DF9B7E" stop-opacity="0"/>
             </radialGradient>
             <linearGradient id="paint5_linear_398_88127" x1="104.323" y1="78.1359" x2="107.84" y2="75.4733" gradientUnits="userSpaceOnUse">
-            <stop stop-color="#DF9B7E"/>
-            <stop offset="1" stop-color="#DF9B7E" stop-opacity="0.6"/>
+            <stop stopColor="#DF9B7E"/>
+            <stop offset="1" stopColor="#DF9B7E" stop-opacity="0.6"/>
             </linearGradient>
             <linearGradient id="paint6_linear_398_88127" x1="83.539" y1="63.7034" x2="83.8642" y2="49.7241" gradientUnits="userSpaceOnUse">
-            <stop stop-color="#F2E6D7" stop-opacity="0.2"/>
-            <stop offset="1" stop-color="#F2E6D7" stop-opacity="0"/>
+            <stop stopColor="#F2E6D7" stop-opacity="0.2"/>
+            <stop offset="1" stopColor="#F2E6D7" stop-opacity="0"/>
             </linearGradient>
             </defs>
         </svg>

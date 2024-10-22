@@ -16,9 +16,9 @@ const Wrapper = styled(FlexWrapper)`
     background: var(--color-green);
 `;
 
-const RulesWrapper = styled.div`
+const RulesWrapper = styled(FlexWrapper)`
     padding: var(--spacing_x4);
-    padding-top: ${({$bigTopMargin}) => $bigTopMargin ? 'calc(4.25 * var(--spacing_x4))' : 'var(--spacing_x4)'};
+    padding-top: ${({$bigTopMargin}) => $bigTopMargin ? 'calc(4.8 * var(--spacing_x4))' : 'var(--spacing_x4)'};
 `;
 
 const Person = styled.img`
@@ -63,7 +63,7 @@ const Darken = styled.div`
 const CurrencyButton = styled(CurButton)`
     position: absolute;
     top: var(--spacing_x5);
-    right: calc(${({$ratio}) => $ratio * 32}px + var(--spacing_x7));
+    right: ${({$ratio}) => $ratio * 71}px;
     z-index: 6;
     box-shadow: 0px 0px 40px #FFF501;
 
