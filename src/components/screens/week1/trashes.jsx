@@ -1,4 +1,4 @@
-import trash from './assets/trash.svg';
+import {ReactComponent as Trash} from './assets/trash.svg';
 
 export const trashes1 = [
     {
@@ -13,4 +13,4 @@ export const trashes1 = [
         id: 'trash_3',
         position: [1874, 9],
     },
-].map(tr => ({...tr, image: trash, width: 70, height: 94}));
+].map(tr => ({...tr, image: () => <Trash />, width: 70, height: 94}));

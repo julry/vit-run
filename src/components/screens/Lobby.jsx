@@ -22,7 +22,7 @@ const Wrapper = styled(FlexWrapper)`
     background-color: #bfe8ff;
     background-image: url(${bg});
     background-repeat: no-repeat;
-    background-size: 100%  ${({$ratio}) => $ratio * 1080}px;
+    background-size: cover;
     padding-top: ${({$ratio}) => $ratio * 175}px;
 `;
 
@@ -232,10 +232,11 @@ const CloseButton = styled(Button)`
 `;
 
 const WEEK_TO_NEXT_SCREEN = {
-    1: SCREENS.GAME1,
-    2: SCREENS.GAME2,
-    3: SCREENS.GAME3,
-    4: SCREENS.GAME4,
+    1: SCREENS.PREGAME1,
+    2: SCREENS.PREGAME2,
+    3: SCREENS.PREGAME3,
+    4: SCREENS.PREGAME4,
+    5: SCREENS.PREGAME5,
 }
 
 const WEEK_TO_POSITION = {

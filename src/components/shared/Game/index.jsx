@@ -270,21 +270,21 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
 
         let nextY = prevY;
         let nextX = clamp(
-            prevX + 3,
+            prevX + 5,
             0,
             (WIDTH - characterSize[0] - 10) * sizeRatio,
         );
 
         if (isJumping) {
             if (isUp) {
-                nextY = nextY - 6;
-                nextX = nextX + 1;
+                nextY = nextY - 7;
+                // nextX = nextX + ;
                 if (nextY <= (initialCharacterPosition[1] - 210)) {
                     setIsUp(false);
                 }
             } else if (nextY < initialCharacterPosition[1]) {
-                nextY = nextY + 4;
-                nextX = nextX + 1;
+                nextY = nextY + 7;
+                // nextX = nextX + 1;
             } 
 
             if (nextY >= initialCharacterPosition[1] && !isUp) {
@@ -312,7 +312,7 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
             const collidedFigure = shownFigures.find(({ position, width, height }) => {
                 const figureData = {
                     x: position[0] * sizeRatio,
-                    y: position[1] * wrapperRect?.height / 100 + height * subjectK,
+                    y: position[1] * wrapperRect?.height / 100 + height * sizeRatio,
                     rx: width * sizeRatio / 4,
                     ry: height * sizeRatio / 2,
                 };
@@ -342,7 +342,7 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
             const collidedQuestion = shownQuestions.find(({ position }) => {
                 const questionData = {
                     x: position[0] * sizeRatio,
-                    y: position[1] * wrapperRect?.height / 100,
+                    y: position[1] * wrapperRect?.height / 100 + QUESTION_HEIGHT * sizeRatio,
                     ry: QUESTION_WIDTH * sizeRatio / 2,
                     rx: QUESTION_WIDTH * sizeRatio / 2,
                 };

@@ -15,14 +15,6 @@ export function ScreenContent() {
     const Screen = useMemo(() => screen, [screen]);
     useImagePreloader(preloadImages);
 
-    useEffect(() => {
-        const preventDefault = (e) => e.preventDefault();
-        
-        document.body.addEventListener('touchmove', preventDefault, { passive: false });
-        
-        return () => document.body.removeEventListener('touchmove', preventDefault);
-    }, []);
-
     return Screen && (
         <Wrapper>
             <Screen />

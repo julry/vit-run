@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import qImg from '../../../assets/images/question.svg';
+import {ReactComponent as QuestionIcon} from '../../../assets/images/question.svg';
 import { Subject } from './Subject';
 
 const Wrapper = styled(Subject)`
@@ -12,7 +12,7 @@ export const QUESTION_HEIGHT = 129;
 
 export const QuestionSubject = ({ question, questionsPosition, ...props }) => {
     const questionObject = {
-        image: qImg,
+        image: () => <QuestionIcon />,
         width: 128,
         height: 129
     }

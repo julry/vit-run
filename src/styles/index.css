@@ -12,7 +12,7 @@ body {
   --color-red: #F9471E;
   --color-orange: #EE7203;
   --color-green: #254F36;
-  
+  overflow: hidden;
   --color-black: #000000;
   --color-white: #FFFFFF;
 

@@ -10,7 +10,6 @@ const LG_KOEF = 1.5 * subjectK;
 export const CHARACTER_SIZE = [127 * subjectK * 1.2, 228 * subjectK * 1.2];
 export const CHARACTER_SIZE_LG = [127 * LG_KOEF, 228 * LG_KOEF];
 
-
 const WrapperStyled = styled(motion.div)`
     position: relative;
     display: inline-flex;

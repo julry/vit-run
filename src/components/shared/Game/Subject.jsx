@@ -3,14 +3,18 @@ import styled from 'styled-components';
 import {motion, useTransform} from "framer-motion";
 import {useSizeRatio} from "../../../hooks/useSizeRatio";
 import {Image} from "../Image";
-import { subjectK } from "../../../constants/weeks";
 
-const ImageStyled = styled(Image)`
+const ImageStyled = styled(motion.div)`
     position: absolute;
     left: 0;
     width: ${({$ratio, width}) => $ratio * width}px;
     height: ${({$ratio, height}) => $ratio * height}px;
     z-index: 6;
+
+    & svg {
+        width: 100%;
+        height: 100%;
+    }
 `;
 
 const SubjectComponent = ({subject, subjectPosition, ...rest}, ref) => {
@@ -26,14 +30,15 @@ const SubjectComponent = ({subject, subjectPosition, ...rest}, ref) => {
         <ImageStyled
             {...rest}
             ref={ref}
-            src={subject.image}
             height={subject.height}
             width={subject.width}
-            $ratio={sizeRatio * subjectK}
-            style={{x, bottom}}
+            $ratio={sizeRatio}
+            style={{x, bottom, z: 0}}
             exit={{scale: 0.8, opacity: 0}}
             transition={{type: "spring", velocity: 4}}
-        />
+        >
+            {<subject.image />}
+        </ImageStyled>
     );
 };
 

@@ -12,7 +12,7 @@ import { FlexWrapper } from "../shared/FlexWrapper";
 
 const Wrapper = styled(FlexWrapper)`
     background: url(${picture}) no-repeat center 100% / cover;
-    padding: calc(4 * var(--spacing_x6)) var(--spacing_x4) var(--spacing_x6);
+    padding: calc(3.5 * var(--spacing_x6)) var(--spacing_x4) var(--spacing_x6);
 `;
 
 const ButtonStyled = styled(Button)`
