@@ -177,19 +177,19 @@ export const questionsLevel1 = [
         answers: [
             {
                 id: 1,
-                text: 'Умение адаптироваться к изменениям',
+                text: '«Мне точно некуда спешить»',
                 image: image1,
                 isCorrect: true
             },
             {
                 id: 2,
-                text: 'Способность «идти по головам», если необходимо',
+                text: '«Для меня есть только одна задача, и я все время уделяю ей»',
                 image: image2,
                 isCorrect: true
             },
             {
                 id: 3,
-                text: 'Способность справляться с негативными эмоциями и стрессом',
+                text: '«Я делаю все и сразу!»',
                 image: image3,
                 isCorrect: true
             },
