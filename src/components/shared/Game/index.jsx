@@ -145,8 +145,8 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
     const characterDelta = useTransform(
         characterPosition,
         prev => {
-            const leftDelta = prev[0] - wrapperRect?.width/2 + characterSize[0]/2 * sizeRatio;
-            const rightDelta = prev[0] + wrapperRect?.width/2 + (characterSize[0]/2 - WIDTH) * sizeRatio;
+            const leftDelta = prev[0] - wrapperRect?.width/2 + 4 * characterSize[0]/ 5 * sizeRatio;
+            const rightDelta = prev[0] + wrapperRect?.width/2 + (4 * characterSize[0]/ 5 - WIDTH) * sizeRatio;
             const bottomDelta = prev[1];
 
             let x;
@@ -156,12 +156,12 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
                 x = clamp(
                     rightDelta,
                     0,
-                    wrapperRect?.width/2 - characterSize[0]/2 * sizeRatio,
+                    wrapperRect?.width/2 - characterSize[0] / 5 * sizeRatio,
                 );
             } else {
                 x = clamp(
                     leftDelta,
-                    characterSize[0]/2 * sizeRatio - wrapperRect?.width/2,
+                    characterSize[0] / 5 * sizeRatio - wrapperRect?.width/2,
                     0,
                 );
             }
@@ -173,7 +173,7 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
     const boardPositionX = useTransform(
         [characterPosition, characterDelta],
         ([prevPosition, prevDelta]) => {
-            let position = -prevPosition[0] + wrapperRect?.width/2 - characterSize[0]/2 * sizeRatio + prevDelta[0];
+            let position = -prevPosition[0] + wrapperRect?.width/2 - 4 * characterSize[0]/ 5 * sizeRatio + prevDelta[0];
 
             if (position <= 0 - WIDTH * sizeRatio + wrapperRect?.width) {
                 position = 0 - WIDTH * sizeRatio + wrapperRect?.width;
@@ -186,7 +186,7 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
     const characterPositionX = useTransform(
         characterDelta,
         (prev) => {
-            const position = wrapperRect?.width/2 - characterSize[0]/2 * sizeRatio + prev[0] - 30 * sizeRatio;
+            const position = wrapperRect?.width/2 - 4 * characterSize[0] / 5 * sizeRatio + prev[0] - 30 * sizeRatio;
 
             return (position > 0 ? `${position}px` : '10px');
         }
@@ -197,7 +197,7 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
         prev => `${prev[1] - wrapperRect?.height * 0.095}px`
     );
 
-    const handleTapStart = (event) => {
+    const handleTapStart = () => {
         if (isGamePaused) return;
 
         if (!isGameStarted) {
@@ -272,7 +272,7 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
         let nextX = clamp(
             prevX + 5,
             0,
-            (WIDTH - characterSize[0] - 10) * sizeRatio,
+            (WIDTH + 2 * characterSize[0]) * sizeRatio,
         );
 
         if (isJumping) {
@@ -290,7 +290,7 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
             }
         }
         
-        if (nextX === (WIDTH - characterSize[0] - 10) * sizeRatio) {
+        if (nextX >= WIDTH * sizeRatio - wrapperRect?.width / 2 + 2 * characterSize[0] / 3) {
             nextY = initialCharacterPosition[1];
             setIsGamePaused(true);
             setIsWinModal(true);
@@ -381,7 +381,7 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
     
             if (collidedTrash) {
                 collidedTrashRef.current = collidedTrash;
-                setCollidedTrashAmount(prev => prev + 1)
+                // setCollidedTrashAmount(prev => prev + 1);
             }
         }
     });
@@ -449,8 +449,8 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
                 {isQuestionPart ? (
                     <>
                         <p>
-                            Тебе удалось открыть {questionsAmount ?? 0} вопросов.{'\n'}
-                            Помимо них, мы даем тебе 3 бонусных вопроса. За каждый верный ответ ты получишь Виткоины.
+                            Тебе удалось открыть <b>{questionsAmount ?? 0} вопросов</b>.{'\n'}
+                            Помимо них, мы даем тебе <b>3 бонусных вопроса</b>. За каждый верный ответ ты получишь Виткоины.
                         </p>
                         <Button onClick={() => next()}>К вопросам</Button>
                     </>

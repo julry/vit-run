@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "./static/css/main.1e21478a.css",
-    "main.js": "./static/js/main.1f066332.js",
+    "main.js": "./static/js/main.e95ae936.js",
     "static/media/rules1Bg.png": "./static/media/rules1Bg.c629b621361c85f50d35.png",
     "static/media/game1Bg.png": "./static/media/game1Bg.a1dbb40c1ae079ca2985.png",
     "static/media/Tasty-Gothic_Demi.otf": "./static/media/Tasty-Gothic_Demi.476fc64bf7da4d10e35d.otf",
@@ -38,10 +38,10 @@
     "static/media/question.svg": "./static/media/question.b79f084b98fef0f515b4b0733792e452.svg",
     "index.html": "./index.html",
     "main.1e21478a.css.map": "./static/css/main.1e21478a.css.map",
-    "main.1f066332.js.map": "./static/js/main.1f066332.js.map"
+    "main.e95ae936.js.map": "./static/js/main.e95ae936.js.map"
   },
   "entrypoints": [
     "static/css/main.1e21478a.css",
-    "static/js/main.1f066332.js"
+    "static/js/main.e95ae936.js"
   ]
 }

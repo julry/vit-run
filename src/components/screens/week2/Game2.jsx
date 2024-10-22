@@ -4,7 +4,7 @@ import { Game } from "../../shared/Game";
 
 export const Game2 = () => (
    <Game 
-        level={1} 
+        level={2} 
         preloadBg={rules1} 
         customText={(sex) => <p>
                 <b>Отличная работа!</b>{'\n\n'}

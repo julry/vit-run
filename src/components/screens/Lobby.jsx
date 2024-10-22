@@ -87,6 +87,7 @@ const InfoSign = styled.div`
 const WeekInfoSign = styled(InfoSign)`
     position: static;
     background: #F6F1E5;
+    padding-right:  ${({$ratio}) => $ratio * 6}px;
 `;
 
 const BulletPoints = styled.ul`
