@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import bg from "../../assets/images/lobbyBg.svg";
 import floor0 from "../../assets/images/first-floor.svg";
@@ -81,6 +81,7 @@ const InfoSign = styled.div`
     border-radius: var(--spacing_x2);
     font-size:  ${({$ratio}) => $ratio * 11}px;
     padding: ${({$ratio}) => $ratio * 6}px;
+    padding-right: ${({$ratio}) => $ratio * 26}px;
 `;
 
 const WeekInfoSign = styled(InfoSign)`
@@ -90,7 +91,7 @@ const WeekInfoSign = styled(InfoSign)`
 
 const BulletPoints = styled.ul`
     margin-top: var(--spacing_x2);
-    list-style-type: none;
+    margin-left: var(--spacing_x3);
 `;
 
 const FirstFloor = styled.div`
@@ -231,6 +232,17 @@ const CloseButton = styled(Button)`
     background: none;
 `;
 
+const CloseButtonInfo = styled(CloseButton)`
+    top: var(--spacing_x2);
+    width:  ${({$ratio}) => $ratio * 18}px;
+    height:  ${({$ratio}) => $ratio * 18}px;
+
+    & svg {
+        width:  ${({$ratio}) => $ratio * 12}px;
+        height:  ${({$ratio}) => $ratio * 12}px;
+    }
+`;
+
 const WEEK_TO_NEXT_SCREEN = {
     1: SCREENS.PREGAME1,
     2: SCREENS.PREGAME2,
@@ -251,13 +263,16 @@ export const Lobby = () => {
     const [info, setInfo] = useState();
     const [isVideo, setIsVideo] = useState(false);
     const [isProfile, setIsProfile] = useState(false);
-    const { passedWeeks, next, points, weekPoints, user, currentWeek } = useProgress();
+    const { passedWeeks, next, points, weekPoints, user, currentWeek, updateUser } = useProgress();
     const [isRules, setIsRules] = useState(!user?.seenRules);
     const shownWeek = (passedWeeks[passedWeeks.length - 1] ?? 0) + 1;
+    const floorRef = useRef();
+    const wrapperRef = useRef();
   
     const handleClickInfo = (e, info) => {
         e.stopPropagation();
         setInfo(info);
+        setIsProfile(false);
     }
 
     const handleClickOutside = () => {
@@ -278,6 +293,7 @@ export const Lobby = () => {
     const handleClickProfile = (e) => {
         e.stopPropagation();
         setIsProfile(prev => !prev);
+        setInfo();
     }
 
     const handleOpenFloor = (week) => {
@@ -286,9 +302,24 @@ export const Lobby = () => {
         next(WEEK_TO_NEXT_SCREEN[week.week])
     }
 
+
+    const handleCloseRules = () => {
+        if (!user.seenRules) {
+            updateUser({seenRules: true});
+
+            if (floorRef?.current) {
+                const { x, y } = floorRef.current.getBoundingClientRect();
+
+                wrapperRef.current.scrollTo(x, y);
+            }
+        }
+
+        setIsRules(false);
+    }
+
     return (
         <>
-        <Wrapper $ratio={ratio} onClick={handleClickOutside}>
+        <Wrapper $ratio={ratio} onClick={handleClickOutside} ref={wrapperRef}>
             <Header>
                 <CurrencyButton 
                     $ratio={ratio} 
@@ -333,6 +364,11 @@ export const Lobby = () => {
                 </ButtonsBlock>
                 {info && (
                     <InfoSign $ratio={ratio} $color={info.color}>
+                        <CloseButtonInfo onClick={() => setIsProfile(false)} $ratio={ratio}>
+                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M13 1L1 13M13 13L1 1.00001" stroke={`var(--color-${info.color})`} strokeWidth="2" strokeLinecap="round"/>
+                            </svg>
+                        </CloseButtonInfo>
                         <p>
                             Здесь суммируются твои результаты за {info.text}.{' '}
                             Виткоины ты можешь получить за
@@ -356,6 +392,7 @@ export const Lobby = () => {
                 {weeks.map((week) => (
                     <FloorStyled 
                         key={week.id} 
+                        ref={week.week === shownWeek ? floorRef : null}
                         onClick={() => handleOpenFloor(week)}
                         $index={week.id} 
                         isOpen={week.week <= shownWeek} 
@@ -392,7 +429,7 @@ export const Lobby = () => {
                 </IconButton>
             </VideoBtnWrapper>
     </Wrapper>
-    <InfoModal onClose={() => setIsRules(false)} isShown={isRules}/>
+    <InfoModal onClose={handleCloseRules} isShown={isRules}/>
 </>
     )
 }

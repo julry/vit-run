@@ -1,3 +1,4 @@
+import { forwardRef } from "react";
 import styled from "styled-components";
 import { useSizeRatio } from "../../hooks/useSizeRatio"
 import { FloorDecoration } from "./svg";
@@ -72,10 +73,10 @@ const FloorImage = styled.img`
     object-fit: cover;
 `;
 
-export const Floor = ({isOpen, floorPic, floorNum, children, isUpper, ...props}) => {
+const FloorComponent = ({isOpen, floorPic, floorNum, children, isUpper, ...props}, ref) => {
     const ratio = useSizeRatio();
     return (
-        <Wrapper $ratio={ratio} {...props} $isOpen={isOpen}>
+        <Wrapper $ratio={ratio} {...props} $isOpen={isOpen} ref={ref}>
             {isUpper && <DecorationUpper $ratio={ratio}/> }
             <Side $ratio={ratio}>
                 <svg width="100%" height="100%" viewBox="0 0 9 105" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -103,3 +104,5 @@ export const Floor = ({isOpen, floorPic, floorNum, children, isUpper, ...props})
         </Wrapper>
     )
 }
+
+export const Floor = forwardRef(FloorComponent);

@@ -6,8 +6,8 @@ import {useAnimate} from "./useAnimate";
 import {Image} from "../Image";
 import { subjectK } from "../../../constants/weeks";
 
-const LG_KOEF = 1.5 * subjectK;
-export const CHARACTER_SIZE = [127 * subjectK * 1.2, 228 * subjectK * 1.2];
+const LG_KOEF = 1.3 * subjectK;
+export const CHARACTER_SIZE = [127 * subjectK, 228 * subjectK];
 export const CHARACTER_SIZE_LG = [127 * LG_KOEF, 228 * LG_KOEF];
 
 const WrapperStyled = styled(motion.div)`
@@ -20,7 +20,7 @@ const WrapperStyled = styled(motion.div)`
     height: ${({$ratio}) => $ratio * CHARACTER_SIZE[1]}px;
     z-index: 2;
 
-    @media screen and (min-height: 750px) and (max-width: 400px){
+    @media screen and (min-height: 750px) and (max-width: 450px){
         min-width: ${({$ratio}) => $ratio * CHARACTER_SIZE_LG[0]}px;
         min-height: ${({$ratio}) => $ratio * CHARACTER_SIZE_LG[1]}px;
         height: ${({$ratio}) => $ratio * CHARACTER_SIZE_LG[1]}px;

@@ -278,13 +278,11 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
         if (isJumping) {
             if (isUp) {
                 nextY = nextY - 7;
-                // nextX = nextX + ;
                 if (nextY <= (initialCharacterPosition[1] - 210)) {
                     setIsUp(false);
                 }
             } else if (nextY < initialCharacterPosition[1]) {
                 nextY = nextY + 7;
-                // nextX = nextX + 1;
             } 
 
             if (nextY >= initialCharacterPosition[1] && !isUp) {
@@ -413,6 +411,7 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
                             subject={figure}
                             subjectPosition={figuresPosition}
                             wrapperRectHeight={wrapperRect?.height}
+                            characterHeight={characterSize[1]}
                          />
                     ))
                 }
@@ -431,6 +430,8 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
                             key={question.id}
                             question={question}
                             questionsPosition={questionsPosition}
+                            wrapperRectHeight={wrapperRect?.height}
+                            characterHeight={characterSize[1]}
                          />
                     ))
                 }
@@ -457,7 +458,7 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
                 ) : (
                     <>
                         {customText(user.sex)}
-                        <Button onClick={() => setIsQuestionPart(true)}>Готов{user.sex === SEX.Female ? 'a' : ''}</Button>
+                        <Button onClick={() => setIsQuestionPart(true)}>ДАЛЕЕ</Button>
                     </>
                 )}
             </ModalBlock>
@@ -469,7 +470,7 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
                 </p>
                 <ButtonsBlock>
                     <Button color="green" onClick={() => next(SCREENS.LOBBY)}>ЛОББИ</Button>
-                    <Button onClick={handleCloseExit}>ВЕРНУТЬСЯ</Button>
+                    <Button onClick={handleCloseExit}>остаться</Button>
                 </ButtonsBlock>
             </ExitBlock>
         </Modal>

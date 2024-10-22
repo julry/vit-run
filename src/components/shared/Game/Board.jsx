@@ -4,7 +4,7 @@ import {forwardRef} from "react";
 import game1bg from "../../../assets/images/game1Bg.png";
 import {useSizeRatio} from "../../../hooks/useSizeRatio";
 
-export const WIDTH = 3804;
+export const WIDTH = 7608;
 
 const WrapperStyled = styled(motion.div)`
     position: relative;
@@ -37,8 +37,8 @@ const BackgroundStyled = styled(motion.div)`
     height: 100%;
     background-color: ${({level}) => LEVEL_TO_BOARD_COLOR[level]};
     background-image: url(${({level}) => LEVEL_TO_BOARD[level]});
-    background-repeat: no-repeat;
-    background-size: cover;
+    background-size: contain;
+    background-repeat: repeat-x;
 `;
 
 const BoardComponent = ({level, imageProps, preloadBg, children, ...rest}, ref) => {

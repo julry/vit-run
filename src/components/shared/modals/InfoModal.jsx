@@ -42,7 +42,7 @@ export const InfoModal = ({onClose, isShown}) => {
         switch (part) {
             case 0:
                 return (
-                    <Content>
+                    <Content onClose={onClose}>
                         <p>
                             Добро пожаловать в команду!{'\n'}
                             В течение <b>пяти недель</b> выполняй задачи вместе с нашими сотрудниками.{' '}
@@ -53,12 +53,12 @@ export const InfoModal = ({onClose, isShown}) => {
                 )
             case 1: 
                 return (
-                    <Content>
+                    <Content onClose={onClose}>
                         <p>
                             <b>Каждую неделю</b> мы будем выбирать 10 лучших игроков,{' '}
                             которые получат мерч от «Вкусно — и точка».{'\n'}А ещё 40 участников{' '}
                             выиграют промокоды на продукцию и <b>подарки от партнёров</b>.{'\n\n'}
-                            По итогам Марафона 50 лучших участников получат гранты в размере 50 000 рублей.
+                            По итогам Марафона 50 лучших участников получат <b>денежный приз</b> в размере 50 000 рублей.
                         </p>
                         <ButtonsWrapper>
                             <Button color="white" onClick={() => setPart(prev => prev - 1)}>Назад</Button>
@@ -68,7 +68,7 @@ export const InfoModal = ({onClose, isShown}) => {
                 );
             case 2: 
                 return (
-                    <Content>
+                    <Content onClose={onClose}>
                         <p>
                             <b>Первая неделя — производство.</b>{'\n\n'}
                             Давай заглянем и узнаем, где нужна твоя помощь!

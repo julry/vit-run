@@ -83,6 +83,12 @@ const TextXxs = styled.p`
     padding-left: var(--spacing_x3);
 `;
 
+const InputId = styled(InputStyled)`
+    &::placeholder {
+        opacity: 0.5;
+    }
+`;
+
 export const Registration1 = () => {
     const [phone, setPhone] = useState('');
     const [university, setUniversity] = useState('');
@@ -121,13 +127,13 @@ export const Registration1 = () => {
         <Wrapper>
             <Block>
                 <p><b>Введи дополнительные данные,{'\n'}чтобы начать играть</b></p>
-                <InputStyled placeholder="Укажи свой город" value={city} onChange={(e) => setCity(e.target.value)} />
-                <InputStyled placeholder="Укажи свой вуз/ССУЗ" value={university} onChange={(e) => setUniversity(e.target.value)} />
-                <InputStyled placeholder="Укажи свою специализацию" value={direction} onChange={(e) => setDirection(e.target.value)} />
+                <InputStyled placeholder="Укажи свой город*" value={city} onChange={(e) => setCity(e.target.value)} />
+                <InputStyled placeholder="Укажи свой вуз/ССУЗ*" value={university} onChange={(e) => setUniversity(e.target.value)} />
+                <InputStyled placeholder="Укажи свою специализацию*" value={direction} onChange={(e) => setDirection(e.target.value)} />
                 <RefText>
                     Введи ID друга, который тебя пригласил 
                 </RefText>
-                <InputStyled placeholder="" value={refId} onChange={(e) => setRefId(e.target.value)} />
+                <InputId placeholder="5е32uik" value={refId} onChange={(e) => setRefId(e.target.value)} />
                 <TextXxs>
                     После регистрации ты тоже сможешь{'\n'}       
                     пригласить друзей в игру
