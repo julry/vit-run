@@ -96,7 +96,6 @@ export const Registration1 = () => {
     const [direction, setDirection] = useState('');
     const [isEmployee, setIsEmployee] = useState(false);
     const [refId, setRefId] = useState('');
-    const [isAgreed, setIsAgreed] = useState(false);
     const [isError, setIsError] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
     const { next, setUserInfo, registrateUser } = useProgress();
@@ -121,7 +120,7 @@ export const Registration1 = () => {
         next();
     }
 
-    const btnDisabled = !isAgreed || !city || !university || !direction || isSaving;
+    const btnDisabled = !city || !university || !direction || isSaving;
 
     return (
         <Wrapper>
@@ -138,29 +137,6 @@ export const Registration1 = () => {
                     После регистрации ты тоже сможешь{'\n'}       
                     пригласить друзей в игру
                 </TextXxs>
-                <RadioInput 
-                    checked={isAgreed}
-                    onChange={() => setIsAgreed((prevAgreed) => !prevAgreed)}
-                >
-                    <span>
-                        Я согласен(а) на{"\u00A0"}
-                        <a
-                            href={"https://doc.fut.ru/personal_data_policy.pdf"}
-                            target="_blank"
-                            rel="noreferrer"
-                        >
-                        обработку персональных данных
-                        </a>{" "}
-                        и получение информационных сообщений, а также с{' '} 
-                        <a
-                            href={''}
-                            target="_blank"
-                            rel="noreferrer"
-                        >
-                        правилами проведения акции
-                        </a>.
-                    </span>
-                </RadioInput>
                 {isError && (
                     <SmallText>
                         Что-то пошло не так, попробуй позже

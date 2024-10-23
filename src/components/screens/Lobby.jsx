@@ -283,7 +283,7 @@ export const Lobby = () => {
 
     const handleVideoClick = () => {
         setIsVideo(false);
-        window.open('', '_blank');
+        window.open('https://vitmarathon.ru/video', '_blank');
     };
 
     const handleClickVideo = (e) => {
