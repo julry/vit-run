@@ -28,14 +28,14 @@ export const items1 = [
         image: () =>  <Fries/>,
         width: friesSize[0],
         height: friesSize[1],
-        position: [1384, 247],
+        position: [1384, 267],
     },
     {
         id: '1-4',
         image: () =>  <Coffee/>,
         width: coffeeSize[0],
         height: coffeeSize[1],
-        position: [2456, 252],
+        position: [2456, 262],
     },
     {
         id: '1-5',
@@ -70,7 +70,7 @@ export const items1 = [
         image: () =>  <Burger />,
         width: burgerSize[0],
         height: burgerSize[1],
-        position: [6654, 265],
+        position: [6654, 285],
     },
     {
         id: '1-10',

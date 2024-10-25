@@ -306,19 +306,19 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
 
         let nextY = prevY;
         let nextX = clamp(
-            prevX + 5,
+            prevX + (5 * subjectK * sizeRatio),
             0,
             (WIDTH + 2 * characterSize[0]) * sizeRatio,
         );
 
         if (isJumping) {
             if (isUp) {
-                nextY = nextY - 7;
-                if (nextY <= (initialCharacterPosition[1] - 210)) {
+                nextY = nextY - (4 * subjectK * sizeRatio);
+                if (nextY <= (initialCharacterPosition[1] - (160 * subjectK * sizeRatio))) {
                     setIsUp(false);
                 }
             } else if (nextY < initialCharacterPosition[1]) {
-                nextY = nextY + 7;
+                nextY = nextY + (4 * subjectK * sizeRatio);
             } 
 
             if (nextY >= initialCharacterPosition[1] && !isUp) {
@@ -340,7 +340,7 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
                 const figureData = {
                     x1: (position[0] + width * 0.6) * sizeRatio,
                     x2: (position[0] + width) * sizeRatio,
-                    y1: (position[1] + height * 0.3) * sizeRatio * subjectK,
+                    y1: (position[1] + height * 0.2) * sizeRatio * subjectK,
                     y2: (position[1] * subjectK + height) * sizeRatio,
                 };
                 const characterData = {
