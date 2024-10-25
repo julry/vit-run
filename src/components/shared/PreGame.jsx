@@ -1,3 +1,4 @@
+import { animate, motion } from "framer-motion";
 import { useState } from "react";
 import styled from "styled-components";
 import { weeks } from "../../constants/weeks";
@@ -8,7 +9,6 @@ import { Button, CurButton } from "./Button";
 import { Character } from "./Character";
 import { FlexWrapper } from "./FlexWrapper";
 import { GameHeader } from "./GameHeader";
-import { Modal } from "./modals";
 
 const Wrapper = styled(FlexWrapper)`
     padding: var(--spacing_x6);
@@ -45,13 +45,12 @@ const ButtonsWrapper = styled.div`
     }
 `;
 
-const CharacterStyled = styled(Character)`
+const CharacterWrapper = styled(motion.div)`
     position: absolute;
     bottom: 9.5%;
     left: 0;
-    z-index: 5;
+    z-index: 7;
 `;
-
 
 const Darken = styled.div`
     position: fixed;
@@ -106,6 +105,10 @@ export const PreGame = ({level, getContent}) => {
             </Wrapper>
     );
     
+    const jumpAnimation = {
+        y: [0, -155 * ratio, 0]
+    };
+
     return (
         <RulesWrapper $bigTopMargin={part === 5}>
             <Darken />
@@ -131,7 +134,30 @@ export const PreGame = ({level, getContent}) => {
                     </CurrencyButton>
                 </>
             )}
-            <CharacterStyled level={level} isPause/>
+            {[2, 4].includes(part) && (
+                <CharacterWrapper
+                    animate={jumpAnimation}
+                    transition={{
+                        repeat: Infinity,
+                        duration: 0.7,
+                        repeatType: 'loop',
+                        repeatDelay: 1.5,
+                        delay: 0.4
+                    }}
+                >
+                    <Character 
+                        level={level} 
+                    />
+                </CharacterWrapper>
+            )}
+            {![2, 4].includes(part) && (
+                <CharacterWrapper>
+                    <Character 
+                        level={level} 
+                        isPause={part !== 3}
+                    />
+                </CharacterWrapper>
+            )}
         </RulesWrapper>
     )
 } 
