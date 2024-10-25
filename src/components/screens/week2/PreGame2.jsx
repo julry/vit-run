@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import bg from '../../../assets/images/rules1Bg.png';
-import burger from './assets/burger.svg';
-import trash from './assets/trash-highlighted.svg';
+import lemonade from '../week1/assets/lemonade.svg';
+import paper from './assets/paper.svg';
 import question from '../../../assets/images/question.svg';
 import { subjectK } from "../../../constants/weeks";
 import { useSizeRatio } from "../../../hooks/useSizeRatio";
@@ -14,21 +14,21 @@ const Image = styled.img`
     object-fit: cover;
 `;
 
-const BurgerStyled = styled.img`
+const LemonadeStyled = styled.img`
     position: absolute;
     bottom: 37%;
     left: ${({$ratio}) => $ratio * 153}px;
-    width: ${({$ratio}) => $ratio * 145}px;
-    height: ${({$ratio}) => $ratio * 132}px;
-    z-index: ${({$isActive}) => $isActive ? 6 : 1};
+    width: ${({$ratio}) => $ratio * 128}px;
+    height: ${({$ratio}) => $ratio * 181}px;
+    z-index: 6;
 `;
 
 const TrashStyled = styled.img`
     position: absolute;
     bottom: 9%;
     left: ${({$ratio}) => $ratio * 158}px;
-    width: ${({$ratio}) => $ratio * 150}px;
-    height: ${({$ratio}) => $ratio * 174}px;
+    width: ${({$ratio}) => $ratio * 161}px;
+    height: ${({$ratio}) => $ratio * 96}px;
     z-index: 6;
 `;
 
@@ -41,17 +41,17 @@ const QuestionStyled = styled.img`
     z-index: 6;
 `;
 
-export const PreGame1 = () => {
+export const PreGame2 = () => {
     const ratio = useSizeRatio();
     const getContent = (part) => {
         return (
             <>
-                <BurgerStyled $ratio={ratio * subjectK} src={burger} $isActive={part === 3} alt=""/>
-                {part === 2 && <TrashStyled $ratio={ratio * subjectK} src={trash} alt=""/>}
+                {part === 2 && <TrashStyled $ratio={ratio * subjectK} src={paper} alt=""/>}
+                {part === 3 && <LemonadeStyled $ratio={ratio * subjectK} src={lemonade} alt=""/>}
                 {part === 4 && <QuestionStyled $ratio={ratio * subjectK} src={question} alt=""/>}
                 <Image src={bg} alt=""/>
             </>
         )
     }
-    return <PreGame level={1} getContent={getContent}/>
+    return <PreGame level={2} getContent={getContent}/>
 }

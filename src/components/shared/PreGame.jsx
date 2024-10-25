@@ -56,7 +56,7 @@ const CharacterStyled = styled(Character)`
 const Darken = styled.div`
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.8);
     z-index: 2;
 `;
 

@@ -41,12 +41,12 @@ const INITIAL_STATE = {
     weekPoints: 0,
     user: INITIAL_USER,
     passedWeeks: [],
-    cardsSeen: [],
+    collectedQuestions: [],
 }
 
 const ProgressContext = createContext(INITIAL_STATE);
 
-const API_LINK = 'https://ft-admin-api.sjuksin.ru/';
+const API_LINK = 'https://games-admin.fut.ru/api/';
 
 export function ProgressProvider(props) {
     const {children} = props
@@ -54,13 +54,11 @@ export function ProgressProvider(props) {
     const [points, setPoints] = useState(INITIAL_STATE.points);
     const [weekPoints, setWeekPoints] = useState(INITIAL_STATE.weekPoints);
     const [currentWeekPoints, setCurrentWeekPoints] = useState(INITIAL_STATE.weekPoints);
-    //krasnie na igre
     const [gamePoints, setGamePoints] = useState(0);
-    //zelenie na igre
     const [questionsAmount, setQuestionsAmount] = useState(0);
-    const [cardsSeen, setCardsSeen] = useState(INITIAL_STATE.cardsSeen);
     const [user, setUser] = useState(INITIAL_STATE.user);
     const [passedWeeks, setPassedWeeks] = useState(INITIAL_STATE.passedWeeks);
+    const [collectedQuestions, setCollectedQuestions] = useState(INITIAL_STATE.collectedQuestions);
     const [currentWeek, setCurrentWeek] = useState(CURRENT_WEEK);
     const screen = screens[currentScreen];
     const client = useRef();
@@ -68,7 +66,7 @@ export function ProgressProvider(props) {
     const getDbCurrentWeek = async () => {
         // const { week } = await client.current.loadProjectState();
         // if (week && !isNaN(+week)) {
-        //     // setCurrentWeek(+week);
+        //     setCurrentWeek(+week);
         //     setCurrentWeek(1);
         // }
     }
@@ -101,18 +99,41 @@ export function ProgressProvider(props) {
 
     const addGamePoint = () => setGamePoints(prev => prev + 1);
 
-    const endGame = (level, levelPoints) => {
+    const endGame = (level) => {
         const data = {
             passedWeeks: [...passedWeeks, level].join(','),
-            [`week${level}Points`]: weekPoints + levelPoints,
-            points: points + levelPoints,
+            [`week${level}Points`]: weekPoints + gamePoints,
+            points: points + gamePoints,
+            collectedQuestions: collectedQuestions[level - 1] ? collectedQuestions : [...collectedQuestions, questionsAmount]
         };
         
-        setCurrentWeekPoints(prev => prev + levelPoints);
-        setWeekPoints(prev => prev + levelPoints);
-        setPoints(prev => prev = prev + levelPoints);
+        setCurrentWeekPoints(prev => prev + gamePoints);
+        setCollectedQuestions(prev => prev[level - 1] ? prev : [...prev, questionsAmount]);
+
+        if (level === currentWeek) {
+            setWeekPoints(prev => prev + gamePoints);
+        }
+
+        setPoints(prev => prev + gamePoints);
 
         setGamePoints(0);
+        updateUser(data);
+    };
+
+    const endQuestions = (level, questionPoints) => {
+        const data = {
+            [`week${level}Points`]: weekPoints + questionPoints,
+            points: points + questionPoints,
+            collectedQuestions: collectedQuestions.map((collected, ind) => ind === level - 1 ? 0 : collected)
+        };
+        
+        if (level === currentWeek) {
+            setWeekPoints(prev => prev + questionPoints);
+        }
+
+        setPoints(prev => prev + questionPoints);
+
+        setQuestionsAmount(0);
         updateUser(data);
     };
 
@@ -124,7 +145,7 @@ export function ProgressProvider(props) {
             points,
             [`week${currentWeek > 5 ? 5 : currentWeek}Points`]: currentWeekPoints,
             passedWeeks: passedWeeks.join(','),
-            cardsSeen: cardsSeen.join(','),
+            collectedQuestions: collectedQuestions.join(','),
             ...changed,
         };
 
@@ -160,7 +181,7 @@ export function ProgressProvider(props) {
             points: 0,
             registerWeek: currentWeek,
             passedWeeks: '',
-            cardsSeen: '',
+            collectedQuestions: '',
         };
 
         const userInfo = {
@@ -179,7 +200,7 @@ export function ProgressProvider(props) {
             points: 0,
             registerWeek: currentWeek,
             passedWeeks: '',
-            cardsSeen: '',
+            collectedQuestions: '',
             direction,
             phone,
         };
@@ -194,7 +215,7 @@ export function ProgressProvider(props) {
             setPoints(INITIAL_STATE.points);
             setWeekPoints(INITIAL_STATE.weekPoints);
             setCurrentWeekPoints(INITIAL_STATE.weekPoints);
-            setCardsSeen(INITIAL_STATE.cardsSeen);
+            setCollectedQuestions(INITIAL_STATE.collectedQuestions);
             setPassedWeeks(INITIAL_STATE.passedWeeks);
             
             return record; 
@@ -229,9 +250,9 @@ export function ProgressProvider(props) {
 
             setUser(userInfo);
             const passed = data?.passedWeeks?.length > 0 ? data.passedWeeks.replace(' ', '').split(',').map((l) => +l.trim()) : [];
-            const cardsSeen = data?.cardsSeen?.length > 0 ? data.cardsSeen.replace(' ', '').split(',').map((l) => +l.trim()) : [];
+            const questions = data?.collectedQuestions?.length > 0 ? data.collectedQuestions.replace(' ', '').split(',').map((l) => +l.trim()) : [];
             setPassedWeeks(passed);
-            setCardsSeen(cardsSeen);
+            setCollectedQuestions(questions);
             setPoints(data?.points ?? 0);
             setWeekPoints(data?.[`week${currentWeek > 5 ? 5 : currentWeek}Points`] ?? 0);
             setCurrentWeekPoints(data?.[`week${currentWeek > 5 ? 5 : currentWeek}Points`] ?? 0);
@@ -258,8 +279,6 @@ export function ProgressProvider(props) {
         setPoints,
         passedWeeks,
         setPassedWeeks,
-        setCardsSeen,
-        cardsSeen,
         endGame,
         updateUser,
         getUserInfo,
@@ -268,7 +287,9 @@ export function ProgressProvider(props) {
         currentWeekPoints, 
         setCurrentWeekPoints,
         questionsAmount, 
-        setQuestionsAmount
+        setQuestionsAmount,
+        collectedQuestions,
+        endQuestions
     }
 
     return (

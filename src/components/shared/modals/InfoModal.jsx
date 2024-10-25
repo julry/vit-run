@@ -70,7 +70,7 @@ export const InfoModal = ({onClose, isShown}) => {
                 return (
                     <Content onClose={onClose}>
                         <p>
-                            <b>Первая неделя — производство.</b>{'\n\n'}
+                            <b>Первая неделя — отдел производство.</b>{'\n\n'}
                             Давай заглянем и узнаем, где нужна твоя помощь!
                         </p>
                         <ButtonsWrapper>

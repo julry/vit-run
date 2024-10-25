@@ -2,6 +2,7 @@ import {forwardRef} from "react";
 import styled from 'styled-components';
 import {motion, useTransform} from "framer-motion";
 import {useSizeRatio} from "../../../hooks/useSizeRatio";
+import { subjectK } from "../../../constants/weeks";
 
 const ImageStyled = styled(motion.div)`
     position: absolute;
@@ -16,16 +17,10 @@ const ImageStyled = styled(motion.div)`
     }
 `;
 
-const SubjectComponent = ({subject, subjectPosition, wrapperRectHeight, characterHeight, ...rest}, ref) => {
+const SubjectComponent = ({subject, subjectPosition, ...rest}, ref) => {
     const sizeRatio = useSizeRatio();
     const x = useTransform(subjectPosition, prev => `${prev[subject?.id]?.[0]}px`);
-    const bottom = useTransform(subjectPosition, prev => {
-        let position = `${prev[subject?.id]?.[1]}%`;
-        if (prev[subject?.id]?.[1] * wrapperRectHeight / 100 > (wrapperRectHeight * 0.095 + characterHeight)) {
-            position = `${wrapperRectHeight * 0.095 + characterHeight}px`;
-        }
-        return position;
-    });
+    const bottom = useTransform(subjectPosition, prev => `${prev[subject?.id]?.[1] * subjectK * sizeRatio}px`);
 
     if (!subject) {
         return null;
@@ -41,8 +36,8 @@ const SubjectComponent = ({subject, subjectPosition, wrapperRectHeight, characte
             style={{x, bottom, z: 0}}
             exit={{scale: 0.8, opacity: 0}}
             transition={{type: "spring", velocity: 4}}
-        >
-            {<subject.image />}
+        >   
+            <subject.image />
         </ImageStyled>
     );
 };

@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import {motion} from "framer-motion";
 import {forwardRef} from "react";
 import game1bg from "../../../assets/images/game1Bg.png";
+import game2bg from "../../../assets/images/game2Bg.png";
 import {useSizeRatio} from "../../../hooks/useSizeRatio";
 
 export const WIDTH = 7608;
@@ -15,7 +16,7 @@ const WrapperStyled = styled(motion.div)`
 
 const LEVEL_TO_BOARD = {
     1: game1bg,
-    2: game1bg,
+    2: game2bg,
     3: game1bg,
     4: game1bg,
     5: game1bg,

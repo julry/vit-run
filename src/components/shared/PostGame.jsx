@@ -61,13 +61,14 @@ const ButtonWrapper = styled(FlexWrapper)`
 
 export const PostGame = ({level, questions}) => {
     const ratio = useSizeRatio();
-    const { next, user } = useProgress();
+    const { next, user, collectedQuestions = [] } = useProgress();
     const [currentId, setCurrentId] = useState(0);
     const [chosen, setChosen] = useState([]);
     const [isDone, setIsDone] = useState(false);
     const [points, setPoints] = useState(0);
     const { questionsAmount = 0 } = useProgress();
-    const shownQuestions = useMemo(() => questions.sort(() => Math.random() * 2 - 1).slice(0, (questionsAmount + 3)), [questions]);
+    const amount = (collectedQuestions[level - 1] ?? questionsAmount);
+    const shownQuestions = useMemo(() => questions.sort(() => Math.random() * 2 - 1).slice(0, (amount + 3)), [questions]);
     const currentQuestion = useMemo(() => shownQuestions[currentId], [shownQuestions, currentId]);
 
     const handleNextQuestion = () => {
@@ -80,7 +81,13 @@ export const PostGame = ({level, questions}) => {
             }
         })
 
-        if (correctAmount === (currentQuestion.amount ?? 1)) {
+        let allCorrectAmount = currentQuestion.answers.filter(({isCorrect}) => isCorrect).length;
+
+        if (allCorrectAmount === currentQuestion.answers.length) {
+            allCorrectAmount = 1;
+        }
+
+        if (correctAmount === allCorrectAmount) {
             setPoints(prev => prev + 1);
         }
 
@@ -115,7 +122,7 @@ export const PostGame = ({level, questions}) => {
         <Wrapper>
             <p>
                 <b>
-                    {currentQuestion?.text}
+                    {(typeof currentQuestion?.text === 'function') ? currentQuestion?.text(user.sex) : currentQuestion?.text}
                 </b>
             </p>
             <AnswersBlock>

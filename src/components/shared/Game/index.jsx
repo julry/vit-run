@@ -1,6 +1,6 @@
 import {useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState} from "react";
 import useResizeObserver from "use-resize-observer";
-import {AnimatePresence, motion, useMotionValue, useAnimationFrame, useTransform} from "framer-motion";
+import {motion, useMotionValue, useAnimationFrame, useTransform} from "framer-motion";
 import throttle from "lodash/throttle";
 // import random from "lodash/random";
 import clamp from "lodash/clamp";
@@ -9,12 +9,11 @@ import { useSizeRatio } from "../../../hooks/useSizeRatio";
 import { Board, WIDTH} from "./Board";
 import { Character } from "../Character";
 import { useProgress } from "../../../contexts/ProgressContext";
-import { subjectK, weeks } from "../../../constants/weeks";
+import { SCALE_K, subjectK, weeks } from "../../../constants/weeks";
 import { GameHeader } from "../GameHeader";
 import { Modal } from "../modals";
 import { Block } from "../Block";
 import { Button } from "../Button";
-import { SEX } from "../../../constants/sex";
 import { Subject } from "./Subject";
 import { QuestionSubject, QUESTION_HEIGHT, QUESTION_WIDTH } from "./QuestionSubject";
 import { ItemsBoard } from "./ItemsBoard";
@@ -73,12 +72,47 @@ const ButtonsBlock = styled.div`
     }
 `;
 
+const INITIAL_Y = 54.5;
+
 export function Game({ className, level, isPaused, customText, preloadBg }) {
     const sizeRatio = useSizeRatio();
-    const { user, questionsAmount, setQuestionsAmount, setPassedWeeks, setGamePoints, next } = useProgress();
+    const { user, questionsAmount, setQuestionsAmount, endGame, setGamePoints, next } = useProgress();
     const { trashes = [], figures = [], questions = [] } = weeks.find(({week}) => week === level) ?? {};
-
     const [wrapperRect, setWrapperRect] = useState(null);
+
+    const initialFigures = useMemo(() => {
+        const isScaling = wrapperRect?.width <= 450 && wrapperRect?.height >= 750;
+        const scale = isScaling ? SCALE_K : 1;
+
+        if (scale > 1) {
+            return figures.map((figure) => ({...figure, position: [figure.position[0], figure.position[1] * scale]}));
+        }
+
+        return figures;
+    }, [wrapperRect]);
+    
+    const initialQuestions = useMemo(() => {
+        const isScaling = wrapperRect?.width <= 450 && wrapperRect?.height >= 750;
+        const scale = isScaling ? SCALE_K : 1;
+
+        if (scale > 1) {
+            return questions.map((question) => ({...question, position: [question.position[0], question.position[1] * scale]}));
+        }
+
+        return questions;
+    }, [wrapperRect]);
+
+    const initialTrashes = useMemo(() => {
+        const isScaling = wrapperRect?.width <= 450 && wrapperRect?.height >= 750;
+        const scale = isScaling ? SCALE_K : 1;
+
+        if (scale > 1) {
+            return trashes.map((trash) => ({...trash, position: [trash.position[0], trash.position[1] * scale]}));
+        }
+
+        return trashes;
+    }, [wrapperRect]);
+
     const [characterSize, setCharacterSize] = useState([]);
     const [isPauseModal, setIsPauseModal] = useState(false);
     const [rulesModal, setRulesModal] = useState({visible: false, part: 0});
@@ -86,8 +120,8 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
     const [isGameStarted, setIsGameStarted] = useState(false);
     const [isJumping, setIsJumping] = useState(false);
     const [isUp, setIsUp] = useState(false);
-    const [shownQuestions, setShownQuestions] = useState(questions);
-    const [shownFigures, setShownFigures] = useState(figures);
+    const [shownQuestions, setShownQuestions] = useState(initialQuestions);
+    const [shownFigures, setShownFigures] = useState(initialFigures);
     const [collidedTrashAmount, setCollidedTrashAmount] = useState(0);
     const [isWinModal, setIsWinModal] = useState(false);
     const [isQuestionPart, setIsQuestionPart] = useState(false);
@@ -107,19 +141,19 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
 
     const initPositions = useCallback(() => {
         trashesPosition.set(
-            trashes.reduce((acc, trash) => ({
+            initialTrashes.reduce((acc, trash) => ({
                 ...acc,
                 [trash.id]: [trash.position[0] * sizeRatio, trash.position[1] * sizeRatio],
             }), {})
         );
         figuresPosition.set(
-            figures.reduce((acc, figure) => ({
+            initialFigures.reduce((acc, figure) => ({
                 ...acc,
                 [figure.id]: [figure.position[0] * sizeRatio, figure.position[1] * sizeRatio],
             }), {})
         );
         questionsPosition.set(
-            questions.reduce((acc, question) => ({
+            initialQuestions.reduce((acc, question) => ({
                 ...acc,
                 [question.id]: [question.position[0] * sizeRatio, question.position[1] * sizeRatio],
             }), {})
@@ -131,8 +165,8 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
 
     const resetGame = useCallback(() => {
         initPositions();
-        setShownQuestions(questions);
-        setShownFigures(figures);
+        setShownQuestions(initialQuestions);
+        setShownFigures(initialFigures);
         setIsGameStarted(false);
         setQuestionsAmount(0);
         setGamePoints(0);
@@ -194,7 +228,7 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
 
     const characterPositionY = useTransform(
         characterDelta,
-        prev => `${prev[1] - wrapperRect?.height * 0.095}px`
+        prev => `${prev[1] - INITIAL_Y * sizeRatio * subjectK}px`
     );
 
     const handleTapStart = () => {
@@ -212,7 +246,9 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
         const rect = wrapperRef.current?.getBoundingClientRect?.();
         const character = characterRef.current?.getBoundingClientRect?.();
         setWrapperRect(rect);
-        setCharacterSize([character.width, character.height])
+        setCharacterSize([character.width, character.height]);
+        setShownQuestions(prev => prev.map(q => initialQuestions.find(initial => initial.id === q.id)));
+        setShownFigures(prev => prev.map(q => initialFigures.find(initial => initial.id === q.id)));
     };
 
     useLayoutEffect(() => {
@@ -294,63 +330,60 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
             nextY = initialCharacterPosition[1];
             setIsGamePaused(true);
             setIsWinModal(true);
+            endGame();
         }
 
         characterPosition.set([nextX, nextY]);
 
         if (!collidedFigureRef.current) {
-            const characterData = {
-                x: nextX + characterSize[0] * sizeRatio / 8,
-                y: -nextY + characterSize[1] * sizeRatio + wrapperRect?.height * 0.095,
-                startY: -nextY + wrapperRect?.height * 0.095,
-                rx: characterSize[0] * sizeRatio / 8,
-                ry: characterSize[1] * sizeRatio / 2
-            };
-
-            const collidedFigure = shownFigures.find(({ position, width, height }) => {
+            const collidedFigure = shownFigures.find(({width, height, id, position}) => {
                 const figureData = {
-                    x: position[0] * sizeRatio,
-                    y: position[1] * wrapperRect?.height / 100 + height * sizeRatio,
-                    rx: width * sizeRatio / 4,
-                    ry: height * sizeRatio / 2,
+                    x1: (position[0] + width * 0.6) * sizeRatio,
+                    x2: (position[0] + width) * sizeRatio,
+                    y1: (position[1] + height * 0.3) * sizeRatio * subjectK,
+                    y2: (position[1] * subjectK + height) * sizeRatio,
+                };
+                const characterData = {
+                    x1: nextX,
+                    x2: nextX + characterSize[0],
+                    y1: -nextY + INITIAL_Y * subjectK * sizeRatio,
+                    y2: -nextY + characterSize[1] + INITIAL_Y * subjectK * sizeRatio,
                 };
 
-                const difX = Math.abs(figureData.x - characterData.x) < figureData.rx;
+                const isX = characterData.x2 >= figureData.x1 && characterData.x1 <= figureData.x2;
+                const isY = characterData.y2 >= figureData.y1 && characterData.y1 <= figureData.y2;
 
-                const isYRange = figureData.y >= characterData.startY && (figureData.y - figureData.ry) <= characterData.y;
-
-                return difX && isYRange;
+                return isX && isY;
             });
-    
+
             if (collidedFigure) {
                 collidedFigureRef.current = collidedFigure;
                 setShownFigures(prev => prev.filter(fig => fig.id !== collidedFigure.id))
             }
         }
 
+
         if (!collidedQuestionRef.current) {
-            const characterData = {
-                x: nextX + characterSize[0] * sizeRatio / 8,
-                y: -nextY + characterSize[1] * sizeRatio + wrapperRect?.height * 0.095,
-                startY: -nextY + wrapperRect?.height * 0.095,
-                rx: characterSize[0] * sizeRatio / 8,
-                ry: characterSize[1] * sizeRatio / 2
-            };
-
-            const collidedQuestion = shownQuestions.find(({ position }) => {
-                const questionData = {
-                    x: position[0] * sizeRatio,
-                    y: position[1] * wrapperRect?.height / 100 + QUESTION_HEIGHT * sizeRatio,
-                    ry: QUESTION_WIDTH * sizeRatio / 2,
-                    rx: QUESTION_WIDTH * sizeRatio / 2,
+            const collidedQuestion = shownQuestions.find(({position}) => {
+                const figureData = {
+                    x1: (position[0] + QUESTION_WIDTH * 0.6) * sizeRatio,
+                    x2: (position[0] + QUESTION_WIDTH) * sizeRatio,
+                    y1: (position[1] + QUESTION_HEIGHT * 0.3) * sizeRatio * subjectK,
+                    y2: (position[1] * subjectK + QUESTION_HEIGHT) * sizeRatio,
                 };
-                
-                const difX = Math.abs(questionData.x - characterData.x) < questionData.rx;
-                const isYRange = questionData.y >= characterData.startY && (questionData.y - questionData.ry) <= characterData.y;
+                const characterData = {
+                    x1: nextX,
+                    x2: nextX + characterSize[0],
+                    y1: -nextY + INITIAL_Y * subjectK * sizeRatio,
+                    y2: -nextY + characterSize[1] + INITIAL_Y * subjectK * sizeRatio,
+                };
 
-                return difX && isYRange;
+                const isX = characterData.x2 >= figureData.x1 && characterData.x1 <= figureData.x2;
+                const isY = characterData.y2 >= figureData.y1 && characterData.y1 <= figureData.y2;
+
+                return isX && isY;
             });
-    
+            
             if (collidedQuestion) {
                 collidedQuestionRef.current = collidedQuestion;
                 setShownQuestions(prev => prev.filter(fig => fig.id !== collidedQuestion.id))
@@ -358,30 +391,29 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
         }
 
         if (!collidedTrashRef.current) {
-            const characterData = {
-                x: nextX + characterSize[0] * sizeRatio / 8,
-                y: -nextY + characterSize[1] * sizeRatio + wrapperRect?.height * 0.095,
-                startY: -nextY + wrapperRect?.height * 0.095,
-                rx: characterSize[0] * sizeRatio / 8,
-                ry: characterSize[1] * sizeRatio / 2
-            };
-
-            const collidedTrash = trashes.find(({ position, width, height }) => {
-                const trashData = {
-                    x: position[0] * sizeRatio,
-                    y: position[1] * wrapperRect?.height / 100 - height * sizeRatio / 2,
-                    rx: width * sizeRatio / 1.5,
-                    ry: height * sizeRatio,
+            const collidedTrash = initialTrashes.find(({width, height, id, position}) => {
+                const figureData = {
+                    x1: (position[0] + width * 0.45) * sizeRatio,
+                    x2: (position[0] + width * 0.55) * sizeRatio,
+                    y1: (position[1] + height / 3) * sizeRatio * subjectK,
+                    y2: (position[1] + height * 2 / 3) * sizeRatio,
                 };
-                
-                const difX = Math.abs(trashData.x - characterData.x) < trashData.rx;
-                const isYRange = trashData.y + trashData.ry >= characterData.startY && (trashData.y - trashData.ry) <= characterData.y;
-                return difX && isYRange;
+                const characterData = {
+                    x1: nextX,
+                    x2: nextX + characterSize[0],
+                    y1: -nextY + INITIAL_Y * subjectK * sizeRatio,
+                    y2: -nextY + characterSize[1] + INITIAL_Y * subjectK * sizeRatio,
+                };
+
+                const isX = characterData.x2 >= figureData.x1 && characterData.x1 <= figureData.x2;
+                const isY = characterData.y1 <= figureData.y2;
+
+                return isX && isY;
             });
-    
+
             if (collidedTrash) {
                 collidedTrashRef.current = collidedTrash;
-                // setCollidedTrashAmount(prev => prev + 1);
+                setCollidedTrashAmount(prev => prev + 1);
             }
         }
     });
@@ -410,13 +442,11 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
                             key={figure.id}
                             subject={figure}
                             subjectPosition={figuresPosition}
-                            wrapperRectHeight={wrapperRect?.height}
-                            characterHeight={characterSize[1]}
                          />
                     ))
                 }
                 {
-                    trashes.map((trash) => (
+                    initialTrashes.map((trash) => (
                          <Subject
                             key={trash.id}
                             subject={trash}
@@ -430,8 +460,6 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
                             key={question.id}
                             question={question}
                             questionsPosition={questionsPosition}
-                            wrapperRectHeight={wrapperRect?.height}
-                            characterHeight={characterSize[1]}
                          />
                     ))
                 }

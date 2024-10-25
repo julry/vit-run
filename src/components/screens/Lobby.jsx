@@ -252,11 +252,12 @@ const WEEK_TO_NEXT_SCREEN = {
     5: SCREENS.PREGAME5,
 }
 
-const WEEK_TO_POSITION = {
-    1: 0,
-    2: 46,
-    3: 116,
-    4: 176,
+const WEEK_TO_QUESTION_SCREEN = {
+    1: SCREENS.POST_GAME1,
+    2: SCREENS.POST_GAME2,
+    3: SCREENS.POST_GAME3,
+    4: SCREENS.POST_GAME4,
+    5: SCREENS.POST_GAME5,
 }
 
 export const Lobby = () => {
@@ -264,7 +265,7 @@ export const Lobby = () => {
     const [info, setInfo] = useState();
     const [isVideo, setIsVideo] = useState(false);
     const [isProfile, setIsProfile] = useState(false);
-    const { passedWeeks, next, points, weekPoints, user, currentWeek, updateUser } = useProgress();
+    const { passedWeeks, next, points, weekPoints, user, currentWeek, updateUser, collectedQuestions } = useProgress();
     const [isRules, setIsRules] = useState(!user?.seenRules);
     const shownWeek = (passedWeeks[passedWeeks.length - 1] ?? 0) + 1;
     const floorRef = useRef();
@@ -298,7 +299,13 @@ export const Lobby = () => {
     }
 
     const handleOpenFloor = (week) => {
-        if (week.week > shownWeek || passedWeeks.includes(week.week)) return;
+        if (week.week > shownWeek) return;
+
+        if (passedWeeks.includes(week.week) && !!collectedQuestions[week.week - 1]) {
+            next(WEEK_TO_QUESTION_SCREEN[week.week]);
+
+            return;
+        }
 
         next(WEEK_TO_NEXT_SCREEN[week.week])
     }

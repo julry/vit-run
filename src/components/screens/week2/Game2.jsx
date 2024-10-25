@@ -1,15 +1,15 @@
 import { SEX } from "../../../constants/sex";
-import rules1 from "../../../assets/images/rules1Bg.png";
+import rules2 from "../../../assets/images/rules2Bg.png";
 import { Game } from "../../shared/Game";
 
 export const Game2 = () => (
    <Game 
         level={2} 
-        preloadBg={rules1} 
+        preloadBg={rules2} 
         customText={(sex) => <p>
-                <b>Отличная работа!</b>{'\n\n'}
-                Ты собрал{sex === SEX.Female ? 'a' : ''} все ингредиенты и помог{sex === SEX.Female ? 'лa ' : ' '}
-                Ольге выполнить срочный заказ <b>вовремя</b>!
+                Ты молодец! Ты собрал{sex === SEX.Female ? 'a' : ''} все необходимые материалы{' '}
+                и помог{sex === SEX.Female ? 'лa ' : ' '}
+                Ивану придумать новый комбо-набор. Теперь наша реклама готова, и мы можем привлекать новых гостей.
         </p>}
    />
 )
