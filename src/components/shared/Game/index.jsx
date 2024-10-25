@@ -393,10 +393,9 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
         if (!collidedTrashRef.current) {
             const collidedTrash = initialTrashes.find(({width, height, id, position}) => {
                 const figureData = {
-                    x1: (position[0] + width * 0.45) * sizeRatio,
-                    x2: (position[0] + width * 0.55) * sizeRatio,
-                    y1: (position[1] + height / 3) * sizeRatio * subjectK,
-                    y2: (position[1] + height * 2 / 3) * sizeRatio,
+                    x1: (position[0] + width * 0.5) * sizeRatio,
+                    x2: (position[0] + width * 0.53) * sizeRatio,
+                    y2: (position[1] + height * 0.45) * sizeRatio,
                 };
                 const characterData = {
                     x1: nextX,
