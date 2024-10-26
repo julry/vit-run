@@ -2,7 +2,6 @@ import styled from "styled-components";
 import bg from '../../../assets/images/rules1Bg.png';
 import burger from './assets/burger.svg';
 import trash from './assets/trash-highlighted.svg';
-import question from '../../../assets/images/question.svg';
 import { subjectK } from "../../../constants/weeks";
 import { useSizeRatio } from "../../../hooks/useSizeRatio";
 import { PreGame } from "../../shared/PreGame";
@@ -29,14 +28,6 @@ const TrashStyled = styled(motion.img)`
     bottom: 2%;
     width: ${({$ratio}) => $ratio * 150}px;
     height: ${({$ratio}) => $ratio * 174}px;
-    z-index: 6;
-`;
-
-const QuestionStyled = styled(motion.img)`
-    position: absolute;
-    bottom: 48%;
-    width: ${({$ratio}) => $ratio * 128}px;
-    height: ${({$ratio}) => $ratio * 129}px;
     z-index: 6;
 `;
 
@@ -80,20 +71,6 @@ export const PreGame1 = () => {
                         repeatDelay: 1,
                     }}
                 />}
-                {part === 4 && (
-                    <QuestionStyled 
-                        $ratio={ratio * subjectK} 
-                        src={question} 
-                        alt=""
-                        animate={{left: ['100%', '5%'], display: ['block', 'none']}}
-                        transition={{
-                            repeat: Infinity,
-                            duration: 1,
-                            repeatType: 'loop',
-                            repeatDelay: 1.2,
-                        }}
-                    />
-                )}
                 <Image src={bg} alt=""/>
             </>
         )

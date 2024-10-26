@@ -1,7 +1,8 @@
-import { animate, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { useState } from "react";
 import styled from "styled-components";
-import { weeks } from "../../constants/weeks";
+import question from '../../assets/images/question.svg';
+import { subjectK, weeks } from "../../constants/weeks";
 import { useProgress } from "../../contexts/ProgressContext";
 import { useSizeRatio } from "../../hooks/useSizeRatio";
 import { Block } from "./Block";
@@ -43,6 +44,14 @@ const ButtonsWrapper = styled.div`
     & button + button {
         margin-left:  var(--spacing_x2);
     }
+`;
+
+const QuestionStyled = styled(motion.img)`
+    position: absolute;
+    bottom: 48%;
+    width: ${({$ratio}) => $ratio * 128}px;
+    height: ${({$ratio}) => $ratio * 129}px;
+    z-index: 6;
 `;
 
 const CharacterWrapper = styled(motion.div)`
@@ -122,6 +131,20 @@ export const PreGame = ({level, getContent}) => {
                 </ButtonsWrapper>
             </BlockStyled>
             {getContent?.(part)}
+            {part === 4 && (
+                <QuestionStyled 
+                    $ratio={ratio * subjectK} 
+                    src={question} 
+                    alt=""
+                    animate={{left: ['100%', '5%'], display: ['block', 'none']}}
+                    transition={{
+                        repeat: Infinity,
+                        duration: 1,
+                        repeatType: 'loop',
+                        repeatDelay: 1.2,
+                    }}
+                />
+            )}
             {part === 5 && (
                 <>
                     <GameHeader />

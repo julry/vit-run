@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "./static/css/main.1e21478a.css",
-    "main.js": "./static/js/main.6dd9a961.js",
+    "main.js": "./static/js/main.85ea94d8.js",
     "static/media/rules1Bg.png": "./static/media/rules1Bg.c629b621361c85f50d35.png",
     "static/media/game2Bg.png": "./static/media/game2Bg.f2ea78075a189fa0e570.png",
     "static/media/game1Bg.png": "./static/media/game1Bg.a1dbb40c1ae079ca2985.png",
@@ -21,6 +21,7 @@
     "static/media/floor1Lobby.png": "./static/media/floor1Lobby.e0c02fb434c57d4b92a3.png",
     "static/media/level2q1.png": "./static/media/level2q1.38094dd5bfd728fe7d79.png",
     "static/media/plant.svg": "./static/media/plant.25a9b8e32430cafed0626e35923817ee.svg",
+    "static/media/paper-highlighted.svg": "./static/media/paper-highlighted.945554f04215c58823a959e156234c57.svg",
     "static/media/female_2.svg": "./static/media/female_2.99814a4fd87a8709c44552eb583d131f.svg",
     "static/media/female_1.svg": "./static/media/female_1.df0e234faa76671f981ec0a33522d840.svg",
     "static/media/paper.svg": "./static/media/paper.c240c29babd57837457e0ff37bdbfc02.svg",
@@ -50,10 +51,10 @@
     "static/media/question.svg": "./static/media/question.b79f084b98fef0f515b4b0733792e452.svg",
     "index.html": "./index.html",
     "main.1e21478a.css.map": "./static/css/main.1e21478a.css.map",
-    "main.6dd9a961.js.map": "./static/js/main.6dd9a961.js.map"
+    "main.85ea94d8.js.map": "./static/js/main.85ea94d8.js.map"
   },
   "entrypoints": [
     "static/css/main.1e21478a.css",
-    "static/js/main.6dd9a961.js"
+    "static/js/main.85ea94d8.js"
   ]
 }
