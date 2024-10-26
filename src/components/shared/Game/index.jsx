@@ -306,7 +306,7 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
 
         let nextY = prevY;
         let nextX = clamp(
-            prevX + (5 * subjectK * sizeRatio),
+            prevX + (5 * sizeRatio),
             0,
             (WIDTH + 2 * characterSize[0]) * sizeRatio,
         );

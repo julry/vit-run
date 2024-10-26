@@ -41,6 +41,7 @@ export const Login = () => {
             next();
             return;
         }
+
         if (isSending) return;
     
         setIsSending(true);
@@ -55,11 +56,12 @@ export const Login = () => {
         
         setIsSending(false);
 
-        // if (info.isPlayer) {
-        //     next();
-        //     return;
-        // }
+        if (info.sex) {
+            next(SCREENS.LOBBY);
+            return;
+        }
 
+        next();
     }
 
     const handleChange = (e) => {

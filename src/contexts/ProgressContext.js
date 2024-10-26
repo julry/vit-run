@@ -2,6 +2,7 @@ import { FTClient } from 'ft-client';
 import {createContext, useEffect, useContext, useRef, useState} from 'react'
 import {SCREENS, NEXT_SCREENS} from "../constants/screens";
 import {screens} from "../constants/screensComponents";
+import { SEX } from '../constants/sex';
 import {getUrlParam} from "../utils/getUrlParam";
 
 const INITIAL_USER = {
@@ -64,23 +65,23 @@ export function ProgressProvider(props) {
     const client = useRef();
 
     const getDbCurrentWeek = async () => {
-        // const { week } = await client.current.loadProjectState();
-        // if (week && !isNaN(+week)) {
-        //     setCurrentWeek(+week);
-        //     setCurrentWeek(1);
-        // }
+        const { week } = await client.current.loadProjectState();
+        if (week && !isNaN(+week)) {
+            // setCurrentWeek(+week);
+            setCurrentWeek(1);
+        }
     }
 
     useEffect(() => {
-        // client.current = new FTClient(
-        //     API_LINK,
-        //     'alfa'
-        // )
-        // try {
-        //     getDbCurrentWeek();
-        // } catch (e) {
-        //     console.log(e);
-        // }
+        client.current = new FTClient(
+            API_LINK,
+            'runner-vkusno-i-tochka'
+        )
+        try {
+            getDbCurrentWeek();
+        } catch (e) {
+            console.log(e);
+        }
     }, []);
 
     const next = (customScreen) => {
@@ -102,9 +103,9 @@ export function ProgressProvider(props) {
     const endGame = (level) => {
         const data = {
             passedWeeks: [...passedWeeks, level].join(','),
-            [`week${level}Points`]: weekPoints + gamePoints,
-            points: points + gamePoints,
-            collectedQuestions: collectedQuestions[level - 1] ? collectedQuestions : [...collectedQuestions, questionsAmount]
+            [`scoreWeek${level}`]: weekPoints + gamePoints,
+            scoreTotal: points + gamePoints,
+            collectedQuestions: (collectedQuestions[level - 1] ? collectedQuestions : [...collectedQuestions, questionsAmount]).join(',')
         };
         
         setCurrentWeekPoints(prev => prev + gamePoints);
@@ -122,9 +123,9 @@ export function ProgressProvider(props) {
 
     const endQuestions = (level, questionPoints) => {
         const data = {
-            [`week${level}Points`]: weekPoints + questionPoints,
-            points: points + questionPoints,
-            collectedQuestions: collectedQuestions.map((collected, ind) => ind === level - 1 ? 0 : collected)
+            [`scoreWeek${level}`]: weekPoints + questionPoints,
+            scoreTotal: points + questionPoints,
+            collectedQuestions: collectedQuestions.map((collected, ind) => ind === level - 1 ? 0 : collected).join(',')
         };
         
         if (level === currentWeek) {
@@ -138,12 +139,11 @@ export function ProgressProvider(props) {
     };
 
     const updateUser = async (changed) => {
-        return user;
         const { recordId } = user;
         const data = {
             ...user,
-            points,
-            [`week${currentWeek > 5 ? 5 : currentWeek}Points`]: currentWeekPoints,
+            scoreTotal: points,
+            [`scoreWeek${currentWeek > 5 ? 5 : currentWeek}`]: currentWeekPoints,
             passedWeeks: passedWeeks.join(','),
             collectedQuestions: collectedQuestions.join(','),
             ...changed,
@@ -162,67 +162,36 @@ export function ProgressProvider(props) {
         }
     }
 
-    const registrateUser = async ({id, university, refId, email, city, direction, phone}) => {
-        const data = {
-            id,
-            university, 
-            refId,
-            email,
-            city,
-            sex: '',
-            direction,
-            phone,
-            seenRules: false,
-            week1Points: 0,
-            week2Points: 0,
-            week3Points: 0,
-            week4Points: 0,
-            week5Points: 0,
-            points: 0,
-            registerWeek: currentWeek,
-            passedWeeks: '',
-            collectedQuestions: '',
-        };
+    // const registrateUser = async () => {
+    //     const data = {
+    //         id: '123421',
+    //         // name: 'test',
+    //         email: 'dev@dev.ru',
+    //         city: 'Москва',
+    //         sex: SEX.Female,
+    //         // phone: data.phone,
+    //         fieldOfStudy: 'dev',
+    //         university: 'dev',
+    //         refID: 'dev',
+    //         seenRules: true,
+    //         scoreWeek1: 0, 
+    //         scoreWeek2: 0,  
+    //         scoreWeek3: 0, 
+    //         scoreWeek4: 0, 
+    //         scoreWeek5: 0, 
+    //         scoreTotal: 0,
+    //         passedWeeks: '',
+    //         collectedQuestions: '',
+    //     };
 
-        const userInfo = {
-            id,
-            university, 
-            refId,
-            email,
-            city,
-            sex: '',
-            seenRules: false,
-            week1Points: 0,
-            week2Points: 0,
-            week3Points: 0,
-            week4Points: 0,
-            week5Points: 0,
-            points: 0,
-            registerWeek: currentWeek,
-            passedWeeks: '',
-            collectedQuestions: '',
-            direction,
-            phone,
-        };
-
-        setUser({...userInfo});
-        return user;
-
-
-       try {
-            const record = await client?.current.createRecord(data);
-            setUser({...userInfo, recordId: record.id});
-            setPoints(INITIAL_STATE.points);
-            setWeekPoints(INITIAL_STATE.weekPoints);
-            setCurrentWeekPoints(INITIAL_STATE.weekPoints);
-            setCollectedQuestions(INITIAL_STATE.collectedQuestions);
-            setPassedWeeks(INITIAL_STATE.passedWeeks);
+    //     try {
+    //         const record = await client?.current.createRecord(data);
             
-            return record; 
-       } catch (e) {
-            return {isError: true}
-       }
-    };
+    //         return record; 
+    //    } catch (e) {
+    //         return {isError: true}
+    //    }
+    // };
 
     const getUserInfo = async (email) => {
        try {
@@ -234,18 +203,20 @@ export function ProgressProvider(props) {
             userInfo = {
                 recordId: id,
                 id: data.id,
-                // name: data.name,
+                name: data.name,
                 email,
                 city: data.city,
                 sex: data.sex,
+                phone: data.phone,
+                fieldOfStudy: data.fieldOfStudy,
+                university: data.university,
+                refID: data.refID,
                 seenRules: data.seenRules,
-                registerWeek: data.registerWeek,
-                week1Points: data.week1Points, 
-                week2Points: data.week2Points,  
-                week3Points: data.week3Points, 
-                week4Points: data.week4Points, 
-                week5Points: data.week5Points, 
-                isEmployee: data.isEmployee,
+                scoreWeek1: data.scoreWeek1, 
+                scoreWeek2: data.scoreWeek2,  
+                scoreWeek3: data.scoreWeek3, 
+                scoreWeek4: data.scoreWeek4, 
+                scoreWeek5: data.scoreWeek5, 
             };
 
             setUser(userInfo);
@@ -253,11 +224,11 @@ export function ProgressProvider(props) {
             const questions = data?.collectedQuestions?.length > 0 ? data.collectedQuestions.replace(' ', '').split(',').map((l) => +l.trim()) : [];
             setPassedWeeks(passed);
             setCollectedQuestions(questions);
-            setPoints(data?.points ?? 0);
-            setWeekPoints(data?.[`week${currentWeek > 5 ? 5 : currentWeek}Points`] ?? 0);
-            setCurrentWeekPoints(data?.[`week${currentWeek > 5 ? 5 : currentWeek}Points`] ?? 0);
+            setPoints(data?.scoreTotal ?? 0);
+            setWeekPoints(data?.[`scoreWeek${currentWeek > 5 ? 5 : currentWeek}`] ?? 0);
+            setCurrentWeekPoints(data?.[`scoreWeek${currentWeek > 5 ? 5 : currentWeek}`] ?? 0);
 
-            return {userInfo, passed};
+            return userInfo;
        } catch (e) {
             console.log(e);
             return {isError: true}
@@ -282,7 +253,6 @@ export function ProgressProvider(props) {
         endGame,
         updateUser,
         getUserInfo,
-        registrateUser,
         currentWeek,
         currentWeekPoints, 
         setCurrentWeekPoints,

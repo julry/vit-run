@@ -90,15 +90,13 @@ const InputId = styled(InputStyled)`
 `;
 
 export const Registration1 = () => {
-    const [phone, setPhone] = useState('');
     const [university, setUniversity] = useState('');
     const [city, setCity] = useState('');
     const [direction, setDirection] = useState('');
-    const [isEmployee, setIsEmployee] = useState(false);
     const [refId, setRefId] = useState('');
     const [isError, setIsError] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
-    const { next, setUserInfo, registrateUser } = useProgress();
+    const { next, setUserInfo, updateUser } = useProgress();
 
     const handleNext = async () => {
         if (isSaving) return;
@@ -108,8 +106,8 @@ export const Registration1 = () => {
 
         const id = uid(7);
 
-        setUserInfo({phone, city, direction, isEmployee, id});
-        const res = await registrateUser({university, city, direction, isEmployee, refId, id});
+        setUserInfo({city, fieldOfStudy: direction, refId, id});
+        const res = await updateUser({university, city, fieldOfStudy: direction, refID: refId, id});
         setIsSaving(false);
 
         if (res?.isError) {
