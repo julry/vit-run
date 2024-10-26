@@ -125,7 +125,7 @@ export function ProgressProvider(props) {
         const data = {
             [`scoreWeek${level}`]: weekPoints + questionPoints,
             scoreTotal: points + questionPoints,
-            collectedQuestions: collectedQuestions.map((collected, ind) => ind === level - 1 ? 0 : collected).join(',')
+            collectedQuestions: collectedQuestions.map((collected, ind) => ind === level - 1 ? 'null' : collected).join(',')
         };
         
         if (level === currentWeek) {
@@ -133,6 +133,7 @@ export function ProgressProvider(props) {
         }
 
         setPoints(prev => prev + questionPoints);
+        setCollectedQuestions(prev => prev.map((collected, ind) => ind === level - 1 ? undefined : collected));
 
         setQuestionsAmount(0);
         updateUser(data);
@@ -221,7 +222,7 @@ export function ProgressProvider(props) {
 
             setUser(userInfo);
             const passed = data?.passedWeeks?.length > 0 ? data.passedWeeks.replace(' ', '').split(',').map((l) => +l.trim()) : [];
-            const questions = data?.collectedQuestions?.length > 0 ? data.collectedQuestions.replace(' ', '').split(',').map((l) => +l.trim()) : [];
+            const questions = data?.collectedQuestions?.length > 0 ? data.collectedQuestions.replace(' ', '').split(',').map((l) => (l === 'null' ? undefined : +l.trim())) : [];
             setPassedWeeks(passed);
             setCollectedQuestions(questions);
             setPoints(data?.scoreTotal ?? 0);

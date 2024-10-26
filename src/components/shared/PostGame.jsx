@@ -61,7 +61,7 @@ const ButtonWrapper = styled(FlexWrapper)`
 
 export const PostGame = ({level, questions}) => {
     const ratio = useSizeRatio();
-    const { next, user, collectedQuestions = [] } = useProgress();
+    const { next, user, collectedQuestions = [], endQuestions } = useProgress();
     const [currentId, setCurrentId] = useState(0);
     const [chosen, setChosen] = useState([]);
     const [isDone, setIsDone] = useState(false);
@@ -72,8 +72,13 @@ export const PostGame = ({level, questions}) => {
     const currentQuestion = useMemo(() => shownQuestions[currentId], [shownQuestions, currentId]);
 
     const handleNextQuestion = () => {
-        if (isDone) next(SCREENS.LOBBY);
+        if (isDone) {
+            next(SCREENS.LOBBY);
+            
+            return;
+        }
         let correctAmount = 0;
+        let answerPoints = points;
         
         chosen.forEach((ans) => {
             if (currentQuestion.answers.find(({id}) => ans === id)?.isCorrect) {
@@ -88,10 +93,12 @@ export const PostGame = ({level, questions}) => {
         }
 
         if (correctAmount === allCorrectAmount) {
+            answerPoints = answerPoints + 1;
             setPoints(prev => prev + 1);
         }
 
         if (currentId === (shownQuestions.length - 1)){ 
+            endQuestions(level, answerPoints);
             setIsDone(true);
 
             return;

@@ -105,7 +105,7 @@ export const Registration1 = () => {
 
         const id = uid(7).replace('e', 'g');
 
-        setUserInfo({city, fieldOfStudy: direction, refId, id});
+        setUserInfo({university, city, fieldOfStudy: direction, refID: refId, id});
         const res = await updateUser({university, city, fieldOfStudy: direction, refID: refId, id});
         setIsSaving(false);
 

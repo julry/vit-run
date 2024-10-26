@@ -302,11 +302,13 @@ export const Lobby = () => {
     const handleOpenFloor = (week) => {
         if (week.week > shownWeek || week.week > currentWeek) return;
 
-        if (passedWeeks.includes(week.week) && !!collectedQuestions[week.week - 1]) {
+        if (passedWeeks.includes(week.week) && collectedQuestions[week.week - 1] !== undefined) {
             next(WEEK_TO_QUESTION_SCREEN[week.week]);
 
             return;
         }
+        
+        if (passedWeeks.includes(week.week)) return;
 
         next(WEEK_TO_NEXT_SCREEN[week.week])
     }
