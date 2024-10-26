@@ -1,8 +1,6 @@
 import {useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState} from "react";
 import useResizeObserver from "use-resize-observer";
 import {motion, useMotionValue, useAnimationFrame, useTransform} from "framer-motion";
-import throttle from "lodash/throttle";
-// import random from "lodash/random";
 import clamp from "lodash/clamp";
 import styled from "styled-components";
 import { useSizeRatio } from "../../../hooks/useSizeRatio";
@@ -330,7 +328,7 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
             nextY = initialCharacterPosition[1];
             setIsGamePaused(true);
             setIsWinModal(true);
-            endGame();
+            endGame(level);
         }
 
         characterPosition.set([nextX, nextY]);

@@ -198,6 +198,7 @@ const VideoBlock = styled(InfoSign)`
     background: #F6F1E5;
     align-items: center;
     margin-right: ${({$ratio}) => $ratio * 6}px;
+    padding-right: ${({$ratio}) => $ratio * 6}px;
 
     & p {
         font-size: ${({$ratio}) => $ratio * 14}px;
@@ -299,7 +300,7 @@ export const Lobby = () => {
     }
 
     const handleOpenFloor = (week) => {
-        if (week.week > shownWeek) return;
+        if (week.week > shownWeek || week.week > currentWeek) return;
 
         if (passedWeeks.includes(week.week) && !!collectedQuestions[week.week - 1]) {
             next(WEEK_TO_QUESTION_SCREEN[week.week]);
@@ -403,7 +404,7 @@ export const Lobby = () => {
                         ref={week.week === shownWeek ? floorRef : null}
                         onClick={() => handleOpenFloor(week)}
                         $index={week.id} 
-                        isOpen={week.week <= shownWeek} 
+                        isOpen={week.week <= shownWeek && week.week <= currentWeek} 
                         isUpper={week.isLast}
                         floorNum={week.week}
                         floorPic={week.pic}

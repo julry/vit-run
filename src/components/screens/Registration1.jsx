@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useState } from "react";
+import { uid } from "uid";
 import picture from "../../assets/images/intro-pic.png";
 import { useProgress } from "../../contexts/ProgressContext";
 import { SCREENS } from "../../constants/screens";
@@ -7,8 +8,6 @@ import { Button } from "../shared/Button";
 import { Input } from "../shared/Input";
 import { Block } from "../shared/Block";
 import { FlexWrapper } from "../shared/FlexWrapper";
-import { uid } from "uid";
-import { RadioInput } from "../shared/RadioInput";
 
 const Wrapper = styled(FlexWrapper)`
     background: url(${picture}) no-repeat center 100% / cover;
@@ -104,7 +103,7 @@ export const Registration1 = () => {
         setIsError(false);
         setIsSaving(true); 
 
-        const id = uid(7);
+        const id = uid(7).replace('e', 'g');
 
         setUserInfo({city, fieldOfStudy: direction, refId, id});
         const res = await updateUser({university, city, fieldOfStudy: direction, refID: refId, id});
@@ -124,13 +123,13 @@ export const Registration1 = () => {
         <Wrapper>
             <Block>
                 <p><b>Введи дополнительные данные,{'\n'}чтобы начать играть</b></p>
-                <InputStyled placeholder="Укажи свой город*" value={city} onChange={(e) => setCity(e.target.value)} />
-                <InputStyled placeholder="Укажи свой вуз/ССУЗ*" value={university} onChange={(e) => setUniversity(e.target.value)} />
-                <InputStyled placeholder="Укажи свою специализацию*" value={direction} onChange={(e) => setDirection(e.target.value)} />
+                <InputStyled placeholder="Укажи свой город*" value={city} onChange={(e) => setCity(e.target.value.trim())} />
+                <InputStyled placeholder="Укажи свой вуз/ССУЗ*" value={university} onChange={(e) => setUniversity(e.target.value.trim())} />
+                <InputStyled placeholder="Укажи свою специализацию*" value={direction} onChange={(e) => setDirection(e.target.value.trim())} />
                 <RefText>
                     Введи ID друга, который тебя пригласил 
                 </RefText>
-                <InputId placeholder="5е32uik" value={refId} onChange={(e) => setRefId(e.target.value)} />
+                <InputId placeholder="5е32uik" value={refId} onChange={(e) => setRefId(e.target.value.trim())} />
                 <TextXxs>
                     После регистрации ты тоже сможешь{'\n'}       
                     пригласить друзей в игру

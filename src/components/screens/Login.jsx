@@ -61,6 +61,11 @@ export const Login = () => {
             return;
         }
 
+        if (info.city && !info.sex) {
+            next(SCREENS.REG_2);
+            return;
+        }
+
         next();
     }
 

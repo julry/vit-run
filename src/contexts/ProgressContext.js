@@ -139,9 +139,9 @@ export function ProgressProvider(props) {
     };
 
     const updateUser = async (changed) => {
-        const { recordId } = user;
+        const { recordId, ...restUser } = user;
         const data = {
-            ...user,
+            ...restUser,
             scoreTotal: points,
             [`scoreWeek${currentWeek > 5 ? 5 : currentWeek}`]: currentWeekPoints,
             passedWeeks: passedWeeks.join(','),
