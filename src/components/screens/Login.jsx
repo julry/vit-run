@@ -37,24 +37,24 @@ export const Login = () => {
     const { next, getUserInfo, setUserInfo } = useProgress();
 
     const handleClick = async () => {
+        if (isSending) return;
+
         if (isWrongEmail) {
             next();
+            
             return;
         }
-
-        if (isSending) return;
     
         setIsSending(true);
 
         setUserInfo({email});
         const info = await getUserInfo(email.trim());
+        setIsSending(false);
 
         if (info.isError) {
             setWrongEmail(true);
             return;
         }
-        
-        setIsSending(false);
 
         if (info.sex) {
             next(SCREENS.LOBBY);

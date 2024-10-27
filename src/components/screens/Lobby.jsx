@@ -215,12 +215,12 @@ const ProfileBlock = styled(InfoSign)`
     background: white;
     left: auto;
     right:  ${({$ratio}) => $ratio * -10}px;
+    padding-right: ${({$ratio}) => $ratio * 6}px;
 
     & button:last-of-type {
         width: max-content;
         margin-top: var(--spacing_x2);
         font-size: ${({$ratio}) => $ratio * 14}px;
-
     }
 `;
 
