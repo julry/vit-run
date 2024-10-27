@@ -6,6 +6,7 @@ import floor5Lobby from '../assets/images/floor5Lobby.png';
 
 import girl1 from '../assets/images/girl1.png';
 import man2 from '../assets/images/man2.png';
+import man3 from '../assets/images/man3.png';
 
 import { items1 } from '../components/screens/week1/items';
 import { questionIcons1 } from '../components/screens/week1/questionIcons';
@@ -14,6 +15,10 @@ import { trashes1 } from '../components/screens/week1/trashes';
 import { items2 } from '../components/screens/week2/items';
 import { questionIcons2 } from '../components/screens/week2/questionIcons';
 import { trashes2 } from '../components/screens/week2/trashes';
+
+import { items3 } from '../components/screens/week3/items';
+import { questionIcons3 } from '../components/screens/week3/questionIcons';
+import { trashes3 } from '../components/screens/week3/trashes';
 
 export const subjectK = 677 / 575;
 export const SCALE_K = 1.3;
@@ -35,6 +40,22 @@ export const weeks = [
         id: 3,
         pic: floor3Lobby,
         week: 3,
+        personTexts: [
+            <>
+                Привет! Меня зовут <b>Алексей</b>, и я специалист по <b>контролю качества</b>.{' '}
+                Я слежу за тем, чтобы все наши продукты соответствовали <b>высоким стандартам качества</b>{' '}
+                и безопасности. Недавно у нас возникла новая <b>задача</b> с некоторыми <b>поставками</b>,{' '}
+                и нам нужно срочно всё наладить.
+            </>,
+            <>
+                Тебе предстоит <b>пробежать по складам</b>, проверить условия хранения и сроки годности,{' '}
+                чтобы убедиться, что вся продукция соответствует <b>стандартам</b> и готова к использованию!
+            </>
+        ],
+        person: man3,
+        figures: items3,
+        trashes: trashes3,
+        questions: questionIcons3
     },
     {
         id: 2,

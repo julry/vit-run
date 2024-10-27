@@ -26,7 +26,7 @@ const ButtonStyled = styled(Button)`
 
 export const InfoModal = ({onClose, isShown}) => {
     const [part, setPart] = useState(0);
-    const { setUserInfo, updateUser, currentWeek } = useProgress();
+    const { setUserInfo, updateUser, passedWeeks } = useProgress();
 
     const handleGoLobby = () => {
         updateUser({seenRules: true});
@@ -56,13 +56,13 @@ export const InfoModal = ({onClose, isShown}) => {
                     <Content onClose={onClose}>
                         <p>
                             <b>Каждую неделю</b> мы будем выбирать 10 лучших игроков,{' '}
-                            которые получат мерч от «Вкусно — и точка».{'\n'}А ещё 40 участников{' '}
-                            выиграют промокоды на продукцию и <b>подарки от партнёров</b>.{'\n\n'}
-                            По итогам Марафона 50 лучших участников получат <b>денежный приз</b> в размере 50 000 рублей.
+                            которые получат мерч от «Вкусно — и точка».{'\n'}
+                            А ещё 40 участников выиграют промокоды на продукцию «Вкусно – и точка» и <b>подарки от партнеров</b>.{'\n\n'}
+                            По итогам Марафона 50 лучших участников получат <b>денежный приз</b> в размере 50 000 рублей.{' '}
                         </p>
                         <ButtonsWrapper>
                             <Button color="white" onClick={() => setPart(prev => prev - 1)}>Назад</Button>
-                            <Button onClick={() => currentWeek === 1 ? setPart(prev => prev + 1) : handleGoLobby}>Далее</Button>
+                            <Button onClick={() => !passedWeeks.includes(1) ? setPart(prev => prev + 1) : handleGoLobby()}>Далее</Button>
                         </ButtonsWrapper>
                     </Content>
                 );

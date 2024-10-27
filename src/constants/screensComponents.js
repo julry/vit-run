@@ -8,7 +8,9 @@ import { PostGame1 } from "../components/screens/week1/PostGame1";
 import { Game2 } from "../components/screens/week2/Game2";
 import { PreGame2 } from "../components/screens/week2/PreGame2";
 import { PostGame2 } from "../components/screens/week2/PostGame2";
-
+import { Game3 } from "../components/screens/week3/Game3";
+import { PostGame3 } from "../components/screens/week3/PostGame3";
+import { PreGame3 } from "../components/screens/week3/PreGame3";
 // import { Finish } from "../components/screens/Finish";
 // import { Plug } from "../components/screens/Plug";
 
@@ -21,9 +23,12 @@ import girl1 from '../assets/images/girl1.png';
 import game2Bg from '../assets/images/game2Bg.png';
 import rules2Bg from '../assets/images/rules2Bg.png';
 import man2 from '../assets/images/man2.png';
+import game3Bg from '../assets/images/game3Bg.png';
+import rules3Bg from '../assets/images/rules3Bg.png';
+import man3 from '../assets/images/man3.png';
 import floor1Lobby from '../assets/images/floor1Lobby.png';
 import floor2Lobby from '../assets/images/floor2Lobby.png';
-// import floor3Lobby from '../assets/images/floor3Lobby.png';
+import floor3Lobby from '../assets/images/floor3Lobby.png';
 // import floor4Lobby from '../assets/images/floor4Lobby.png';
 // import floor5Lobby from '../assets/images/floor5Lobby.png';
 
@@ -47,6 +52,9 @@ export const screens = {
     [SCREENS.PREGAME2]: PreGame2,
     [SCREENS.GAME2]: Game2,
     [SCREENS.POST_GAME2]: PostGame2,
+    [SCREENS.PREGAME3]: PreGame3,
+    [SCREENS.GAME3]: Game3,
+    [SCREENS.POST_GAME3]: PostGame3,
     // [SCREENS.FINISH]: Finish,
     // [SCREENS.PLUG]: Plug,
 };
@@ -54,5 +62,5 @@ export const screens = {
 export const preloadImages = [ 
     startPic, floor1Lobby, girl1, man2, game1Bg, female, female1, female2, 
     female3, male, male1, male2, male3, rules1Bg, rules2Bg,
-    game2Bg, floor2Lobby
+    game2Bg, floor2Lobby, game3Bg, man3, rules3Bg, floor3Lobby
 ];

@@ -109,6 +109,7 @@ export function ProgressProvider(props) {
         
         setCurrentWeekPoints(prev => prev + gamePoints);
         setCollectedQuestions(prev => prev[level - 1] ? prev : [...prev, questionsAmount]);
+        setPassedWeeks(prev=> prev.includes(level) ? prev : [...prev, level]);
 
         if (level === currentWeek) {
             setWeekPoints(prev => prev + gamePoints);
