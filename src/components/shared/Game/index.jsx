@@ -16,6 +16,7 @@ import { Subject } from "./Subject";
 import { QuestionSubject, QUESTION_HEIGHT, QUESTION_WIDTH } from "./QuestionSubject";
 import { ItemsBoard } from "./ItemsBoard";
 import { SCREENS } from "../../../constants/screens";
+import { reachMetrikaGoal } from "../../../utils/reachMetrikaGoal";
 
 const Wrapper = styled(motion.div)`
     position: relative;
@@ -415,6 +416,11 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
         }
     });
 
+    const handleGoToQuestions = () => {
+        reachMetrikaGoal(`test-${level}`);
+        next()
+    }
+
     return (
        <>
         <Wrapper
@@ -477,7 +483,7 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
                             Тебе удалось открыть <b>{questionsAmount ?? 0} вопросов</b>.{'\n'}
                             Помимо них, мы даем тебе <b>3 бонусных вопроса</b>. За каждый верный ответ ты получишь Виткоины.
                         </p>
-                        <Button onClick={() => next()}>К вопросам</Button>
+                        <Button onClick={handleGoToQuestions}>К вопросам</Button>
                     </>
                     
                 ) : (

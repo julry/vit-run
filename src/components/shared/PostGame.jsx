@@ -4,6 +4,7 @@ import { SCREENS } from "../../constants/screens";
 import { SEX } from "../../constants/sex";
 import { useProgress } from "../../contexts/ProgressContext";
 import { useSizeRatio } from "../../hooks/useSizeRatio";
+import { reachMetrikaGoal } from "../../utils/reachMetrikaGoal";
 import { Button } from "./Button";
 import { FlexWrapper } from "./FlexWrapper";
 import { RadioInput } from "./RadioInput";
@@ -73,6 +74,7 @@ export const PostGame = ({level, questions}) => {
 
     const handleNextQuestion = () => {
         if (isDone) {
+            reachMetrikaGoal(`finish-${level}`);
             next(SCREENS.LOBBY);
             
             return;

@@ -285,6 +285,7 @@ export const Lobby = () => {
 
     const handleVideoClick = () => {
         setIsVideo(false);
+        reachMetrikaGoal('video');
         window.open('https://vitmarathon.ru/video', '_blank');
     };
 
@@ -309,6 +310,8 @@ export const Lobby = () => {
         }
         
         if (passedWeeks.includes(week.week)) return;
+
+        reachMetrikaGoal(`level-${week.week}`);
 
         next(WEEK_TO_NEXT_SCREEN[week.week])
     }
@@ -360,7 +363,7 @@ export const Lobby = () => {
                                     </svg>
                                 </CloseButton>
                                 <p><b>Профиль</b></p>
-                                <p>{user.name}</p>
+                                <p>{user.name} {user.lastname}</p>
                                 <p>ID: {user.id}</p>
                                 <p>e-mail: {user.email}</p>
                                 <Button onClick={() => window.open('/rating', '_blank')}>ПЕРЕЙТИ К РЕЙТИНГУ</Button>

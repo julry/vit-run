@@ -39,11 +39,11 @@ export const Login = () => {
     const handleClick = async () => {
         if (isSending) return;
 
-        if (isWrongEmail) {
-            next();
-            
-            return;
-        }
+        // if (isWrongEmail) {
+        //     next();
+
+        //     return;
+        // }
     
         setIsSending(true);
 
@@ -55,6 +55,8 @@ export const Login = () => {
             setWrongEmail(true);
             return;
         }
+
+        reachMetrikaGoal('game');
 
         if (info.sex) {
             next(SCREENS.LOBBY);

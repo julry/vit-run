@@ -8,6 +8,7 @@ import { Button } from "../shared/Button";
 import { Input } from "../shared/Input";
 import { Block } from "../shared/Block";
 import { FlexWrapper } from "../shared/FlexWrapper";
+import { reachMetrikaGoal } from "../../utils/reachMetrikaGoal";
 
 const Wrapper = styled(FlexWrapper)`
     background: url(${picture}) no-repeat center 100% / cover;
@@ -113,6 +114,8 @@ export const Registration1 = () => {
             setIsError(true);
             return;
         }
+
+        reachMetrikaGoal('data');
 
         next();
     }
