@@ -1,4 +1,5 @@
 import { FTClient } from 'ft-client';
+import { isNumber } from 'lodash';
 import {createContext, useEffect, useContext, useRef, useState} from 'react'
 import {SCREENS, NEXT_SCREENS} from "../constants/screens";
 import {screens} from "../constants/screensComponents";
@@ -14,6 +15,7 @@ const INITIAL_USER = {
     sex: '',
     seenRules: false,
     isEmployee: false,
+    weekQuestions: {1: 0, 2: 0, 3: 0, 4: 0, 5: 0},
     week1Points: 0,
     week2Points: 0,
     week3Points: 0,
@@ -41,7 +43,7 @@ const INITIAL_STATE = {
     weekPoints: 0,
     user: INITIAL_USER,
     passedWeeks: [],
-    collectedQuestions: [],
+    answeredWeeks: [],
 }
 
 const ProgressContext = createContext(INITIAL_STATE);
@@ -50,8 +52,8 @@ const API_LINK = 'https://games-admin.fut.ru/api/';
 
 export function ProgressProvider(props) {
     const {children} = props
-    // const [currentScreen, setCurrentScreen] = useState(INITIAL_STATE.screen);
-    const [currentScreen, setCurrentScreen] = useState(getUrlParam('screen') || INITIAL_STATE.screen);
+    const [currentScreen, setCurrentScreen] = useState(INITIAL_STATE.screen);
+    // const [currentScreen, setCurrentScreen] = useState(getUrlParam('screen') || INITIAL_STATE.screen);
     const [points, setPoints] = useState(INITIAL_STATE.points);
     const [weekPoints, setWeekPoints] = useState(INITIAL_STATE.weekPoints);
     const [currentWeekPoints, setCurrentWeekPoints] = useState(INITIAL_STATE.weekPoints);
@@ -59,7 +61,7 @@ export function ProgressProvider(props) {
     const [questionsAmount, setQuestionsAmount] = useState(0);
     const [user, setUser] = useState(INITIAL_STATE.user);
     const [passedWeeks, setPassedWeeks] = useState(INITIAL_STATE.passedWeeks);
-    const [collectedQuestions, setCollectedQuestions] = useState(INITIAL_STATE.collectedQuestions);
+    const [answeredWeeks, setAnsweredWeeks] = useState(INITIAL_STATE.passedWeeks);
     const [currentWeek, setCurrentWeek] = useState(CURRENT_WEEK);
     const screen = screens[currentScreen];
     const client = useRef();
@@ -98,58 +100,75 @@ export function ProgressProvider(props) {
         setUser(prev => ({...prev, ...user}));
     }
 
-    const addGamePoint = () => setGamePoints(prev => prev + 1);
-
     const endGame = (level) => {
+        if (passedWeeks.includes(level)) return;
+
+        const displayedPoints = gamePoints <= 10 ? gamePoints : 10;
+        const weekQuestions = {...user.weekQuestions, [level]: questionsAmount};
+        const scoreTotal = points + displayedPoints;
         const data = {
             passedWeeks: [...passedWeeks, level].join(','),
-            [`scoreWeek${level}`]: weekPoints + gamePoints,
-            scoreTotal: points + gamePoints,
-            collectedQuestions: (collectedQuestions[level - 1] ? collectedQuestions : [...collectedQuestions, questionsAmount]).join(',')
+            [`scoreWeek${level}`]: weekPoints + displayedPoints,
+            scoreTotal,
+            weekQuestions: Object.values(weekQuestions).join(','),
         };
+
+        setUserInfo({[`scoreWeek${level}`]: weekPoints + displayedPoints});
         
-        setCurrentWeekPoints(prev => prev + gamePoints);
-        setCollectedQuestions(prev => prev[level - 1] ? prev : [...prev, questionsAmount]);
         setPassedWeeks(prev=> prev.includes(level) ? prev : [...prev, level]);
+        setUserInfo({weekQuestions});
+        setPoints(scoreTotal);
 
         if (level === currentWeek) {
-            setWeekPoints(prev => prev + gamePoints);
+            setWeekPoints(prev => prev + displayedPoints);
+            setCurrentWeekPoints(prev => prev + displayedPoints);
         }
-
-        setPoints(prev => prev + gamePoints);
 
         setGamePoints(0);
         updateUser(data);
     };
 
     const endQuestions = (level, questionPoints) => {
+        if (answeredWeeks.includes(level)) return;
+        const displayedPoints = questionPoints <= 10 ? questionPoints : 10;
+
         const data = {
-            [`scoreWeek${level}`]: weekPoints + questionPoints,
-            scoreTotal: points + questionPoints,
-            collectedQuestions: collectedQuestions.map((collected, ind) => ind === level - 1 ? 'null' : collected).join(',')
+            [`scoreWeek${level}`]: (user[`scoreWeek${level}`] ?? 0) + displayedPoints,
+            answeredWeeks: (answeredWeeks.includes(level) ? answeredWeeks : [...answeredWeeks, level]).join(','),
+            scoreTotal: points + displayedPoints,
         };
+
+        setAnsweredWeeks(prev => prev.includes(level) ? prev : [...prev, level]);
+        setPoints(prev => prev + displayedPoints);
         
         if (level === currentWeek) {
-            setWeekPoints(prev => prev + questionPoints);
+            setWeekPoints(prev => prev + displayedPoints);
+            setCurrentWeekPoints(prev => prev + displayedPoints);
         }
-
-        setPoints(prev => prev + questionPoints);
-        setCollectedQuestions(prev => prev.map((collected, ind) => ind === level - 1 ? undefined : collected));
-
+      
         setQuestionsAmount(0);
         updateUser(data);
     };
 
     const updateUser = async (changed) => {
-        const { recordId, ...restUser } = user;
+        const { recordId, weekQuestions, ...restUser } = user;
+
         const data = {
             ...restUser,
             scoreTotal: points,
             [`scoreWeek${currentWeek > 5 ? 5 : currentWeek}`]: currentWeekPoints,
             passedWeeks: passedWeeks.join(','),
-            collectedQuestions: collectedQuestions.join(','),
+            weekQuestions: Object.values(weekQuestions).join(','),
             ...changed,
         };
+
+        if (data.scoreTotal > (10 + 20 * currentWeek)) {
+            data.scoreTotal = (10 + 20 * currentWeek);
+        }
+
+        if (data[`scoreWeek${currentWeek > 5 ? 5 : currentWeek}`] > 20) {
+            data[`scoreWeek${currentWeek > 5 ? 5 : currentWeek}`] = 20;
+        }
 
         if (!recordId) return {...data, isEror: true};
 
@@ -201,6 +220,16 @@ export function ProgressProvider(props) {
             if (!record) return {isError: true}; 
             const {data, id} = record;
             let userInfo = {};
+            const weekQuestions = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0};
+
+            if (isNumber(+data.collectedQuestions)) {
+                weekQuestions[1] = data.collectedQuestions;
+            }
+
+            if (data.weekQuestions?.length > 0) {
+                const questions = data.weekQuestions.replace(' ', '').split(',');
+                questions.forEach((q, ind) => weekQuestions[ind + 1] = +(q.trim()));
+            }
 
             userInfo = {
                 recordId: id,
@@ -214,6 +243,7 @@ export function ProgressProvider(props) {
                 fieldOfStudy: data.fieldOfStudy,
                 university: data.university,
                 refID: data.refID,
+                weekQuestions,
                 seenRules: data.seenRules,
                 scoreWeek1: data.scoreWeek1, 
                 scoreWeek2: data.scoreWeek2,  
@@ -224,9 +254,10 @@ export function ProgressProvider(props) {
 
             setUser(userInfo);
             const passed = data?.passedWeeks?.length > 0 ? data.passedWeeks.replace(' ', '').split(',').map((l) => +l.trim()) : [];
-            const questions = data?.collectedQuestions?.length > 0 ? data.collectedQuestions.replace(' ', '').split(',').map((l) => (l === 'null' ? undefined : +l.trim())) : [];
+            const answered = data?.answeredWeeks?.length > 0 ? data.answeredWeeks.replace(' ', '').split(',').map((l) => +l.trim()) : [];
+           
             setPassedWeeks(passed);
-            setCollectedQuestions(questions);
+            setAnsweredWeeks(answered);
             setPoints(data?.scoreTotal ?? 0);
             setWeekPoints(data?.[`scoreWeek${currentWeek > 5 ? 5 : currentWeek}`] ?? 0);
             setCurrentWeekPoints(data?.[`scoreWeek${currentWeek > 5 ? 5 : currentWeek}`] ?? 0);
@@ -246,11 +277,8 @@ export function ProgressProvider(props) {
         setUserInfo, 
         user,
         weekPoints,
-        addGamePoint,
         setGamePoints,
         gamePoints,
-        setWeekPoints,
-        setPoints,
         passedWeeks,
         setPassedWeeks,
         endGame,
@@ -261,8 +289,8 @@ export function ProgressProvider(props) {
         setCurrentWeekPoints,
         questionsAmount, 
         setQuestionsAmount,
-        collectedQuestions,
-        endQuestions
+        endQuestions,
+        answeredWeeks
     }
 
     return (

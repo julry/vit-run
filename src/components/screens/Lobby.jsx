@@ -266,7 +266,7 @@ export const Lobby = () => {
     const [info, setInfo] = useState();
     const [isVideo, setIsVideo] = useState(false);
     const [isProfile, setIsProfile] = useState(false);
-    const { passedWeeks, next, points, weekPoints, user, currentWeek, updateUser, collectedQuestions } = useProgress();
+    const { passedWeeks, answeredWeeks, next, points, weekPoints, user, currentWeek, updateUser } = useProgress();
     const [isRules, setIsRules] = useState(!user?.seenRules);
     const shownWeek = (passedWeeks[passedWeeks.length - 1] ?? 0) + 1;
     const floorRef = useRef();
@@ -303,7 +303,7 @@ export const Lobby = () => {
     const handleOpenFloor = (week) => {
         if (week.week > shownWeek || week.week > currentWeek) return;
 
-        if (passedWeeks.includes(week.week) && collectedQuestions[week.week - 1] !== undefined) {
+        if (passedWeeks.includes(week.week) && !answeredWeeks.includes(week.week)) {
             next(WEEK_TO_QUESTION_SCREEN[week.week]);
 
             return;

@@ -62,13 +62,13 @@ const ButtonWrapper = styled(FlexWrapper)`
 
 export const PostGame = ({level, questions}) => {
     const ratio = useSizeRatio();
-    const { next, user, collectedQuestions = [], endQuestions } = useProgress();
+    const { next, user, endQuestions } = useProgress();
     const [currentId, setCurrentId] = useState(0);
     const [chosen, setChosen] = useState([]);
     const [isDone, setIsDone] = useState(false);
-    const [points, setPoints] = useState(0);
+    const [questionsPoints, setQuestionsPoints] = useState(0);
     const { questionsAmount = 0 } = useProgress();
-    const amount = (collectedQuestions[level - 1] ?? questionsAmount);
+    const amount = (user.weekQuestions[level] ?? questionsAmount);
     const shownQuestions = useMemo(() => questions.sort(() => Math.random() * 2 - 1).slice(0, (amount + 3)), [questions]);
     const currentQuestion = useMemo(() => shownQuestions[currentId], [shownQuestions, currentId]);
 
@@ -80,7 +80,7 @@ export const PostGame = ({level, questions}) => {
             return;
         }
         let correctAmount = 0;
-        let answerPoints = points;
+        let answerPoints = questionsPoints;
         
         chosen.forEach((ans) => {
             if (currentQuestion.answers.find(({id}) => ans === id)?.isCorrect) {
@@ -96,7 +96,7 @@ export const PostGame = ({level, questions}) => {
 
         if (correctAmount === allCorrectAmount) {
             answerPoints = answerPoints + 1;
-            setPoints(prev => prev + 1);
+            setQuestionsPoints(prev => prev + 1);
         }
 
         if (currentId === (shownQuestions.length - 1)){ 
@@ -148,7 +148,7 @@ export const PostGame = ({level, questions}) => {
                 {isDone && (
                     <DoneBlock>
                         <p>
-                            Ура! Ты набрал{user.sex === SEX.Female ? 'а': ''} {points} балл{points === 1 ? '' : points > 1 && points < 5 ? 'a' : 'ов'}.{'\n'}
+                            Ура! Ты набрал{user.sex === SEX.Female ? 'а': ''} {questionsPoints} балл{questionsPoints === 1 ? '' : questionsPoints > 1 && questionsPoints < 5 ? 'a' : 'ов'}.{'\n'}
                             Верные ответы ты узнаешь в конце марафона.
                         </p>
                     </DoneBlock>
