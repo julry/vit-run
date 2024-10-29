@@ -17,6 +17,7 @@ import { QuestionSubject, QUESTION_HEIGHT, QUESTION_WIDTH } from "./QuestionSubj
 import { ItemsBoard } from "./ItemsBoard";
 import { SCREENS } from "../../../constants/screens";
 import { reachMetrikaGoal } from "../../../utils/reachMetrikaGoal";
+import { ErrorModal } from "../modals/ErrorModal";
 
 const Wrapper = styled(motion.div)`
     position: relative;
@@ -75,7 +76,7 @@ const INITIAL_Y = 54.5;
 
 export function Game({ className, level, isPaused, customText, preloadBg }) {
     const sizeRatio = useSizeRatio();
-    const { user, questionsAmount, setQuestionsAmount, endGame, setGamePoints, next } = useProgress();
+    const { user, questionsAmount, setQuestionsAmount, endGame, setGamePoints, next, getUserInfo, setUserInfo } = useProgress();
     const { trashes = [], figures = [], questions = [] } = weeks.find(({week}) => week === level) ?? {};
     const [wrapperRect, setWrapperRect] = useState(null);
 
@@ -123,7 +124,11 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
     const [shownFigures, setShownFigures] = useState(initialFigures);
     const [collidedTrashAmount, setCollidedTrashAmount] = useState(0);
     const [isWinModal, setIsWinModal] = useState(false);
+    const [isErrorModal, setIsErrorModal] = useState(false);
     const [isQuestionPart, setIsQuestionPart] = useState(false);
+    const [isUpdating, setIsUpdating] = useState(false);
+    const [isIdError, setIdError] = useState(false);
+    const [isPassedError, setIsPassedError] = useState(false);
 
     const wrapperRef = useRef();
     const collidedFigureRef = useRef(null);
@@ -296,8 +301,25 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
         setIsGamePaused(false);
     }
 
+    const handleUpdate = async () => {
+        if (isUpdating) return;
+        setIsUpdating(true);
+        let infoRes = {};
+        if (isIdError) {
+            infoRes = await getUserInfo(user.email, true);
+            if (!infoRes?.isError) {
+                await setUserInfo({recordId: infoRes.id});
+                setIdError(false);
+            }
+        } 
+
+        const endGameRes = await endGame(level, infoRes?.id);
+        if (!endGameRes?.isError) setIsWinModal(true);
+        setIsUpdating(false);
+    }
+
     useAnimationFrame(() => {
-        if (!isGameStarted || isGamePaused || isWinModal) {
+        if (!isGameStarted || isGamePaused || isWinModal || isErrorModal || isUpdating) {
             return;
         }
 
@@ -328,8 +350,13 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
         if (nextX >= WIDTH * sizeRatio - wrapperRect?.width / 2 + 2 * characterSize[0] / 3) {
             nextY = initialCharacterPosition[1];
             setIsGamePaused(true);
-            setIsWinModal(true);
-            endGame(level);
+            setIsUpdating(true);
+            endGame(level).then((res) => {
+                if (res?.isError) setIsErrorModal(true);
+                else setIsWinModal(true);
+                if (res?.isIdError) setIdError(true);
+                if (res?.isAlreadyPassedError) setIsPassedError(true);
+            }).finally(() => setIsUpdating(false));
         }
 
         characterPosition.set([nextX, nextY]);
@@ -505,6 +532,7 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
                 </ButtonsBlock>
             </ExitBlock>
         </Modal>
+        <ErrorModal isShown={isErrorModal} onRetry={handleUpdate} isPassed={isPassedError}/>
         <Modal isShown={rulesModal.visible} isDarken>
             <ModalBlock onClose={handleCloseRules}>
                 {rulesModal.part === 0 ? (

@@ -266,6 +266,7 @@ export const Lobby = () => {
     const [info, setInfo] = useState();
     const [isVideo, setIsVideo] = useState(false);
     const [isProfile, setIsProfile] = useState(false);
+    const [nextWeekInfo, setNextWeekInfo] = useState();
     const { passedWeeks, answeredWeeks, next, points, weekPoints, user, currentWeek, updateUser } = useProgress();
     const [isRules, setIsRules] = useState(!user?.seenRules);
     const shownWeek = (passedWeeks[passedWeeks.length - 1] ?? 0) + 1;
@@ -301,7 +302,10 @@ export const Lobby = () => {
     }
 
     const handleOpenFloor = (week) => {
-        if (week.week > shownWeek || week.week > currentWeek) return;
+        if (week.week > shownWeek || week.week > currentWeek) {
+            setNextWeekInfo(week.week);
+            return;
+        }
 
         if (passedWeeks.includes(week.week) && !answeredWeeks.includes(week.week)) {
             next(WEEK_TO_QUESTION_SCREEN[week.week]);
@@ -414,9 +418,14 @@ export const Lobby = () => {
                         floorNum={week.week}
                         floorPic={week.pic}
                     >
-                        {week.week === 2 && currentWeek === 1 && (
+                        {week.week === 2 && currentWeek === 1 && nextWeekInfo !== week.week && (
                             <WeekInfoSign $ratio={ratio} $color="red">
                                 <p>Новая локация открывается{'\n'}каждую неделю</p>
+                            </WeekInfoSign>
+                        )}
+                        {nextWeekInfo === week.week && (
+                            <WeekInfoSign $ratio={ratio} $color="red">
+                                <p>Проходи уровни по порядку</p>
                             </WeekInfoSign>
                         )}
                     </FloorStyled>

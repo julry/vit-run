@@ -52,8 +52,8 @@ const API_LINK = 'https://games-admin.fut.ru/api/';
 
 export function ProgressProvider(props) {
     const {children} = props
-    const [currentScreen, setCurrentScreen] = useState(INITIAL_STATE.screen);
-    // const [currentScreen, setCurrentScreen] = useState(getUrlParam('screen') || INITIAL_STATE.screen);
+    // const [currentScreen, setCurrentScreen] = useState(INITIAL_STATE.screen);
+    const [currentScreen, setCurrentScreen] = useState(getUrlParam('screen') || INITIAL_STATE.screen);
     const [points, setPoints] = useState(INITIAL_STATE.points);
     const [weekPoints, setWeekPoints] = useState(INITIAL_STATE.weekPoints);
     const [currentWeekPoints, setCurrentWeekPoints] = useState(INITIAL_STATE.weekPoints);
@@ -100,8 +100,11 @@ export function ProgressProvider(props) {
         setUser(prev => ({...prev, ...user}));
     }
 
-    const endGame = (level) => {
-        if (passedWeeks.includes(level)) return;
+    const endGame = async (level, newId) => {
+        if (passedWeeks.includes(level)) {
+            setGamePoints(0);
+            return { isAlreadyPassedError: true }
+        }
 
         const displayedPoints = gamePoints <= 10 ? gamePoints : 10;
         const weekQuestions = {...user.weekQuestions, [level]: questionsAmount};
@@ -113,10 +116,12 @@ export function ProgressProvider(props) {
             weekQuestions: Object.values(weekQuestions).join(','),
         };
 
-        setUserInfo({[`scoreWeek${level}`]: weekPoints + displayedPoints});
+        const updateResult = await updateUser(data, newId);
+        if (updateResult?.isError) return updateResult;
+
+        setUserInfo({[`scoreWeek${level}`]: weekPoints + displayedPoints, weekQuestions});
         
         setPassedWeeks(prev=> prev.includes(level) ? prev : [...prev, level]);
-        setUserInfo({weekQuestions});
         setPoints(scoreTotal);
 
         if (level === currentWeek) {
@@ -125,11 +130,14 @@ export function ProgressProvider(props) {
         }
 
         setGamePoints(0);
-        updateUser(data);
     };
 
-    const endQuestions = (level, questionPoints) => {
-        if (answeredWeeks.includes(level)) return;
+    const endQuestions = async (level, questionPoints, newId) => {
+        if (answeredWeeks.includes(level)) {
+            setQuestionsAmount(0);
+            return { isAlreadyPassedError: true }
+        }
+
         const displayedPoints = questionPoints <= 10 ? questionPoints : 10;
 
         const data = {
@@ -138,20 +146,25 @@ export function ProgressProvider(props) {
             scoreTotal: points + displayedPoints,
         };
 
+        const updateResult = await updateUser(data, newId);
+        if (updateResult?.isError) return updateResult;
+
         setAnsweredWeeks(prev => prev.includes(level) ? prev : [...prev, level]);
+        setUserInfo({[`scoreWeek${level}`]: (user[`scoreWeek${level}`] ?? 0) + displayedPoints});
         setPoints(prev => prev + displayedPoints);
-        
+
         if (level === currentWeek) {
             setWeekPoints(prev => prev + displayedPoints);
             setCurrentWeekPoints(prev => prev + displayedPoints);
         }
-      
+
         setQuestionsAmount(0);
-        updateUser(data);
     };
 
-    const updateUser = async (changed) => {
+    const updateUser = async (changed, newId) => {
         const { recordId, weekQuestions, ...restUser } = user;
+
+        const updateId = recordId ?? newId;
 
         const data = {
             ...restUser,
@@ -170,16 +183,16 @@ export function ProgressProvider(props) {
             data[`scoreWeek${currentWeek > 5 ? 5 : currentWeek}`] = 20;
         }
 
-        if (!recordId) return {...data, isEror: true};
+        if (!updateId) return {...data, isError: true, isIdError: true};
 
         try {
-            const result = await client.current.updateRecord(recordId, data);
+            const result = await client.current.updateRecord(updateId, data);
 
             return result;
         } catch (e) {
             console.log(e);
 
-            return {...data, isEror: true};
+            return {...data, isError: true};
         }
     }
 
@@ -214,11 +227,12 @@ export function ProgressProvider(props) {
     //    }
     // };
 
-    const getUserInfo = async (email) => {
+    const getUserInfo = async (email, isRetry) => {
        try {
             const record = await client?.current.findRecord('email', email);
             if (!record) return {isError: true}; 
             const {data, id} = record;
+            if (isRetry) return id ? {id} : {isError: true};
             let userInfo = {};
             const weekQuestions = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0};
 

@@ -7,6 +7,7 @@ import { useSizeRatio } from "../../hooks/useSizeRatio";
 import { reachMetrikaGoal } from "../../utils/reachMetrikaGoal";
 import { Button } from "./Button";
 import { FlexWrapper } from "./FlexWrapper";
+import { ErrorModal } from "./modals/ErrorModal";
 import { RadioInput } from "./RadioInput";
 
 const Wrapper = styled(FlexWrapper)`
@@ -62,18 +63,58 @@ const ButtonWrapper = styled(FlexWrapper)`
 
 export const PostGame = ({level, questions}) => {
     const ratio = useSizeRatio();
-    const { next, user, endQuestions } = useProgress();
+    const { next, user, endQuestions, getUserInfo, setUserInfo } = useProgress();
     const [currentId, setCurrentId] = useState(0);
     const [chosen, setChosen] = useState([]);
     const [isDone, setIsDone] = useState(false);
+    const [isUpdating, setIsUpdating] = useState(false);
+    const [isIdError, setIdError] = useState(false);
+    const [isFirstTimeError, setIsFirstTimeError] = useState(false);
+    const [isAlreadyPassed, setIsAlreadyPassed] = useState(false);
+    const [isErrorModal, setIsErrorModal] = useState(false);
     const [questionsPoints, setQuestionsPoints] = useState(0);
     const { questionsAmount = 0 } = useProgress();
     const amount = (user.weekQuestions[level] ?? questionsAmount);
     const shownQuestions = useMemo(() => questions.sort(() => Math.random() * 2 - 1).slice(0, (amount + 3)), [questions]);
     const currentQuestion = useMemo(() => shownQuestions[currentId], [shownQuestions, currentId]);
 
-    const handleNextQuestion = () => {
+    const handleUpdate = async () => {
+        if (isUpdating) return;
+
+        setIsUpdating(true);
+
+        let infoRes = {};
+
+        if (isIdError) {
+            infoRes = await getUserInfo(user.email, true);
+            if (!infoRes?.isError) {
+                await setUserInfo({recordId: infoRes.id});
+                setIdError(false);
+            }
+        } 
+
+        const endGameRes = await endQuestions(level, questionsPoints, infoRes?.id);
+
+        if (!endGameRes.isError) setIsDone(true);
+
+        setIsUpdating(false);
+
+        return endGameRes.isError;
+    }
+
+    const handleNextQuestion = async () => {
         if (isDone) {
+            if (isUpdating) return;
+
+            if (isFirstTimeError) {
+                const updateError = await handleUpdate();
+
+                if (updateError) {
+                    setIsErrorModal(true);
+                    return;
+                }
+            }
+
             reachMetrikaGoal(`finish-${level}`);
             next(SCREENS.LOBBY);
             
@@ -100,9 +141,12 @@ export const PostGame = ({level, questions}) => {
         }
 
         if (currentId === (shownQuestions.length - 1)){ 
-            endQuestions(level, answerPoints);
             setIsDone(true);
-
+            setIsUpdating(true);
+            const endRes = await endQuestions(level, answerPoints);
+            setIsUpdating(false);
+            if (endRes?.isError) setIsFirstTimeError(true);
+            if (endRes?.isAlreadyPassedError) setIsAlreadyPassed(true);
             return;
         }
 
@@ -128,35 +172,38 @@ export const PostGame = ({level, questions}) => {
     }
 
     return (
-        <Wrapper>
-            <p>
-                <b>
-                    {(typeof currentQuestion?.text === 'function') ? currentQuestion?.text(user.sex) : currentQuestion?.text}
-                </b>
-            </p>
-            <AnswersBlock>
-                {currentQuestion?.answers?.map((answer) => (
-                    <RadioInputStyled key={answer.id} checked={chosen?.includes(answer?.id)} onChange={() => handleChange(answer.id)}>
-                        <FlexWrapper>
-                            <p>{answer.text}</p>
-                            {answer.image && <ImageStyled $ratio={ratio} src={answer.image} alt="" />}
-                        </FlexWrapper>
-                    </RadioInputStyled>
-                ))}
-            </AnswersBlock>
-            <ButtonWrapper>
-                {isDone && (
-                    <DoneBlock>
-                        <p>
-                            Ура! Ты набрал{user.sex === SEX.Female ? 'а': ''} {questionsPoints} балл{questionsPoints === 1 ? '' : questionsPoints > 1 && questionsPoints < 5 ? 'a' : 'ов'}.{'\n'}
-                            Верные ответы ты узнаешь в конце марафона.
-                        </p>
-                    </DoneBlock>
-                )}
-                <Button disabled={!isDone && !chosen.length} onClick={handleNextQuestion}>
-                    Далее
-                </Button>
-            </ButtonWrapper>
-        </Wrapper>
+       <>
+             <Wrapper>
+                <p>
+                    <b>
+                        {(typeof currentQuestion?.text === 'function') ? currentQuestion?.text(user.sex) : currentQuestion?.text}
+                    </b>
+                </p>
+                <AnswersBlock>
+                    {currentQuestion?.answers?.map((answer) => (
+                        <RadioInputStyled key={answer.id} checked={chosen?.includes(answer?.id)} onChange={() => handleChange(answer.id)}>
+                            <FlexWrapper>
+                                <p>{answer.text}</p>
+                                {answer.image && <ImageStyled $ratio={ratio} src={answer.image} alt="" />}
+                            </FlexWrapper>
+                        </RadioInputStyled>
+                    ))}
+                </AnswersBlock>
+                <ButtonWrapper>
+                    {isDone && (
+                        <DoneBlock>
+                            <p>
+                                Ура! Ты набрал{user.sex === SEX.Female ? 'а': ''} {questionsPoints} балл{questionsPoints === 1 ? '' : questionsPoints > 1 && questionsPoints < 5 ? 'a' : 'ов'}.{'\n'}
+                                Верные ответы ты узнаешь в конце марафона.
+                            </p>
+                        </DoneBlock>
+                    )}
+                    <Button disabled={!isDone && !chosen.length || isDone && isUpdating} onClick={handleNextQuestion}>
+                        Далее
+                    </Button>
+                </ButtonWrapper>
+            </Wrapper>
+            <ErrorModal isShown={isErrorModal} onRetry={handleUpdate} isPassed={isAlreadyPassed}/>
+       </>
     )
 }
