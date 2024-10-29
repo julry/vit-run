@@ -198,7 +198,7 @@ export const PostGame = ({level, questions}) => {
                             </p>
                         </DoneBlock>
                     )}
-                    <Button disabled={!isDone && !chosen.length || isDone && isUpdating} onClick={handleNextQuestion}>
+                    <Button disabled={(!isDone && !chosen.length) || (isDone && isUpdating)} onClick={handleNextQuestion}>
                         Далее
                     </Button>
                 </ButtonWrapper>
