@@ -172,7 +172,7 @@ export const questionsLevel2 = [
                 isCorrect: true
             },
         ],
-        amount: 2,
+        amount: 4,
     },
     {
         id: 7,
@@ -244,6 +244,6 @@ export const questionsLevel2 = [
                 isCorrect: true
             },
         ],
-        amount: 2,
+        amount: 4,
     },
 ]
