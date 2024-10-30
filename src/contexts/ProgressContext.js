@@ -139,11 +139,12 @@ export function ProgressProvider(props) {
         }
 
         const displayedPoints = questionPoints <= 10 ? questionPoints : 10;
+        const scoreTotal = points + displayedPoints;
 
         const data = {
             [`scoreWeek${level}`]: (user[`scoreWeek${level}`] ?? 0) + displayedPoints,
             answeredWeeks: (answeredWeeks.includes(level) ? answeredWeeks : [...answeredWeeks, level]).join(','),
-            scoreTotal: points + displayedPoints,
+            scoreTotal,
         };
 
         const updateResult = await updateUser(data, newId);
@@ -151,10 +152,10 @@ export function ProgressProvider(props) {
 
         setAnsweredWeeks(prev => prev.includes(level) ? prev : [...prev, level]);
         setUserInfo({[`scoreWeek${level}`]: (user[`scoreWeek${level}`] ?? 0) + displayedPoints});
-        setPoints(prev => prev + displayedPoints);
+        setPoints(scoreTotal);
 
         if (level === currentWeek) {
-            setWeekPoints(prev => prev + displayedPoints);
+            setWeekPoints((user[`scoreWeek${level}`] ?? 0) + displayedPoints);
             setCurrentWeekPoints(prev => prev + displayedPoints);
         }
 
