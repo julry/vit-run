@@ -1,84 +1,78 @@
-import  { ReactComponent as Ice} from './assets/ice.svg';
-import  { ReactComponent as Icecream} from './assets/icecream.svg';
-import { ReactComponent as Shake} from './assets/shake.svg';
-import { ReactComponent as Water} from './assets/water.svg';
-import { ReactComponent as Lemonade} from '../week1/assets/lemonade.svg';
+import  { ReactComponent as Food} from './assets/food.svg';
+import  { ReactComponent as Term} from './assets/term.svg';
 
-const iceSize = [113, 157];
-const iceCreamSize = [124, 160];
-const shakeSize = [127, 183];
-const waterSize = [117, 173];
-const lemonadeSize = [128, 181];
+const foodSize = [185, 160];
+const termSize = [146, 182];
 
 export const items3 = [
     {
         id: '3-1',
-        image: () => <Icecream />,
-        width: iceCreamSize[0],
-        height: iceCreamSize[1],
-        position: [442, 180],
+        image: () => <Term />,
+        width: termSize[0],
+        height: termSize[1],
+        position: [381, 221],
     },
     {
         id: '3-2',
-        image: () => <Shake />,
-        width: shakeSize[0],
-        height: shakeSize[1],
-        position: [642, 270],
+        image: () => <Food />,
+        width: foodSize[0],
+        height: foodSize[1],
+        position: [719, 240],
     },
     {
         id: '3-3',
-        image: () => <Ice/>,
-        width: iceSize[0],
-        height: iceSize[1],
-        position: [3319, 250],
+        image: () => <Term />,
+        width: termSize[0],
+        height: termSize[1],
+        position: [1385, 239],
     },
     {
         id: '3-4',
-        image: () => <Lemonade/>,
-        width: lemonadeSize[0],
-        height: lemonadeSize[1],
-        position: [4326, 250],
+        image: () => <Food />,
+        width: foodSize[0],
+        height: foodSize[1],
+        position: [1849, 215],
     },
     {
         id: '3-5',
-        image: () => <Ice/>,
-        width: iceSize[0],
-        height: iceSize[1],
-        position: [5421, 230],
+        image: () => <Food />,
+        width: foodSize[0],
+        height: foodSize[1],
+        position: [2728, 295],
     },
     {
         id: '3-6',
-        image: () =>  <Icecream/>,
-        width: iceCreamSize[0],
-        height: iceCreamSize[1],
-        position: [5882, 280],
+        image: () => <Term />,
+        width: termSize[0],
+        height: termSize[1],
+        position: [3630, 240],
     },
     {
         id: '3-7',
-        image: () =>  <Lemonade/>,
-        width: lemonadeSize[0],
-        height: lemonadeSize[1],
-        position: [2173, 270],
+        image: () => <Food />,
+        width: foodSize[0],
+        height: foodSize[1],
+        position: [4422, 220],
     },
     {
         id: '3-8',
-        image: () =>  <Water />,
-        width: waterSize[0],
-        height: waterSize[1],
-        position: [3070, 240],
+        image: () => <Food />,
+        width: foodSize[0],
+        height: foodSize[1],
+        position: [5589, 225],
     },
     {
         id: '3-9',
-        image: () =>  <Shake />,
-        width: shakeSize[0],
-        height: shakeSize[1],
-        position: [1000, 180],
+        image: () => <Term />,
+        width: termSize[0],
+        height: termSize[1],
+        position: [5253, 290],
     },
     {
         id: '3-10',
-        image: () =>  <Water />,
-        width: waterSize[0],
-        height: waterSize[1],
-        position: [6750, 175],
+        image: () => <Food />,
+        width: foodSize[0],
+        height: foodSize[1],
+        position: [7027, 225],
     },
 ]

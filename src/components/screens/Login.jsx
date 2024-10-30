@@ -80,14 +80,14 @@ export const Login = () => {
         <Wrapper>
             <Block>
                 <p>
-                    <b>Добро пожаловать в мир «Вкусно — и точка!»</b>{'\n\n'}
+                    <b>Добро пожаловать во «Вкусно — и точка!»</b>{'\n\n'}
                     Здесь ты пройдёшь увлекательное приключение. Твоя цель — стать лучшим игроком и помочь коллегам! Заходи скорее!
                 </p>
                 <InputStyled placeholder="Укажи свою почту*" value={email} onChange={handleChange}/>
                 <SmallText $color={isWrongEmail ? 'red' : 'white'}>
                     {isWrongEmail ? 
                         'Ой! Кажется, такой почты нет. Проверь правильность ввода. Если думаешь, что произошла ошибка пиши сюда — vitmarathon@futuretoday.ru' : 
-                        '*Введи ту же почту, что и при регистрации на Карьерный марафон «Вкусно – и точка»'}
+                        '*Введи ту же почту, что и при регистрации на Карьерный марафон «Вкусно - и точка»'}
                 </SmallText>
                 
                 <ButtonStyled color={'orange'} onClick={handleClick} disabled={!email || !email.trim().match(emailRegExp)}>

@@ -515,8 +515,11 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
                     
                 ) : (
                     <>
-                        {customText(user.sex)}
-                        <Button onClick={() => setIsQuestionPart(true)}>ДАЛЕЕ</Button>
+                        {customText(user.sex)}{'\n'}
+                        <p>
+                            Давай проверим, что ты узнал{user.sex ? 'а': ''} на этой неделе. Готов{user.sex ? 'а': ''} ответить на <b>несколько вопросов</b>?
+                        </p>
+                        <Button onClick={() => setIsQuestionPart(true)}>ГОТОВ{user.sex ? 'а': ''}</Button>
                     </>
                 )}
             </ModalBlock>

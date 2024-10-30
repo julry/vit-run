@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import bg from '../../../assets/images/rules1Bg.png';
 import lemonade from '../week1/assets/lemonade.svg';
-import paper from './assets/paper-highlighted.svg';
+import paper from './assets/trash-highlighted.svg';
 import { useSizeRatio } from "../../../hooks/useSizeRatio";
 import { PreGame } from "../../shared/PreGame";
 import { motion } from "framer-motion";
