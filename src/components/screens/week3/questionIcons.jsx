@@ -5,7 +5,7 @@ export const questionIcons3 = [
     },
     {
         id: '3-q2',
-        position: [1418, 290],
+        position: [1518, 290],
     },
     {
         id: '3-q3',
@@ -25,6 +25,6 @@ export const questionIcons3 = [
     },
     {
         id: '3-q7',
-        position: [6677, 290],
+        position: [6777, 290],
     }
 ];

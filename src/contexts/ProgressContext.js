@@ -70,7 +70,7 @@ export function ProgressProvider(props) {
         const { week } = await client.current.loadProjectState();
         if (week && !isNaN(+week)) {
             // setCurrentWeek(+week);
-            setCurrentWeek(2);
+            setCurrentWeek(3);
         }
     }
 
@@ -196,37 +196,6 @@ export function ProgressProvider(props) {
             return {...data, isError: true};
         }
     }
-
-    // const registrateUser = async () => {
-    //     const data = {
-    //         id: '123421',
-    //         // name: 'test',
-    //         email: 'dev@dev.ru',
-    //         city: 'Москва',
-    //         sex: SEX.Female,
-    //         // phone: data.phone,
-    //         fieldOfStudy: 'dev',
-    //         university: 'dev',
-    //         refID: 'dev',
-    //         seenRules: true,
-    //         scoreWeek1: 0, 
-    //         scoreWeek2: 0,  
-    //         scoreWeek3: 0, 
-    //         scoreWeek4: 0, 
-    //         scoreWeek5: 0, 
-    //         scoreTotal: 0,
-    //         passedWeeks: '',
-    //         collectedQuestions: '',
-    //     };
-
-    //     try {
-    //         const record = await client?.current.createRecord(data);
-            
-    //         return record; 
-    //    } catch (e) {
-    //         return {isError: true}
-    //    }
-    // };
 
     const getUserInfo = async (email, isRetry) => {
        try {

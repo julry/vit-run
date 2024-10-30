@@ -73,6 +73,6 @@ export const items3 = [
         image: () => <Food />,
         width: foodSize[0],
         height: foodSize[1],
-        position: [7027, 225],
+        position: [7127, 225],
     },
 ]

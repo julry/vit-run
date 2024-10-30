@@ -3,6 +3,9 @@ import {motion} from "framer-motion";
 import {forwardRef} from "react";
 import game1bg from "../../../assets/images/game1Bg.png";
 import game2bg from "../../../assets/images/game2Bg.png";
+import game3bg from "../../../assets/images/game3Bg.png";
+import game4bg from "../../../assets/images/game4Bg.png";
+import game5bg from "../../../assets/images/game5Bg.png";
 import {useSizeRatio} from "../../../hooks/useSizeRatio";
 
 export const WIDTH = 7608;
@@ -17,15 +20,15 @@ const WrapperStyled = styled(motion.div)`
 const LEVEL_TO_BOARD = {
     1: game1bg,
     2: game2bg,
-    3: game1bg,
-    4: game1bg,
-    5: game1bg,
+    3: game3bg,
+    4: game4bg,
+    5: game5bg,
 };
 
 const LEVEL_TO_BOARD_COLOR = {
     1: '#E6DDE3',
-    2: game1bg,
-    3: game1bg,
+    2: '#f7edeb',
+    3: '#65739a',
     4: game1bg,
     5: game1bg,
 }

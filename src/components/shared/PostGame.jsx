@@ -25,7 +25,7 @@ const AnswersBlock = styled.div`
 `;
 
 const ImageStyled = styled.img`
-    margin-top: var(--spacing_x3);
+    margin-top: var(--spacing_x2);
     width: ${({$ratio}) => $ratio * 120}px;
     height: ${({$ratio}) => $ratio * 80}px;
 `;

@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import bg from '../../../assets/images/rules1Bg.png';
-import lemonade from '../week1/assets/lemonade.svg';
+import bg from '../../../assets/images/rules3Bg.png';
+import lemonade from './assets/food.svg';
 import paper from './assets/trash-highlighted.svg';
 import { useSizeRatio } from "../../../hooks/useSizeRatio";
 import { PreGame } from "../../shared/PreGame";
@@ -15,17 +15,17 @@ const Image = styled.img`
 
 const LemonadeStyled = styled(motion.img)`
     position: absolute;
-    bottom: 37%;
-    width: ${({$ratio}) => $ratio * 128}px;
-    height: ${({$ratio}) => $ratio * 181}px;
+    bottom: 11%;
+    width: ${({$ratio}) => $ratio * 185}px;
+    height: ${({$ratio}) => $ratio * 160}px;
     z-index: 6;
 `;
 
 const TrashStyled = styled(motion.img)`
     position: absolute;
     bottom: 6%;
-    width: ${({$ratio}) => $ratio * 184}px;
-    height: ${({$ratio}) => $ratio * 140}px;
+    width: ${({$ratio}) => $ratio * 183}px;
+    height: ${({$ratio}) => $ratio * 186}px;
     z-index: 6;
     object-fit: contain;
 `;
@@ -59,7 +59,7 @@ export const PreGame3 = () => {
                         animate={{left: ['100%', '15%'], display: ['block', 'none']}}
                         transition={{
                             repeat: Infinity,
-                            duration: 1.2,
+                            duration: 0.8,
                             repeatType: 'loop',
                             repeatDelay: 1,
                         }}
@@ -69,5 +69,5 @@ export const PreGame3 = () => {
             </>
         )
     }
-    return <PreGame level={2} getContent={getContent}/>
+    return <PreGame level={3} getContent={getContent}/>
 }

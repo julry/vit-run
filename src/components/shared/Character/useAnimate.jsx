@@ -26,7 +26,6 @@ const INDEXES_LOOP = {
     3: 1,
 };
 
-
 const SEX_TO_CHARACTER = {
     [SEX.Female]: FEMALE_CHARACTER,
     [SEX.Male]: MALE_CHARACTER
