@@ -342,7 +342,7 @@ export const Lobby = () => {
                 <CurrencyButton 
                     $ratio={ratio} 
                     color="red" 
-                    onClick={(e) => handleClickInfo(e, {color: 'red', text: 'игру', bullets: ['за каждого приглашённого друга в игру — 1 Виткоин\n(максимально 10)']})}
+                    onClick={(e) => handleClickInfo(e, {color: 'red', text: 'игру', bullets: ['за каждого приглашённого друга в игру — 1 виткоин\n(максимально 10)']})}
                 >
                     <Currancy />
                     <p>{points}</p>
@@ -393,10 +393,10 @@ export const Lobby = () => {
                         </p>
                         <BulletPoints>
                             <li>
-                                каждый верный ответ на вопрос теста — 1 Виткоин
+                                каждый верный ответ на вопрос теста — 1 виткоин
                             </li>
                             <li>
-                                каждый собранный полезный предмет — 1 Виткоин
+                                каждый собранный полезный предмет — 1 виткоин
                             </li>
                             {info.bullets?.map(bullet => (
                                 <li key={bullet}>{bullet}</li>

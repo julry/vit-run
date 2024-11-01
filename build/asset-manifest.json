@@ -1,18 +1,19 @@
 {
   "files": {
     "main.css": "./static/css/main.1e21478a.css",
-    "main.js": "./static/js/main.41bf0677.js",
+    "main.js": "./static/js/main.9ec56915.js",
     "static/media/rules1Bg.png": "./static/media/rules1Bg.c629b621361c85f50d35.png",
     "static/media/game5Bg.png": "./static/media/game5Bg.0c155fad6f5a8772ee87.png",
     "static/media/game2Bg.png": "./static/media/game2Bg.f2ea78075a189fa0e570.png",
     "static/media/food.svg": "./static/media/food.fba55259ee94e857e8bba680d01299f3.svg",
     "static/media/game1Bg.png": "./static/media/game1Bg.a1dbb40c1ae079ca2985.png",
     "static/media/game4Bg.png": "./static/media/game4Bg.938b9d79310b48c0dfa6.png",
-    "static/media/game3Bg.png": "./static/media/game3Bg.919b85f0c9bd9afde04e.png",
     "static/media/rules2Bg.png": "./static/media/rules2Bg.469caf760ccb3e89008a.png",
+    "static/media/game3Bg.png": "./static/media/game3Bg.f24b91b8934ad78a073d.png",
     "static/media/man2.png": "./static/media/man2.30b5a81d6a7af2a3264f.png",
     "static/media/man3.png": "./static/media/man3.cf748ec0c2023adc6a97.png",
     "static/media/girl1.png": "./static/media/girl1.2d6b584273144e41689f.png",
+    "static/media/girl4.png": "./static/media/girl4.e37b14b1870032d5b180.png",
     "static/media/level3q1.png": "./static/media/level3q1.d0fe1546a6b5f0aafcbf.png",
     "static/media/Tasty-Gothic_Demi.otf": "./static/media/Tasty-Gothic_Demi.476fc64bf7da4d10e35d.otf",
     "static/media/Tasty-Gothic_Book.otf": "./static/media/Tasty-Gothic_Book.dc38ae256380eb83cdf5.otf",
@@ -30,6 +31,7 @@
     "static/media/level3q3.png": "./static/media/level3q3.4af213b1762565068bdb.png",
     "static/media/floor1Lobby.png": "./static/media/floor1Lobby.e0c02fb434c57d4b92a3.png",
     "static/media/level2q1.png": "./static/media/level2q1.38094dd5bfd728fe7d79.png",
+    "static/media/plant-highlighted.svg": "./static/media/plant-highlighted.df708f9a162b17b2529429e0e3440ed5.svg",
     "static/media/plant.svg": "./static/media/plant.25a9b8e32430cafed0626e35923817ee.svg",
     "static/media/paper-highlighted.svg": "./static/media/paper-highlighted.945554f04215c58823a959e156234c57.svg",
     "static/media/female_2.svg": "./static/media/female_2.99814a4fd87a8709c44552eb583d131f.svg",
@@ -38,6 +40,7 @@
     "static/media/floor3Lobby.png": "./static/media/floor3Lobby.179dd0b7716d860edad5.png",
     "static/media/female_3.svg": "./static/media/female_3.c3d054e877c14d8284601e2abcf0b5e5.svg",
     "static/media/female_start.svg": "./static/media/female_start.f1d0358bd0f2035960d16b39fa2a9b47.svg",
+    "static/media/rules4Bg.png": "./static/media/rules4Bg.b3ff943a7932ed5cce62.png",
     "static/media/intro-pic.png": "./static/media/intro-pic.85208c8cc0d94e2fdcc8.png",
     "static/media/floor5Lobby.png": "./static/media/floor5Lobby.588ee564e43a588cba4c.png",
     "static/media/burger.svg": "./static/media/burger.f784184c01a7c34e72e48d7538781f2a.svg",
@@ -53,6 +56,7 @@
     "static/media/lobbyBg.svg": "./static/media/lobbyBg.ce07fc9ae858aab63326544dd7a424e8.svg",
     "static/media/water.svg": "./static/media/water.3959c5b21353499c97a1955b2d3eb7f9.svg",
     "static/media/lemonade.svg": "./static/media/lemonade.217022c23eab1fa5707aba68ef487e79.svg",
+    "static/media/phone.svg": "./static/media/phone.573230e79f1a1c6c77f5f4089a75f0c5.svg",
     "static/media/shake.svg": "./static/media/shake.c90149064620616b171d92f655ffa24d.svg",
     "static/media/trash-highlighted.svg": "./static/media/trash-highlighted.844906525467e8fc450e8d8ed9f83d52.svg",
     "static/media/boxes.svg": "./static/media/boxes.7a249c634f7112a24e47c1e10beacccd.svg",
@@ -64,10 +68,10 @@
     "static/media/box.svg": "./static/media/box.45ffb13be13dbeabac816a3219af122b.svg",
     "index.html": "./index.html",
     "main.1e21478a.css.map": "./static/css/main.1e21478a.css.map",
-    "main.41bf0677.js.map": "./static/js/main.41bf0677.js.map"
+    "main.9ec56915.js.map": "./static/js/main.9ec56915.js.map"
   },
   "entrypoints": [
     "static/css/main.1e21478a.css",
-    "static/js/main.41bf0677.js"
+    "static/js/main.9ec56915.js"
   ]
 }

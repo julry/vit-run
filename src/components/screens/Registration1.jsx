@@ -127,8 +127,8 @@ export const Registration1 = () => {
             <Block>
                 <p><b>Введи дополнительные данные,{'\n'}чтобы начать играть</b></p>
                 <InputStyled placeholder="Укажи свой город*" value={city} onChange={(e) => setCity(e.target.value.trim())} />
-                <InputStyled placeholder="Укажи свой вуз/ССУЗ*" value={university} onChange={(e) => setUniversity(e.target.value.trim())} />
-                <InputStyled placeholder="Укажи свою специализацию*" value={direction} onChange={(e) => setDirection(e.target.value.trim())} />
+                <InputStyled placeholder="Укажи свой вуз/ССУЗ*" value={university} onChange={(e) => setUniversity(e.target.value)} />
+                <InputStyled placeholder="Укажи свою специализацию*" value={direction} onChange={(e) => setDirection(e.target.value)} />
                 <RefText>
                     Введи ID друга, который тебя пригласил 
                 </RefText>

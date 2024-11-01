@@ -448,6 +448,12 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
         next()
     }
 
+    const handleGoLobby = () => {
+        setGamePoints(0);
+        setQuestionsAmount(0);
+        next(SCREENS.LOBBY);
+    };
+
     return (
        <>
         <Wrapper
@@ -530,7 +536,7 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
                     Если ты перейдёшь в лобби,{'\n'}твой прогресс не сохранится.
                 </p>
                 <ButtonsBlock>
-                    <Button color="green" onClick={() => next(SCREENS.LOBBY)}>ЛОББИ</Button>
+                    <Button color="green" onClick={handleGoLobby}>ЛОББИ</Button>
                     <Button onClick={handleCloseExit}>остаться</Button>
                 </ButtonsBlock>
             </ExitBlock>
@@ -555,9 +561,9 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
                     <>
                         <p>
                             В игре нужно <b>собирать полезные предметы</b>: продукты, анкеты, телефоны, термометры.{' '}
-                            Они конвертируются в Виткоины. Всего на уровень их 10. <b>Старайся избегать препятствий:</b> {' '}
+                            Они конвертируются в виткоины. Всего на уровень их 10. <b>Старайся избегать препятствий:</b> {' '}
                             сломанных объектов, пустых коробок и упаковок. Также <b>не пропускай вопросы</b>, после забега ты{' '}
-                            можешь <b>получить Виткоины за правильные ответы</b>! Чем больше Виткоинов, тем выше твоё положение{' '}
+                            можешь <b>получить виткоины за правильные ответы</b>! Чем больше виткоинов, тем выше твоё положение{' '}
                             в рейтинге и возможность выиграть призы!
                         </p>
                         <ButtonsBlock>

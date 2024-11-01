@@ -7,6 +7,7 @@ import floor5Lobby from '../assets/images/floor5Lobby.png';
 import girl1 from '../assets/images/girl1.png';
 import man2 from '../assets/images/man2.png';
 import man3 from '../assets/images/man3.png';
+import girl4 from '../assets/images/girl4.png';
 
 import { items1 } from '../components/screens/week1/items';
 import { questionIcons1 } from '../components/screens/week1/questionIcons';
@@ -19,6 +20,10 @@ import { trashes2 } from '../components/screens/week2/trashes';
 import { items3 } from '../components/screens/week3/items';
 import { questionIcons3 } from '../components/screens/week3/questionIcons';
 import { trashes3 } from '../components/screens/week3/trashes';
+
+import { trashes4 } from '../components/screens/week4/trashes';
+import { items4 } from '../components/screens/week4/items';
+import { questionIcons4 } from '../components/screens/week4/questionIcons';
 
 export const subjectK = 677 / 575;
 export const SCALE_K = 1.3;
@@ -35,6 +40,23 @@ export const weeks = [
         id: 4,
         pic: floor4Lobby,
         week: 4,
+        personTexts: [
+            <>
+                Привет! Я Мария, ИТ-специалист. Я устраняю баги в нашем мобильном приложении,{' '}
+                чтобы гости могли заказать комбо в любое время! Мы разрабатываем новую функцию,{' '}
+                которая сделает оформление заказов ещё быстрее и проще. Но чтобы запустить её,{' '}
+                нам нужно всё протестировать и настроить. Одна я не справлюсь!
+            </>,
+            <>
+                Твоя задача — помочь мне внедрить новую функцию. Пробегись по серверным комнатам и офисам,{' '}
+                собери нужные компоненты и устрани ошибки в коде. Если мы справимся, наши гости смогут наслаждаться{' '}
+                новыми возможностями приложения!
+            </>
+        ],
+        person: girl4,
+        figures: items4,
+        trashes: trashes4,
+        questions: questionIcons4
     },
     {
         id: 3,
@@ -63,8 +85,8 @@ export const weeks = [
         week: 2,
         personTexts: [
             <>
-                Привет! Меня зовут Иван, и я работаю в отделе маркетинга во «Вкусно - и точка».{' '}
-                Мы запускаем новые акции и бургеры. Сейчас хотим придумать комбо для студентов! Поможешь?
+                Привет! Меня зовут Иван, и я работаю в отделе маркетинга во «Вкусно – и точка».{' '}
+                Мы разрабатываем новые акции и продукцию. Сейчас хотим придумать новый комбо для студентов. Поможешь?
             </>,
             <>
                 Твоя задача — помочь мне собрать все необходимые ингредиенты для нового супер-комбо!{' '}
