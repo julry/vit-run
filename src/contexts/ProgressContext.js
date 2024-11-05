@@ -52,8 +52,8 @@ const API_LINK = 'https://games-admin.fut.ru/api/';
 
 export function ProgressProvider(props) {
     const {children} = props
-    const [currentScreen, setCurrentScreen] = useState(INITIAL_STATE.screen);
-    // const [currentScreen, setCurrentScreen] = useState(getUrlParam('screen') || INITIAL_STATE.screen);
+    // const [currentScreen, setCurrentScreen] = useState(INITIAL_STATE.screen);
+    const [currentScreen, setCurrentScreen] = useState(getUrlParam('screen') || INITIAL_STATE.screen);
     const [points, setPoints] = useState(INITIAL_STATE.points);
     const [weekPoints, setWeekPoints] = useState(INITIAL_STATE.weekPoints);
     const [currentWeekPoints, setCurrentWeekPoints] = useState(INITIAL_STATE.weekPoints);

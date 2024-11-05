@@ -270,6 +270,7 @@ export const Lobby = () => {
     const { passedWeeks, answeredWeeks, next, points, weekPoints, user, currentWeek, updateUser } = useProgress();
     const [isRules, setIsRules] = useState(!user?.seenRules);
     const shownWeek = (passedWeeks[passedWeeks.length - 1] ?? 0) + 1;
+    const shownAnswerWeek = (answeredWeeks[answeredWeeks.length - 1] ?? 0) + 1;
     const floorRef = useRef();
     const wrapperRef = useRef();
   
@@ -333,6 +334,10 @@ export const Lobby = () => {
         }
 
         setIsRules(false);
+    }
+
+    const getIsOpen = (week) => {
+        return week <= shownWeek && week <= currentWeek && week <= shownAnswerWeek;
     }
 
     return (
@@ -413,7 +418,7 @@ export const Lobby = () => {
                         ref={week.week === shownWeek ? floorRef : null}
                         onClick={() => handleOpenFloor(week)}
                         $index={week.id} 
-                        isOpen={week.week <= shownWeek && week.week <= currentWeek} 
+                        isOpen={getIsOpen(week.week)} 
                         isUpper={week.isLast}
                         floorNum={week.week}
                         floorPic={week.pic}
