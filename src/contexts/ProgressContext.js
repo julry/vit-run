@@ -52,8 +52,8 @@ const API_LINK = 'https://games-admin.fut.ru/api/';
 
 export function ProgressProvider(props) {
     const {children} = props
-    // const [currentScreen, setCurrentScreen] = useState(INITIAL_STATE.screen);
-    const [currentScreen, setCurrentScreen] = useState(getUrlParam('screen') || INITIAL_STATE.screen);
+    const [currentScreen, setCurrentScreen] = useState(INITIAL_STATE.screen);
+    // const [currentScreen, setCurrentScreen] = useState(getUrlParam('screen') || INITIAL_STATE.screen);
     const [points, setPoints] = useState(INITIAL_STATE.points);
     const [weekPoints, setWeekPoints] = useState(INITIAL_STATE.weekPoints);
     const [currentWeekPoints, setCurrentWeekPoints] = useState(INITIAL_STATE.weekPoints);
@@ -172,6 +172,7 @@ export function ProgressProvider(props) {
             scoreTotal: points,
             [`scoreWeek${currentWeek > 5 ? 5 : currentWeek}`]: currentWeekPoints,
             passedWeeks: passedWeeks.join(','),
+            answeredWeeks: answeredWeeks.join(','),
             weekQuestions: Object.values(weekQuestions).join(','),
             ...changed,
         };
@@ -239,7 +240,13 @@ export function ProgressProvider(props) {
             setUser(userInfo);
             const passed = data?.passedWeeks?.length > 0 ? data.passedWeeks.replace(' ', '').split(',').map((l) => +l.trim()) : [];
             const answered = data?.answeredWeeks?.length > 0 ? data.answeredWeeks.replace(' ', '').split(',').map((l) => +l.trim()) : [];
-           
+            
+            for (let i = 1; i < 6; i++) {
+                if (data[`scoreWeek${i}`] > 10 && !answered.includes(i)) {
+                    answered.push(i);
+                }
+            }
+
             setPassedWeeks(passed);
             setAnsweredWeeks(answered);
             setPoints(data?.scoreTotal ?? 0);
