@@ -12,6 +12,7 @@ import { RadioInput } from "./RadioInput";
 
 const Wrapper = styled(FlexWrapper)`
    padding: var(--spacing_x4);
+   overflow-y: auto;
    background-color: var(--color-green);
    & p {
         width: 100%;

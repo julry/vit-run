@@ -106,7 +106,7 @@ export function ProgressProvider(props) {
             return { isAlreadyPassedError: true }
         }
 
-        const displayedPoints = gamePoints <= 10 ? gamePoints : 10;
+        const displayedPoints = gamePoints > 10 ? 10 : gamePoints;
         const weekQuestions = {...user.weekQuestions, [level]: questionsAmount};
         const scoreTotal = points + displayedPoints;
         const data = {
@@ -138,7 +138,7 @@ export function ProgressProvider(props) {
             return { isAlreadyPassedError: true }
         }
 
-        const displayedPoints = questionPoints <= 10 ? questionPoints : 10;
+        const displayedPoints = questionPoints > 10 ? 10 : questionPoints;
         const scoreTotal = points + displayedPoints;
 
         const data = {
@@ -170,7 +170,7 @@ export function ProgressProvider(props) {
         const data = {
             ...restUser,
             scoreTotal: points,
-            [`scoreWeek${currentWeek > 5 ? 5 : currentWeek}`]: currentWeekPoints,
+            [`scoreWeek${currentWeek > 5 ? 5 : currentWeek}`]: (currentWeekPoints > 20 ? 20 : currentWeekPoints), 
             passedWeeks: passedWeeks.join(','),
             answeredWeeks: answeredWeeks.join(','),
             weekQuestions: Object.values(weekQuestions).join(','),
@@ -247,11 +247,14 @@ export function ProgressProvider(props) {
                 }
             }
 
+            const wPoints = data?.[`scoreWeek${currentWeek > 5 ? 5 : currentWeek}`] ?? 0;
+            const tPoints = data?.scoreTotal > (10 + 20 * currentWeek) ? (10 + 20 * currentWeek) : (data.scoreTotal ?? 0);
+
             setPassedWeeks(passed);
             setAnsweredWeeks(answered);
-            setPoints(data?.scoreTotal ?? 0);
-            setWeekPoints(data?.[`scoreWeek${currentWeek > 5 ? 5 : currentWeek}`] ?? 0);
-            setCurrentWeekPoints(data?.[`scoreWeek${currentWeek > 5 ? 5 : currentWeek}`] ?? 0);
+            setPoints(tPoints);
+            setWeekPoints(wPoints > 20 ? 20 : wPoints);
+            setCurrentWeekPoints(wPoints > 20 ? 20 : wPoints);
 
             return userInfo;
        } catch (e) {
