@@ -303,7 +303,7 @@ export const Lobby = () => {
     }
 
     const handleOpenFloor = (week) => {
-        if (week.week > shownWeek || week.week > currentWeek) {
+        if (week.week > shownWeek || week.week > currentWeek || week.week > shownAnswerWeek) {
             setNextWeekInfo(week.week);
             return;
         }
