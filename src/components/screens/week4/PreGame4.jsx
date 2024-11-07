@@ -53,6 +53,21 @@ export const PreGame4 = () => {
                     />
                 )}
                 {part === 3 && (
+                    <TrashStyled 
+                        $ratio={ratio} 
+                        src={paper} 
+                        alt=""
+                        initial={{left: '100%'}}
+                        animate={{left: '20%', display: ['block', 'none']}}
+                        transition={{
+                            repeat: Infinity,
+                            duration: 0.7,
+                            repeatType: 'loop',
+                            repeatDelay: 1,
+                        }}
+                    />
+                )}
+                {part === 4 && (
                     <LemonadeStyled 
                         $ratio={ratio} 
                         src={lemonade} 
@@ -70,5 +85,5 @@ export const PreGame4 = () => {
             </>
         )
     }
-    return <PreGame level={4} getContent={getContent}/>
+    return <PreGame level={4} getContent={getContent} isHarder/>
 }

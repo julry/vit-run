@@ -8,6 +8,7 @@ import girl1 from '../assets/images/girl1.png';
 import man2 from '../assets/images/man2.png';
 import man3 from '../assets/images/man3.png';
 import girl4 from '../assets/images/girl4.png';
+import girl5 from '../assets/images/girl5.png';
 
 import { items1 } from '../components/screens/week1/items';
 import { questionIcons1 } from '../components/screens/week1/questionIcons';
@@ -25,6 +26,10 @@ import { trashes4 } from '../components/screens/week4/trashes';
 import { items4 } from '../components/screens/week4/items';
 import { questionIcons4 } from '../components/screens/week4/questionIcons';
 
+import { trashes5 } from '../components/screens/week5/trashes';
+import { items5 } from '../components/screens/week5/items';
+import { questionIcons5 } from '../components/screens/week5/questionIcons';
+
 export const subjectK = 677 / 575;
 export const SCALE_K = 1.3;
 export const LG_KOEF = SCALE_K * subjectK;
@@ -35,6 +40,22 @@ export const weeks = [
         pic: floor5Lobby,
         week: 5,
         isLast: true,
+        personTexts: [
+            <>
+                Привет! Меня зовут Анна, и я наставник стажёров. Моя задача — заботиться{' '}
+                о развитии сотрудников и создавать условия для их успеха. К нам можно прийти совершенно{' '}
+                без опыта, у нас свой центр обучения и постоянно проводятся тренинги!
+            </>,
+            <>
+               Недавно мы собрали обратную связь от новых сотрудников по их обучению. Теперь{' '}
+               нам нужно адаптировать материалы тренингов, чтобы наши сотрудники могли расти и развиваться.{' '}
+               Твоя задача — помочь нам собрать и проанализировать всю эту обратную связь.
+            </>
+        ],
+        person: girl5,
+        figures: items5,
+        trashes: trashes5,
+        questions: questionIcons5
     },
     {
         id: 4,

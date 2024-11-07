@@ -2,7 +2,7 @@ import {useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState} from
 import useResizeObserver from "use-resize-observer";
 import {motion, useMotionValue, useAnimationFrame, useTransform} from "framer-motion";
 import clamp from "lodash/clamp";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { useSizeRatio } from "../../../hooks/useSizeRatio";
 import { Board, WIDTH} from "./Board";
 import { Character } from "../Character";
@@ -28,11 +28,22 @@ const Wrapper = styled(motion.div)`
     ${({$isOver}) => $isOver ? 'filter: blur(5px)' : ''};
 `;
 
+const trashAnim = keyframes`
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+`;
+
 const CharacterStyled = styled(Character)`
     position: absolute;
     bottom: 0;
     left: 0;
     z-index: 3;
+    animation: ${({$isTrashed}) => $isTrashed ? trashAnim : ''} infinite 300ms backwards;
 `;
 
 const BoardStyled = styled(Board)`
@@ -74,7 +85,7 @@ const ButtonsBlock = styled.div`
 
 const INITIAL_Y = 54.5;
 
-export function Game({ className, level, isPaused, customText, preloadBg }) {
+export function Game({ className, level, isPaused, customText, preloadBg, isHarder }) {
     const sizeRatio = useSizeRatio();
     const { user, questionsAmount, setQuestionsAmount, endGame, setGamePoints, next, getUserInfo, setUserInfo } = useProgress();
     const { trashes = [], figures = [], questions = [] } = weeks.find(({week}) => week === level) ?? {};
@@ -129,6 +140,7 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
     const [isUpdating, setIsUpdating] = useState(false);
     const [isIdError, setIdError] = useState(false);
     const [isPassedError, setIsPassedError] = useState(false);
+    const [isTrashed, setIsTrashed] = useState(false);
 
     const wrapperRef = useRef();
     const collidedFigureRef = useRef(null);
@@ -277,7 +289,15 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
 
     useEffect(() => {
         if (!collidedTrashRef.current) return;
-        resetGame();
+        if (isHarder) {
+            if (!isTrashed) {
+                setIsTrashed(true);
+                setGamePoints(prev => prev - 1 > 0 ? prev - 1 : 0);
+                setTimeout(() => {
+                    setIsTrashed(false);
+                }, 2000);
+            }
+        } else resetGame();
         collidedTrashRef.current = null;
     }, [collidedTrashAmount]);
 
@@ -506,6 +526,7 @@ export function Game({ className, level, isPaused, customText, preloadBg }) {
                 isPause={!isGameStarted || isGamePaused}
                 ratio={sizeRatio}
                 style={{x: characterPositionX, y: characterPositionY}}
+                $isTrashed={isTrashed}
             />
         </Wrapper>
         <Modal isShown={isWinModal}>

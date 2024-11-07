@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
-import styled from "styled-components";
+import { useEffect, useRef, useState } from "react";
+import styled, { keyframes } from "styled-components";
 import question from '../../assets/images/question.svg';
 import { subjectK, weeks } from "../../constants/weeks";
 import { useProgress } from "../../contexts/ProgressContext";
@@ -54,11 +54,22 @@ const QuestionStyled = styled(motion.img)`
     z-index: 6;
 `;
 
+const trashAnim = keyframes`
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+`;
+
 const CharacterWrapper = styled(motion.div)`
     position: absolute;
     bottom: 9.5%;
     left: 0;
     z-index: 7;
+    animation: ${({$isAnimate}) => $isAnimate ? trashAnim : ''} infinite 300ms backwards;
 `;
 
 const Darken = styled.div`
@@ -96,12 +107,75 @@ const RULES_TEXTS = {
     </>
 }
 
-export const PreGame = ({level, getContent}) => {
+const RULES_TEXTS_HARD = {
+    2: <>
+        <b>Нажми на экран</b>, чтобы перепрыгнуть препятствие, если столкнёшься — начнёшь заново.
+    </>,
+    3: <>
+        <b>Старайся не сталкиваться</b> с препятствиями. За каждое столкновение ты <b>теряешь 1 виткоин</b>.
+    </>,
+    4: <>
+        <b>Собирай предметы</b>, их количество влияет на твой рейтинг. За каждый собранный предмет ты получаешь виткоин.
+    </>,
+    5: <>
+        <b>Не пропускай знаки вопроса</b>. После игры они превратятся в настоящие вопросы. За правильные ответы ты получишь виткоины.
+    </>,
+    6: <>
+        <b>Виткоины</b> за собранные <b>предметы</b> и правильные <b>ответы</b> отображаются тут.
+    </>
+};
+
+export const PreGame = ({level, getContent, isHarder = false}) => {
     const ratio = useSizeRatio();
     const {next} = useProgress();
     const [part, setPart] = useState(0);
+    const [isAnimate, setIsAnimate] = useState(false);
     const visibleWeek = weeks.find(({week}) => week === level) ?? {};
-    const {personTexts, person}  = visibleWeek;
+    const {personTexts, person} = visibleWeek;
+    const lastPart = 5 + +isHarder;
+    const trashPart = 2;
+    const questionPart = 4 + +isHarder;
+    const subjPart = 3 + +isHarder;
+    const trashBlock = isHarder ? 3 : -1;
+    const rulesText = isHarder ? RULES_TEXTS_HARD : RULES_TEXTS;
+    const blinkRef = useRef(null);
+    const animateRef = useRef(false);
+
+    const blink = () => {
+        setIsAnimate(true);
+
+        animateRef.current = setTimeout(() => {
+            setIsAnimate(false);
+        }, 600);
+    };
+
+    useEffect(() => {
+        if (part !== trashBlock) {
+            setIsAnimate(false);
+            if (blinkRef.current) {
+                clearInterval(blinkRef.current);
+                blinkRef.current = null;
+            }
+            if (animateRef.current) {
+                clearTimeout(animateRef.current);
+                animateRef.current = null;
+            }
+
+            return;
+        }
+
+        setTimeout(() => {
+            blink();
+            blinkRef.current = setInterval(blink, 1700);
+        }, 700);
+
+        return () => {
+            if (blinkRef.current) {
+                clearTimeout(blinkRef.current);
+                blinkRef.current = null;
+            }
+        }
+    }, [part])
 
     if (part < 2) return (
             <Wrapper>
@@ -118,20 +192,22 @@ export const PreGame = ({level, getContent}) => {
         y: [0, -155 * ratio, 0]
     };
 
+    console.log(lastPart);
+    console.log(part);
     return (
-        <RulesWrapper $bigTopMargin={part === 5}>
+        <RulesWrapper $bigTopMargin={part === lastPart}>
             <Darken />
             <BlockStyled onClose={() => next()}>
                 <p>
-                    {RULES_TEXTS[part]}
+                    {rulesText[part]}
                 </p>
                 <ButtonsWrapper>
                     {part !== 0 && (<Button color="white" onClick={() => setPart(prev => prev - 1)}>НАЗАД</Button>)}
-                    <Button onClick={() => part === 5 ? next() : setPart(prev => prev + 1)}>ДАЛЕЕ</Button>
+                    <Button onClick={() => part === lastPart ? next() : setPart(prev => prev + 1)}>ДАЛЕЕ</Button>
                 </ButtonsWrapper>
             </BlockStyled>
             {getContent?.(part)}
-            {part === 4 && (
+            {part === questionPart && (
                 <QuestionStyled 
                     $ratio={ratio * subjectK} 
                     src={question} 
@@ -145,7 +221,7 @@ export const PreGame = ({level, getContent}) => {
                     }}
                 />
             )}
-            {part === 5 && (
+            {part === lastPart && (
                 <>
                     <GameHeader />
                     <CurrencyButton color="red" $ratio={ratio}>
@@ -157,7 +233,7 @@ export const PreGame = ({level, getContent}) => {
                     </CurrencyButton>
                 </>
             )}
-            {[2, 4].includes(part) && (
+            {[trashPart, questionPart].includes(part) && (
                 <CharacterWrapper
                     animate={jumpAnimation}
                     transition={{
@@ -173,11 +249,13 @@ export const PreGame = ({level, getContent}) => {
                     />
                 </CharacterWrapper>
             )}
-            {![2, 4].includes(part) && (
-                <CharacterWrapper>
+            {![trashPart, questionPart].includes(part) && (
+                <CharacterWrapper
+                    $isAnimate={isAnimate}
+                >
                     <Character 
                         level={level} 
-                        isPause={part !== 3}
+                        isPause={![subjPart, trashBlock].includes(part)}
                     />
                 </CharacterWrapper>
             )}

@@ -25,13 +25,13 @@ const LEVEL_TO_BOARD = {
     5: game5bg,
 };
 
-const LEVEL_TO_BOARD_COLOR = {
-    1: '#E6DDE3',
-    2: '#f7edeb',
-    3: '#65739a',
-    4: game1bg,
-    5: game1bg,
-}
+const LEVEL_TO_BG_SIZE = {
+    1: 'contain',
+    2: 'contain',
+    3: 'contain',
+    4: 'contain',
+    5: 'cover',
+};
 
 const BackgroundStyled = styled(motion.div)`
     position: absolute;
@@ -39,9 +39,8 @@ const BackgroundStyled = styled(motion.div)`
     left: 0;
     width: ${({$ratio}) => $ratio * WIDTH}px;
     height: 100%;
-    background-color: ${({level}) => LEVEL_TO_BOARD_COLOR[level]};
     background-image: url(${({level}) => LEVEL_TO_BOARD[level]});
-    background-size: contain;
+    background-size: ${({level}) => LEVEL_TO_BG_SIZE[level]};
     background-repeat: repeat-x;
 `;
 

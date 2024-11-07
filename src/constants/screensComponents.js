@@ -14,8 +14,10 @@ import { PreGame3 } from "../components/screens/week3/PreGame3";
 import { PreGame4 } from "../components/screens/week4/PreGame4";
 import { Game4 } from "../components/screens/week4/Game4";
 import { PostGame4 } from "../components/screens/week4/PostGame4";
-// import { Finish } from "../components/screens/Finish";
-// import { Plug } from "../components/screens/Plug";
+import { PreGame5 } from "../components/screens/week5/PreGame5";
+import { PostGame5 } from "../components/screens/week5/PostGame5";
+import { Game5 } from "../components/screens/week5/Game5";
+import { Finish } from "../components/screens/Finish";
 
 import { SCREENS } from "./screens";
 
@@ -32,11 +34,14 @@ import man3 from '../assets/images/man3.png';
 import game4Bg from '../assets/images/game4Bg.png';
 import rules4Bg from '../assets/images/rules4Bg.png';
 import girl4 from '../assets/images/girl4.png';
+import girl5 from '../assets/images/girl5.png';
+import game5Bg from '../assets/images/game5Bg.png';
+import rules5Bg from '../assets/images/rules5Bg.png';
 import floor1Lobby from '../assets/images/floor1Lobby.png';
 import floor2Lobby from '../assets/images/floor2Lobby.png';
 import floor3Lobby from '../assets/images/floor3Lobby.png';
 import floor4Lobby from '../assets/images/floor4Lobby.png';
-// import floor5Lobby from '../assets/images/floor5Lobby.png';
+import floor5Lobby from '../assets/images/floor5Lobby.png';
 
 import female1 from '../assets/images/female_1.svg';
 import female2 from '../assets/images/female_2.svg';
@@ -64,13 +69,15 @@ export const screens = {
     [SCREENS.PREGAME4]: PreGame4,
     [SCREENS.GAME4]: Game4,
     [SCREENS.POST_GAME4]: PostGame4,
-    // [SCREENS.FINISH]: Finish,
-    // [SCREENS.PLUG]: Plug,
+    [SCREENS.PREGAME5]: PreGame5,
+    [SCREENS.GAME5]: Game5,
+    [SCREENS.POST_GAME5]: PostGame5,
+    [SCREENS.FINISH]: Finish,
 };
 
 export const preloadImages = [ 
     startPic, floor1Lobby, girl1, man2, game1Bg, female, female1, female2, 
     female3, male, male1, male2, male3, rules1Bg, rules2Bg,
     game2Bg, floor2Lobby, game3Bg, man3, rules3Bg, floor3Lobby, floor4Lobby,
-    game4Bg, girl4, rules4Bg,
+    game4Bg, girl4, rules4Bg, floor5Lobby, rules5Bg, girl5, game5Bg, 
 ];

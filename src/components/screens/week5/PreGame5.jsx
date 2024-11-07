@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import bg from '../../../assets/images/rules4Bg.png';
-import lemonade from './assets/phone.svg';
-import paper from './assets/plant-highlighted.svg';
+import lemonade from './assets/form.svg';
+import paper from '../week2/assets/paper-highlighted.svg';
 import { useSizeRatio } from "../../../hooks/useSizeRatio";
 import { PreGame } from "../../shared/PreGame";
 import { motion } from "framer-motion";
@@ -16,7 +16,7 @@ const Image = styled.img`
 
 const LemonadeStyled = styled(motion.img)`
     position: absolute;
-    bottom: 37%;
+    bottom: 33%;
     width: ${({$ratio}) => $ratio * 128}px;
     height: ${({$ratio}) => $ratio * 181}px;
     z-index: 6;
@@ -25,13 +25,13 @@ const LemonadeStyled = styled(motion.img)`
 const TrashStyled = styled(motion.img)`
     position: absolute;
     bottom: 6%;
-    width: ${({$ratio}) => $ratio * 166}px;
-    height: ${({$ratio}) => $ratio * 209}px;
+    width: ${({$ratio}) => $ratio * 184}px;
+    height: ${({$ratio}) => $ratio * 140}px;
     z-index: 6;
     object-fit: contain;
 `;
 
-export const PreGame4 = () => {
+export const PreGame5 = () => {
     const ratio = useSizeRatio();
     const getContent = (part) => {
         return (
@@ -53,6 +53,21 @@ export const PreGame4 = () => {
                     />
                 )}
                 {part === 3 && (
+                    <TrashStyled 
+                        $ratio={ratio} 
+                        src={paper} 
+                        alt=""
+                        initial={{left: '100%'}}
+                        animate={{left: '20%', display: ['block', 'none']}}
+                        transition={{
+                            repeat: Infinity,
+                            duration: 0.7,
+                            repeatType: 'loop',
+                            repeatDelay: 1,
+                        }}
+                    />
+                )}
+                {part === 4 && (
                     <LemonadeStyled 
                         $ratio={ratio} 
                         src={lemonade} 
@@ -70,5 +85,5 @@ export const PreGame4 = () => {
             </>
         )
     }
-    return <PreGame level={4} getContent={getContent}/>
+    return <PreGame level={5} getContent={getContent} isHarder/>
 }

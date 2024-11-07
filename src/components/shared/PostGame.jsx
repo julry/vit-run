@@ -31,6 +31,12 @@ const ImageStyled = styled.img`
     height: ${({$ratio}) => $ratio * 80}px;
 `;
 
+const ImageBigStyled = styled.img`
+    margin-top: var(--spacing_x6);
+    width: ${({$ratio}) => $ratio * 189}px;
+    height: ${({$ratio}) => $ratio * 174}px;
+`;
+
 const RadioInputStyled = styled(RadioInput)`
     font-size: var(--font_md);
 
@@ -62,7 +68,7 @@ const ButtonWrapper = styled(FlexWrapper)`
     }
 `;
 
-export const PostGame = ({level, questions}) => {
+export const PostGame = ({level, questions, nextScreen}) => {
     const ratio = useSizeRatio();
     const { next, user, endQuestions, getUserInfo, setUserInfo } = useProgress();
     const [currentId, setCurrentId] = useState(0);
@@ -75,7 +81,7 @@ export const PostGame = ({level, questions}) => {
     const [isErrorModal, setIsErrorModal] = useState(false);
     const [questionsPoints, setQuestionsPoints] = useState(0);
     const { questionsAmount = 0 } = useProgress();
-    const amount = (user.weekQuestions[level] ?? questionsAmount);
+    const amount = 10;
     const shownQuestions = useMemo(() => questions.sort(() => Math.random() * 2 - 1).slice(0, (amount + 3)), [questions]);
     const currentQuestion = useMemo(() => shownQuestions[currentId], [shownQuestions, currentId]);
 
@@ -117,7 +123,7 @@ export const PostGame = ({level, questions}) => {
             }
 
             reachMetrikaGoal(`finish-${level}`);
-            next(SCREENS.LOBBY);
+            next(nextScreen ?? SCREENS.LOBBY);
             
             return;
         }
@@ -180,6 +186,7 @@ export const PostGame = ({level, questions}) => {
                         {(typeof currentQuestion?.text === 'function') ? currentQuestion?.text(user.sex) : currentQuestion?.text}
                     </b>
                 </p>
+                {currentQuestion?.questionImg && <ImageBigStyled $ratio={ratio} src={currentQuestion.questionImg} alt="" />}
                 <AnswersBlock>
                     {currentQuestion?.answers?.map((answer) => (
                         <RadioInputStyled key={answer.id} checked={chosen?.includes(answer?.id)} onChange={() => handleChange(answer.id)}>

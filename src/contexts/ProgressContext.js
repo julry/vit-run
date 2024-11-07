@@ -70,7 +70,7 @@ export function ProgressProvider(props) {
         const { week } = await client.current.loadProjectState();
         if (week && !isNaN(+week)) {
             // setCurrentWeek(+week);
-            setCurrentWeek(4);
+            setCurrentWeek(5);
         }
     }
 

@@ -1,11 +1,11 @@
-import  { ReactComponent as Phone} from './assets/form.svg';
+import  { ReactComponent as Form} from './assets/form.svg';
 
-const phoneSize = [121, 135];
+const formSize = [121, 135];
 
 export const items5 = [
     {
         id: '5-1',
-        position: [722, 305],
+        position: [622, 305],
     },
     {
         id: '5-2',
@@ -13,7 +13,7 @@ export const items5 = [
     },
     {
         id: '5-3',
-        position: [2377, 364],
+        position: [2077, 364],
     },
     {
         id: '5-4',
@@ -45,7 +45,7 @@ export const items5 = [
     },
 ].map(tr => ({
     ...tr,  
-    image: () => <Phone />,
-    width: phoneSize[0],
-    height: phoneSize[1]
+    image: () => <Form />,
+    width: formSize[0],
+    height: formSize[1]
 }))

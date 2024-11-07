@@ -2,10 +2,10 @@ import {ReactComponent as Paper} from '../week2/assets/paper.svg';
 
 const paperSize = [161, 96];
 
-export const trashes4 = [
+export const trashes5 = [
     {
         id: 'trash_1',
-        position: [1041, 50],
+        position: [1141, 50],
     },
     {
         id: 'trash_2',

@@ -1,103 +1,64 @@
 import styled from "styled-components";
-import logo from '../../assets/images/logo.svg';
-import face from '../../assets/images/face.svg';
-import { useSizeRatio } from "../../hooks/useSizeRatio";
+import bg from '../../assets/images/rules5Bg.png';
 import { Button } from "../shared/Button";
 import { useProgress } from "../../contexts/ProgressContext";
 import { SCREENS } from "../../constants/screens";
+import { Block } from "../shared/Block";
+import { SEX } from "../../constants/sex";
+import { Character } from "../shared/Character";
+import { FlexWrapper } from "../shared/FlexWrapper";
 
-const Wrapper = styled.div`
-    width: 100%;
-    height: 100%;
-    padding: var(--spacing_x6) 0 0;
-    display: flex;
-    flex-direction: column;
-`;
-
-const Logo = styled.div`
-    position: relative;
-    z-index: 1;
-    width: ${({$ratio}) => $ratio * 146}px;
-    height: ${({$ratio}) => $ratio * 43}px;
-    margin-left: var(--spacing_x6);
-    background: url(${logo}) no-repeat 0 0 / cover;
-    flex-shrink: 0;
-`;
-
-const Face = styled.div`
-    position: relative;
-    z-index: 2;
-    width: 100%;
-    margin-top: -1px;
-    height: 90.9vw;
-    background: url(${face}) no-repeat 0 0 / cover;
-    flex-shrink: 0;
-
-    @media screen and (min-width: 450px) {
-        max-height: ${({$ratio}) => $ratio * 341}px;
-    }
-`;
-
-const Content = styled.div`
-    padding: 0 var(--spacing_x4) var(--spacing_x4);
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    background: var(--color-white);
-    color: var(--color-white-text);
-`;
-
-const TextBlock = styled.div`
+const Wrapper = styled(FlexWrapper)`
     padding: var(--spacing_x4);
-    padding-bottom: 0;
-    margin-bottom: ${({$ratio}) => $ratio * 10}px;
-    font-size: var(--font_sm);
-    line-height: 111%;
-
-    @media screen and (min-width: 450px) and (max-height: 760px){
-        padding-top: ${({$ratio}) => $ratio * 13}px;
-    }
 `;
 
-const ButtonWrapper = styled.div`
-    margin-top: auto;
+const Image = styled.img`
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    z-index: 2;
+    filter: blur(3.5px);
+    transform: scale(1.05);
+`;
 
-    & button + button {
+const CharacterWrapper = styled.div`
+    position: absolute;
+    bottom: 9.2%;
+    left: 0;
+    z-index: 3;
+    filter: blur(3.5px);
+`;
+
+const Content = styled(Block)`
+    position: relative;
+    z-index: 6;
+
+    & button { 
         margin-top: var(--spacing_x3);
-    }
-
-    @media screen and (min-width: 450px) and (max-height: 760px){
-        & button + button {
-            margin-top: var(--spacing_x2);
-        }
     }
 `;
 
 export const Finish = () => {
     const {next, user} = useProgress();
-    const ratio = useSizeRatio();
     return (
         <Wrapper>
-            <Logo $ratio={ratio}/>
-            <Face $ratio={ratio}/>
+            <Image src={bg} alt=""/>
+            <CharacterWrapper>
+                <Character level={5} isPause/>
+            </CharacterWrapper>
             <Content>
-                <TextBlock $ratio={ratio}>
-                    <p>
-                        <b>
-                            Ты победил страшный лес и нашёл дорогу к Альфа-сити. Теперь тебя ждёт только успешная карьера!
-                        </b>
-                    </p>
-                    <br />
-                    <p>
-                        Проверяй почту и <a href={`https://t.me/Alfajourney_bot?start=email_${btoa(user.email)}`} target={"_blank"} rel="noreferrer">tg-бота</a> — возможно, ты станешь обладателем{' '}
-                        главного приза. 
-                        С результатами мы вернёмся на следующей неделе. 
-                        А пока можешь перечитать собранные факты про Альфа-Банк.
-                    </p>
-                </TextBlock>
-                <ButtonWrapper>
-                    <Button color="red" onClick={() => next(SCREENS.LIBRARY)}>В библиотеку</Button>
-                </ButtonWrapper>
+                <p>
+                    Поздравляем! Ты успешно погрузи{user.sex === SEX.Female ? 'лась' : 'лся'} в работу пяти{' '}
+                    отделов «Вкусно — и точка» и помог{user.sex === SEX.Female ? 'ла' : ''} каждому из них справиться{' '}
+                    с их задачами. Благодаря твоей помощи наша команда достигла{' '}
+                    новых высот, а ты стал{user.sex === SEX.Female ? 'а' : ''} лучшим игроком!{'\n\n'}
+                    Все результаты будут отправлены на твою почту, так что не забудь проверить её 1 января — возможно,{' '}
+                    именно ты окажешься среди лучших!{'\n\n'}
+                    Ты можешь узнать верные ответы на все вопросы 2 декабря.
+                </p>
+                <Button onClick={() => next(SCREENS.LOBBY)}>В лобби</Button>
             </Content>
         </Wrapper>
     )
