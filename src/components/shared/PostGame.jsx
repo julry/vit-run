@@ -81,7 +81,7 @@ export const PostGame = ({level, questions, nextScreen}) => {
     const [isErrorModal, setIsErrorModal] = useState(false);
     const [questionsPoints, setQuestionsPoints] = useState(0);
     const { questionsAmount = 0 } = useProgress();
-    const amount = 10;
+    const amount = (user.weekQuestions[level] ?? questionsAmount);
     const shownQuestions = useMemo(() => questions.sort(() => Math.random() * 2 - 1).slice(0, (amount + 3)), [questions]);
     const currentQuestion = useMemo(() => shownQuestions[currentId], [shownQuestions, currentId]);
 
