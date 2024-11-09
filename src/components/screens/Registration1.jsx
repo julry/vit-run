@@ -27,37 +27,6 @@ const ButtonBlock = styled.div`
     }
 `;
 
-const InputRadioButton = styled.input`
-    display: none;
-`;
-
-const RadioIconStyled = styled.div`
-  position: relative;
-  flex-shrink: 0;
-  width: var(--spacing_x4);
-  height: var(--spacing_x4);
-  background-color: transparent;
-  border: 1px solid var(--color-white);
-  border-radius: 50%;
-  margin-right: var(--spacing_small);
-`;
-
-const RadioButtonLabel = styled.label`
-  display: flex;
-  align-items: flex-start;
-  cursor: pointer;
-  font-size: var(--font_xs);
-  color: var(--color-white);
-  width: 100%;
-  text-align: left;
-  margin-top: var(--spacing_x4);
-  max-width: 300px;
-
-  & ${InputRadioButton}:checked + ${RadioIconStyled} {
-    background-color: var(--color-white);
-  }
-`;
-
 const InputStyled = styled(Input)`
     margin-top: var(--spacing_x4);
 `;

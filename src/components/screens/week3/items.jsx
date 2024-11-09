@@ -1,8 +1,11 @@
-import  { ReactComponent as Food} from './assets/food.svg';
+import  food from './assets/food.png';
+// import  { ReactComponent as Food} from './assets/food.svg';
 import  { ReactComponent as Term} from './assets/term.svg';
 
 const foodSize = [185, 160];
 const termSize = [146, 182];
+
+const Food = () => <img src={food} alt="" />
 
 export const items3 = [
     {

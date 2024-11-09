@@ -1,4 +1,4 @@
-import {useEffect, useMemo} from "react";
+import {useMemo} from "react";
 import styled from 'styled-components';
 import { preloadImages } from "../constants/screensComponents";
 import { useProgress } from "../contexts/ProgressContext";

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import bg from '../../../assets/images/rules3Bg.png';
-import lemonade from './assets/food.svg';
+import lemonade from './assets/food.png';
 import paper from './assets/trash-highlighted.svg';
 import { useSizeRatio } from "../../../hooks/useSizeRatio";
 import { PreGame } from "../../shared/PreGame";
