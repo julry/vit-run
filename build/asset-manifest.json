@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "./static/css/main.1e21478a.css",
-    "main.js": "./static/js/main.08d6b556.js",
+    "main.js": "./static/js/main.9cbc227d.js",
     "static/media/rules1Bg.png": "./static/media/rules1Bg.c629b621361c85f50d35.png",
     "static/media/game5Bg.png": "./static/media/game5Bg.0c155fad6f5a8772ee87.png",
     "static/media/game2Bg.png": "./static/media/game2Bg.f2ea78075a189fa0e570.png",
@@ -28,7 +28,6 @@
     "static/media/floor4Lobby.png": "./static/media/floor4Lobby.109c1dc82e15f0a5c5af.png",
     "static/media/floor1Lobby.png": "./static/media/floor1Lobby.e0c02fb434c57d4b92a3.png",
     "static/media/level2q1.png": "./static/media/level2q1.38094dd5bfd728fe7d79.png",
-    "static/media/plant-highlighted.svg": "./static/media/plant-highlighted.df708f9a162b17b2529429e0e3440ed5.svg",
     "static/media/plant.svg": "./static/media/plant.25a9b8e32430cafed0626e35923817ee.svg",
     "static/media/paper-highlighted.svg": "./static/media/paper-highlighted.945554f04215c58823a959e156234c57.svg",
     "static/media/female_2.svg": "./static/media/female_2.99814a4fd87a8709c44552eb583d131f.svg",
@@ -67,10 +66,10 @@
     "static/media/box.svg": "./static/media/box.45ffb13be13dbeabac816a3219af122b.svg",
     "index.html": "./index.html",
     "main.1e21478a.css.map": "./static/css/main.1e21478a.css.map",
-    "main.08d6b556.js.map": "./static/js/main.08d6b556.js.map"
+    "main.9cbc227d.js.map": "./static/js/main.9cbc227d.js.map"
   },
   "entrypoints": [
     "static/css/main.1e21478a.css",
-    "static/js/main.08d6b556.js"
+    "static/js/main.9cbc227d.js"
   ]
 }
