@@ -81,7 +81,7 @@ export const PostGame = ({level, questions, nextScreen}) => {
     const [isErrorModal, setIsErrorModal] = useState(false);
     const [questionsPoints, setQuestionsPoints] = useState(0);
     const { questionsAmount = 0 } = useProgress();
-    const amount = (user.weekQuestions[level] ?? questionsAmount);
+    const amount = 10;
     const shownQuestions = useMemo(() => questions.sort(() => Math.random() * 2 - 1).slice(0, (amount + 3)), [questions]);
     const currentQuestion = useMemo(() => shownQuestions[currentId], [shownQuestions, currentId]);
 
@@ -202,8 +202,7 @@ export const PostGame = ({level, questions, nextScreen}) => {
                         <DoneBlock>
                             <p>
                                 Ура! Ты набрал{user.sex === SEX.Female ? 'а': ''} {questionsPoints} балл{questionsPoints === 1 ? '' : questionsPoints > 1 && questionsPoints < 5 ? 'a' : 'ов'}.{'\n'}
-                                Верные ответы ты узнаешь в конце марафона.{'\n'}
-                                Если хочешь заработать ещё больше виткоинов, то принимай участие в реферальной программе. Подробности в чат-боте.
+                                Верные ответы ты узнаешь в конце марафона.
                             </p>
                         </DoneBlock>
                     )}
