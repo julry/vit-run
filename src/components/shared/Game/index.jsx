@@ -83,6 +83,26 @@ const ButtonsBlock = styled.div`
     }
 `;
 
+const HardInfoBlock = styled.div`
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.8);
+    color: #060606;
+    border: 1px solid var(--color-orange);
+    border-radius: var(--spacing_x2);
+    font-size: ${({$ratio}) => $ratio * 16}px;
+    padding: ${({$ratio}) => $ratio * 6}px;
+    padding-right: ${({$ratio}) => $ratio * 26}px;
+    width: calc(100% - ${({$ratio}) => $ratio * 52}px);
+    text-align: center;
+`;
+
+const ModalHard = styled(Modal)`
+    background: rgba(0,0,0,0.2);
+`;
+
 const INITIAL_Y = 54.5;
 
 export function Game({ className, level, isPaused, customText, preloadBg, isHarder }) {
@@ -141,11 +161,13 @@ export function Game({ className, level, isPaused, customText, preloadBg, isHard
     const [isIdError, setIdError] = useState(false);
     const [isPassedError, setIsPassedError] = useState(false);
     const [isTrashed, setIsTrashed] = useState(false);
+    const [isHardInfo, setHardInfo] = useState(false);
 
     const wrapperRef = useRef();
     const collidedFigureRef = useRef(null);
     const collidedQuestionRef = useRef(null);
     const collidedTrashRef = useRef(null);
+    const collidedHardTrashRef = useRef(null);
     const characterRef = useRef(null);
 
     const initialCharacterPosition = useMemo(() => [0,0], []);
@@ -288,14 +310,32 @@ export function Game({ className, level, isPaused, customText, preloadBg, isHard
     }, [shownQuestions]);
 
     useEffect(() => {
-        if (!collidedTrashRef.current) return;
+        if (!collidedTrashRef.current || collidedHardTrashRef.current) return;
         if (isHarder) {
+            if (collidedTrashAmount === 1) {
+                setHardInfo(true);
+                setIsGamePaused(true);
+                collidedHardTrashRef.current = collidedTrashRef.current;
+                setTimeout(() => {
+                    setHardInfo(false);
+                    setIsGamePaused(false);
+                    setIsTrashed(false);
+                }, 2400);
+
+                setTimeout(() => {
+                    collidedTrashRef.current = null;
+                    collidedHardTrashRef.current = null;
+                }, 3000);
+            }
+
             if (!isTrashed) {
                 setIsTrashed(true);
                 setGamePoints(prev => prev - 1 > 0 ? prev - 1 : 0);
-                setTimeout(() => {
-                    setIsTrashed(false);
-                }, 2000);
+                if (collidedTrashAmount !== 1) {
+                    setTimeout(() => {
+                        setIsTrashed(false);
+                    }, 2000);
+                }
             }
         } else resetGame();
         collidedTrashRef.current = null;
@@ -437,7 +477,7 @@ export function Game({ className, level, isPaused, customText, preloadBg, isHard
         }
 
         if (!collidedTrashRef.current) {
-            const collidedTrash = initialTrashes.find(({width, height, id, position}) => {
+            const collidedTrash = initialTrashes.find(({width, height, position}) => {
                 const figureData = {
                     x1: (position[0] + width * 0.5) * sizeRatio,
                     x2: (position[0] + width * 0.53) * sizeRatio,
@@ -570,7 +610,7 @@ export function Game({ className, level, isPaused, customText, preloadBg, isHard
                         <p>
                             Твой персонаж всегда бежит вперёд.{'\n'}
                             <b>Собирай предметы и знаки вопроса</b>, но <b>избегай препятствий</b>!{' '}
-                            Если столкнёшься с ними — начнёшь заново. Кликни на экран, чтобы перепрыгнуть препятствие.{' '}
+                            Если столкнёшься с ними — {isHarder ? 'потеряешь 1 виткоин' : 'начнёшь заново'}. Кликни на экран, чтобы перепрыгнуть препятствие.{' '}
                             У тебя есть одна попытка на прохождение уровня.
                         </p>
                         <ButtonsBlock>
@@ -595,6 +635,13 @@ export function Game({ className, level, isPaused, customText, preloadBg, isHard
                 )}
             </ModalBlock>
         </Modal>
+        <ModalHard isShown={isHardInfo}>
+            <HardInfoBlock $ratio={sizeRatio}>
+                <p>
+                    При столкновении ты{'\n'}теряешь один виткоин
+                </p>
+            </HardInfoBlock>
+        </ModalHard>
        </>
     );
 }
