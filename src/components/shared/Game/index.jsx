@@ -575,7 +575,7 @@ export function Game({ className, level, isPaused, customText, preloadBg, isHard
                     <>
                         <p>
                             Тебе удалось открыть <b>{questionsAmount ?? 0} вопросов</b>.{'\n'}
-                            Помимо них, мы даем тебе <b>3 бонусных вопроса</b>. За каждый верный ответ ты получишь Виткоины.
+                            Помимо них, мы даем тебе <b>3 бонусных вопроса</b>. За каждый верный ответ ты получишь виткоины.
                         </p>
                         <Button onClick={handleGoToQuestions}>К вопросам</Button>
                     </>
