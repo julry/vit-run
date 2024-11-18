@@ -18,6 +18,7 @@ import { ItemsBoard } from "./ItemsBoard";
 import { SCREENS } from "../../../constants/screens";
 import { reachMetrikaGoal } from "../../../utils/reachMetrikaGoal";
 import { ErrorModal } from "../modals/ErrorModal";
+import { SEX } from "../../../constants/sex";
 
 const Wrapper = styled(motion.div)`
     position: relative;
@@ -584,9 +585,9 @@ export function Game({ className, level, isPaused, customText, preloadBg, isHard
                     <>
                         {customText(user.sex)}{'\n'}
                         <p>
-                            Давай проверим, что ты узнал{user.sex ? 'а': ''} на этой неделе. Готов{user.sex ? 'а': ''} ответить на <b>несколько вопросов</b>?
+                            Давай проверим, что ты узнал{user.sex === SEX.Female ? 'а': ''} на этой неделе. Готов{user.sex === SEX.Female ? 'а': ''} ответить на <b>несколько вопросов</b>?
                         </p>
-                        <Button onClick={() => setIsQuestionPart(true)}>ГОТОВ{user.sex ? 'а': ''}</Button>
+                        <Button onClick={() => setIsQuestionPart(true)}>ГОТОВ{user.sex === SEX.Female ? 'а': ''}</Button>
                     </>
                 )}
             </ModalBlock>
