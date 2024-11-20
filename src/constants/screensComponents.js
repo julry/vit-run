@@ -18,6 +18,7 @@ import { PreGame5 } from "../components/screens/week5/PreGame5";
 import { PostGame5 } from "../components/screens/week5/PostGame5";
 import { Game5 } from "../components/screens/week5/Game5";
 import { Finish } from "../components/screens/Finish";
+import { AnswersScreen } from "../components/screens/AnswersScreen";
 
 import { SCREENS } from "./screens";
 
@@ -73,6 +74,11 @@ export const screens = {
     [SCREENS.GAME5]: Game5,
     [SCREENS.POST_GAME5]: PostGame5,
     [SCREENS.FINISH]: Finish,
+    [SCREENS.ANSWERS1]: () => <AnswersScreen level={1} />,
+    [SCREENS.ANSWERS2]: () => <AnswersScreen level={2} />,
+    [SCREENS.ANSWERS3]: () => <AnswersScreen level={3} />,
+    [SCREENS.ANSWERS4]: () => <AnswersScreen level={4} />,
+    [SCREENS.ANSWERS5]: () => <AnswersScreen level={5} />
 };
 
 export const preloadImages = [ 
