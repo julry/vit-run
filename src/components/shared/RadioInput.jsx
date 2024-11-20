@@ -32,13 +32,14 @@ const RadioButtonLabel = styled.label`
 `;
 
 
-export const RadioInput = ({checked, onChange, children, ...props}) => {
+export const RadioInput = ({checked, onChange, children, disabled, ...props}) => {
     return (
         <RadioButtonLabel {...props}>
             <InputRadioButton
                 type="checkbox"
                 checked={checked}
                 onChange={onChange}
+                disabled={disabled}
             />
             <RadioIconStyled/>
             {children}
