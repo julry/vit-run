@@ -2,7 +2,6 @@ import { useMemo, useState } from "react";
 import styled from "styled-components"
 import { SCREENS } from "../../constants/screens";
 import { useProgress } from "../../contexts/ProgressContext";
-import { useSizeRatio } from "../../hooks/useSizeRatio";
 import { questionsLevel1 } from "./week1/questions";
 import { questionsLevel2 } from "./week2/questions";
 import { questionsLevel3 } from "./week3/questions";
@@ -10,7 +9,6 @@ import { questionsLevel4 } from "./week4/questions";
 import { questionsLevel5 } from "./week5/questions";
 import { Button, IconButton } from "../shared/Button";
 import { FlexWrapper } from "../shared/FlexWrapper";
-import { RadioInput } from "../shared/RadioInput";
 
 const Wrapper = styled(FlexWrapper)`
    padding: var(--spacing_x1) var(--spacing_x4) var(--spacing_x4);
@@ -27,19 +25,9 @@ const AnswersBlock = styled.div`
     width: 100%;
 `;
 
-const ImageStyled = styled.img`
-    margin-top: var(--spacing_x2);
-    width: ${({$ratio}) => $ratio * 120}px;
-    height: ${({$ratio}) => $ratio * 80}px;
-`;
-
-const ImageBigStyled = styled.img`
-    margin-top: var(--spacing_x6);
-    width: ${({$ratio}) => $ratio * 189}px;
-    height: ${({$ratio}) => $ratio * 174}px;
-`;
-
-const RadioInputStyled = styled(RadioInput)`
+const RadioInputStyled = styled.div`
+    display: flex;
+    margin-top: var(--spacing_x4);
     font-size: var(--font_md);
 
     & p {
@@ -54,6 +42,16 @@ const RadioInputStyled = styled(RadioInput)`
         background-color: #31E859 !important;
         border-color: #31E859;
     }
+`;
+
+const Point = styled.div`
+    flex-shrink: 0;
+    width: var(--spacing_x4);
+    height: var(--spacing_x4);
+    background-color: ${({$isCorrect}) => $isCorrect ? '#31E859' : 'transparent'};
+    border: 1px solid  ${({$isCorrect}) => $isCorrect ? '#31E859' : 'var(--color-white)'};
+    border-radius: 50%;
+    margin-right: var(--spacing_small);
 `;
 
 const ButtonWrapper = styled(FlexWrapper)`
@@ -71,7 +69,8 @@ const ButtonWrapper = styled(FlexWrapper)`
 `;
 
 const HomeButton = styled(IconButton)`
-    margin-bottom: var(--spacing_x1);
+    margin-bottom: var(--spacing_x3);
+    margin-left: calc(0px - var(--spacing_x3));
     align-self: flex-start;
 `;
 
@@ -84,10 +83,9 @@ const LEVEL_TO_QUESTIONS = {
 }
 
 export const AnswersScreen = ({level}) => {
-    const ratio = useSizeRatio();
     const { next, user } = useProgress();
     const [currentId, setCurrentId] = useState(0);
-    const questions = LEVEL_TO_QUESTIONS[level];
+    const questions = LEVEL_TO_QUESTIONS[level].filter(({isHidden}) => !isHidden);
     const currentQuestion = useMemo(() => questions[currentId], [questions, currentId]);
 
     const handleNextQuestion = async () => {
@@ -118,14 +116,11 @@ export const AnswersScreen = ({level}) => {
                     {(typeof currentQuestion?.text === 'function') ? currentQuestion?.text(user.sex) : currentQuestion?.text}
                 </b>
             </p>
-            {currentQuestion?.questionImg && <ImageBigStyled $ratio={ratio} src={currentQuestion.questionImg} alt="" />}
             <AnswersBlock>
                 {currentQuestion?.answers?.map((answer) => (
-                    <RadioInputStyled key={answer.id} checked={answer.isCorrect} disabled>
-                        <FlexWrapper>
-                            <p>{answer.text}</p>
-                            {answer.image && <ImageStyled $ratio={ratio} src={answer.image} alt="" />}
-                        </FlexWrapper>
+                    <RadioInputStyled key={answer.id}>
+                        <Point $isCorrect={answer.isCorrect}/>
+                        <p>{answer.text}</p>
                     </RadioInputStyled>
                 ))}
             </AnswersBlock>

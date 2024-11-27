@@ -261,6 +261,14 @@ const WEEK_TO_QUESTION_SCREEN = {
     5: SCREENS.POST_GAME5,
 }
 
+const WEEK_TO_ANSWER_SCREEN = {
+    1: SCREENS.ANSWERS1,
+    2: SCREENS.ANSWERS2,
+    3: SCREENS.ANSWERS3,
+    4: SCREENS.ANSWERS4,
+    5: SCREENS.ANSWERS5,
+}
+
 export const Lobby = () => {
     const ratio = useSizeRatio();
     const [info, setInfo] = useState();
@@ -268,7 +276,7 @@ export const Lobby = () => {
     const [isProfile, setIsProfile] = useState(false);
     const [nextWeekInfo, setNextWeekInfo] = useState();
     const { passedWeeks, answeredWeeks, next, points, weekPoints, user, currentWeek, updateUser } = useProgress();
-    const [isRules, setIsRules] = useState(!user?.seenRules);
+    const [isRules, setIsRules] = useState(!user?.seenRules && currentWeek < 6);
     const shownWeek = (passedWeeks[passedWeeks.length - 1] ?? 0) + 1;
     const shownAnswerWeek = (answeredWeeks[answeredWeeks.length - 1] ?? 0) + 1;
     const floorRef = useRef();
@@ -303,6 +311,11 @@ export const Lobby = () => {
     }
 
     const handleOpenFloor = (week) => {
+        if (currentWeek >= 6) {
+            next(WEEK_TO_ANSWER_SCREEN[week.week]);
+
+            return;
+        }
         if (week.week > shownWeek || week.week > currentWeek || week.week > shownAnswerWeek) {
             setNextWeekInfo(week.week);
             return;
@@ -337,7 +350,7 @@ export const Lobby = () => {
     }
 
     const getIsOpen = (week) => {
-        return week <= shownWeek && week <= currentWeek && week <= shownAnswerWeek;
+        return currentWeek >= 6 || (week <= shownWeek && week <= currentWeek && week <= shownAnswerWeek);
     }
 
     return (

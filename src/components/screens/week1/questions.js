@@ -192,6 +192,7 @@ export const questionsLevel1 = [
                 isCorrect: true
             },
         ],
+        isHidden: true,
     },
     {
         id: 9,
